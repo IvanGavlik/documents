@@ -8,5 +8,7 @@ TODO
 
 Notes from book Joshua Bloch - Effective Java (3rd) - 2018 [here](https://github.com/IvanGavlik/documents/edit/gh-pages/Notes_JB-EffectiveJava(3rd)-2018.pdf)  
 
-### How 
+## Software arhitecture 
+
+Intro in process of creating software [here](https://github.com/IvanGavlik/documents/edit/gh-pages/ArtOfCreatingSoftware.pdf)
 
