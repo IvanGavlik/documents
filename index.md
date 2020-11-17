@@ -8,6 +8,8 @@ TODO
 
 Basic of Lambda [here](https://github.com/IvanGavlik/documents/edit/gh-pages/LambdaExpressonsBasic.pdf)
 
+java.util.stream [here](https://github.com/IvanGavlik/documents/edit/gh-pages/JavaUtilStream.pdf)
+
 ### Best practices
 
 Notes from book Joshua Bloch - Effective Java (3rd) - 2018 [here](https://github.com/IvanGavlik/documents/edit/gh-pages/Notes_JB-EffectiveJava(3rd)-2018.pdf)  
