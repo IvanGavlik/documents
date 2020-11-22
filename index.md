@@ -14,6 +14,12 @@ java.util.stream [here](https://github.com/IvanGavlik/documents/edit/gh-pages/Ja
 
 Notes from book Joshua Bloch - Effective Java (3rd) - 2018 [here](https://github.com/IvanGavlik/documents/edit/gh-pages/Notes_JB-EffectiveJava(3rd)-2018.pdf)  
 
+## Design Patterns and Refactoring
+
+### Refactoring
+
+Basic of Refactoring [here](https://github.com/IvanGavlik/documents/edit/gh-pages/BasicOfRefactoring.pdf)
+
 ## Software arhitecture 
 
 Intro in process of creating software [here](https://github.com/IvanGavlik/documents/edit/gh-pages/ArtOfCreatingSoftware.pdf)
