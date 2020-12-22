@@ -2,6 +2,18 @@
 
 TODO 
 
+## OS
+
+Fundamentals Of System Hardware [here](https://github.com/IvanGavlik/documents/edit/gh-pages/NYUxFCS.OS.1ComputerHardwareandOperatingSystems.pdf)
+
+Modern OS [here] (https://github.com/IvanGavlik/documents/edit/gh-pages/ModernOs.pdf)
+
+## Computer Networks
+
+Computer Networks Intro [here](https://github.com/IvanGavlik/documents/edit/gh-pages/EdXcomputerNetwotkCourseNotes.pdf)
+
+Notes [here]((https://github.com/IvanGavlik/documents/edit/gh-pages/Computer_Networking_Notes.pdf))
+
 ## Core Java
 
 ### Java 8
