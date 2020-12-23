@@ -4,7 +4,7 @@ TODO
 
 ## OS
 
-Fundamentals Of System Hardware [here](https://github.com/IvanGavlik/documents/edit/gh-pages/NYUxFCS.OS.1ComputerHardwareandOperatingSystems.pdf)
+Fundamentals Of System Hardware [here](https://github.com/IvanGavlik/documents/edit/gh-pages/Edx-NYUxFCS.OS.1ComputerHardwareandOperatingSystems.pdf)
 
 Modern OS [here] (https://github.com/IvanGavlik/documents/edit/gh-pages/ModernOs.pdf)
 
@@ -12,7 +12,7 @@ Modern OS [here] (https://github.com/IvanGavlik/documents/edit/gh-pages/ModernOs
 
 Computer Networks Intro [here](https://github.com/IvanGavlik/documents/edit/gh-pages/EdXcomputerNetwotkCourseNotes.pdf)
 
-Notes [here]((https://github.com/IvanGavlik/documents/edit/gh-pages/Computer_Networking_Notes.pdf))
+Notes [here](https://github.com/IvanGavlik/documents/edit/gh-pages/Computer_Networking_Notes.pdf)
 
 ## Core Java
 
@@ -21,6 +21,10 @@ Notes [here]((https://github.com/IvanGavlik/documents/edit/gh-pages/Computer_Net
 Basic of Lambda [here](https://github.com/IvanGavlik/documents/edit/gh-pages/LambdaExpressonsBasic.pdf)
 
 java.util.stream [here](https://github.com/IvanGavlik/documents/edit/gh-pages/JavaUtilStream.pdf)
+
+### Libs 
+
+third party lib Overview[here](https://github.com/IvanGavlik/documents/edit/gh-pages/01_javaApiAndLibOverview.pdf)
 
 ### Best practices
 
