@@ -6,13 +6,18 @@ TODO
 
 Fundamentals Of System Hardware [here](https://github.com/IvanGavlik/documents/edit/gh-pages/Edx-NYUxFCS.OS.1ComputerHardwareandOperatingSystems.pdf)
 
-Modern OS [here] (https://github.com/IvanGavlik/documents/edit/gh-pages/ModernOs.pdf)
+Modern OS [here](https://github.com/IvanGavlik/documents/edit/gh-pages/ModernOs.pdf)
 
 ## Computer Networks
 
 Computer Networks Intro [here](https://github.com/IvanGavlik/documents/edit/gh-pages/EdXcomputerNetwotkCourseNotes.pdf)
 
 Notes [here](https://github.com/IvanGavlik/documents/edit/gh-pages/Computer_Networking_Notes.pdf)
+
+## FE
+
+Advanced JavaScript [here](https://github.com/IvanGavlik/documents/edit/gh-pages/01_java_script_advanced)
+
 
 ## Core Java
 
@@ -24,7 +29,7 @@ java.util.stream [here](https://github.com/IvanGavlik/documents/edit/gh-pages/Ja
 
 ### Libs 
 
-third party lib Overview[here](https://github.com/IvanGavlik/documents/edit/gh-pages/01_javaApiAndLibOverview.pdf)
+third party lib Overview [here](https://github.com/IvanGavlik/documents/edit/gh-pages/01_javaApiAndLibOverview.pdf)
 
 ### Best practices
 
