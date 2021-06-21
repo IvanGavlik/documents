@@ -16,7 +16,7 @@ Notes [here](https://github.com/IvanGavlik/documents/edit/gh-pages/Computer_Netw
 
 ## FE
 
-Advanced JavaScript [here](https://github.com/IvanGavlik/documents/edit/gh-pages/01_java_script_advanced)
+Advanced JavaScript [here](https://github.com/IvanGavlik/documents/blob/gh-pages/01_java_script_advanced.pdf)
 
 
 ## Core Java
