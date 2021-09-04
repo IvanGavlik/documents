@@ -1,0 +1,16 @@
+<ui:component
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:cc="http://java.sun.com/jsf/composite">
+
+    <!-- View params can't be in a composite component -->
+    <f:viewParam name="page" value="#{page.current}"/>
+    <f:viewParam name="sortBy" value="#{page.sortAttribute}">
+        <f:converter binding="#{persistentAttributeConverter}"/>
+    </f:viewParam>
+    <f:viewParam name="sortDirection" value="#{page.sortDirection}"/>
+
+</ui:component>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- ##################################################################################################### -->
+
+    <groupId>org.jpwh</groupId>
+    <artifactId>jpwh</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <!-- ##################################################################################################### -->
+
+    <name>JPwH</name>
+    <url>http://jpwh.org//</url>
+    <developers>
+        <developer>
+            <email>jpwh@christianbauer.name</email>
+        </developer>
+        <developer>
+            <email>garydgregory@gmail.com</email>
+        </developer>
+    </developers>
+
+    <!-- ##################################################################################################### -->
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+
+        <!-- The standardized API -->
+        <hibernate.jpa21.api.version>1.0.0.Final</hibernate.jpa21.api.version>
+
+        <!-- Hibernate's implementation -->
+        <hibernate.version>5.0.1.Final</hibernate.version>
+
+        <!-- The standardized Bean Validation API -->
+        <validation.api.version>1.1.0.Final</validation.api.version>
+
+        <!-- Hibernate's implementation -->
+        <hibernate.validator.version>5.2.1.Final</hibernate.validator.version>
+        <javax-el.version>3.0.1-b04</javax-el.version>
+
+        <!-- Everyone's favorite -->
+        <slf4j.impl.version>1.6.1</slf4j.impl.version>
+
+        <!-- For small scale deployment, use the H2 RDBMS, all Java -->
+        <h2.version>1.3.171</h2.version>
+
+        <!-- In Java SE you should use a JTA transaction manager as a JDBC connection pool, Bitronix is good -->
+        <btm.version>2.1.3</btm.version>
+
+        <!-- Integration testing with TestNG is easier than JUnit -->
+        <testng.version>6.8.7</testng.version>
+
+        <!-- Java EE 7 API for the application examples -->
+        <javaee-api.version>7.0</javaee-api.version>
+
+        <!-- Application examples integration testing with Java EE environment -->
+        <shrinkwrap.version>2.0.2</shrinkwrap.version>
+        <arquillian.version>1.0.4.Final</arquillian.version>
+        <arquillian.extension.persistence.version>1.0.0.Alpha6</arquillian.extension.persistence.version>
+        <arquillian.extension.rest.version>1.0.0.Alpha3</arquillian.extension.rest.version>
+        <dbunit.version>2.4.9</dbunit.version>
+        <wildfly.version>8.1.0.Final</wildfly.version>
+
+        <!-- Wildfly server deployment plugin for the application examples -->
+        <wildfly.maven-plugin.version>1.0.2.Final</wildfly.maven-plugin.version>
+
+    </properties>
+
+    <!-- ##################################################################################################### -->
+
+    <build>
+
+        <pluginManagement>
+            <plugins>
+
+                <!-- Hibernate bytecode enhancer plugin
+                     TODO https://hibernate.atlassian.net/browse/HHH-7963 -->
+                <plugin>
+                    <groupId>org.hibernate.orm.tooling</groupId>
+                    <artifactId>hibernate-enhance-maven-plugin</artifactId>
+                    <version>${hibernate.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-entitymanager</artifactId>
+                            <version>${hibernate.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-validator</artifactId>
+                            <version>${hibernate.validator.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-envers</artifactId>
+                            <version>${hibernate.version}</version>
+                        </dependency>
+
+                        <!-- API, java.xml.bind module -->
+                        <dependency>
+                            <groupId>jakarta.xml.bind</groupId>
+                            <artifactId>jakarta.xml.bind-api</artifactId>
+                            <version>2.3.2</version>
+                        </dependency>
+
+                        <!-- Runtime, com.sun.xml.bind module -->
+                        <dependency>
+                            <groupId>org.glassfish.jaxb</groupId>
+                            <artifactId>jaxb-runtime</artifactId>
+                            <version>2.3.2</version>
+                        </dependency>
+
+                        <dependency>
+                            <groupId>javax.xml.bind</groupId>
+                            <artifactId>jaxb-api</artifactId>
+                            <version>2.3.1</version>
+                        </dependency>
+
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <phase>process-classes</phase>
+                            <goals>
+                                <goal>enhance</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.9</version>
+                    <configuration>
+                        <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                        <!-- If you enable the 'app' module tests, you need to configure this -->
+                        <environmentVariables>
+                            <JBOSS_HOME>/Users/cb/work/jboss/server/current</JBOSS_HOME>
+                        </environmentVariables>
+                        <systemPropertyVariables>
+                            <derby.stream.error.field>java.lang.System.err</derby.stream.error.field>
+                            <java.util.logging.config.file>../shared/src/main/resources/logging.properties</java.util.logging.config.file>
+                        </systemPropertyVariables>
+                        <suiteXmlFiles>
+                            <suiteXmlFile>src/test/AllTests.tng.xml</suiteXmlFile>
+                        </suiteXmlFiles>
+                    </configuration>
+                </plugin>
+
+                <!-- Deployment of application examples to Wildfly server, use 'wildfly:deploy|undeploy' goals -->
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${wildfly.maven-plugin.version}</version>
+                    <configuration>
+                        <detail>true</detail>
+                        <!-- Force redeployment if already deployed -->
+                        <force>true</force>
+                        <!-- No version number -->
+                        <filename>${project.artifactId}.war</filename>
+                    </configuration>
+                </plugin>
+
+                <!-- For the application examples, we need WAR packaging -->
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.1.1</version>
+                    <configuration>
+                        <!-- WARs no longer have this file in 2014 -->
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                        <!-- Also attach JAR so we can easily depend on the WAR in (EJB) client modules -->
+                        <attachClasses>true</attachClasses>
+                        <!-- An exploded WAR directory must be named .war or Wildfly won't deploy it -->
+                        <webappDirectory>${project.build.directory}/${project.artifactId}-exploded.war</webappDirectory>
+                        <!-- No version number -->
+                        <warName>${project.artifactId}</warName>
+                    </configuration>
+                </plugin>
+
+                <!-- We want to disable Maven deployment for some modules -->
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.7</version>
+                </plugin>
+
+
+            </plugins>
+
+        </pluginManagement>
+
+        <plugins>
+            <!-- By default, don't deploy any module's artifacts when wildfly:* goals are executed -->
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+
+    <!-- ##################################################################################################### -->
+
+    <reporting>
+        <excludeDefaults>true</excludeDefaults>
+    </reporting>
+
+    <!-- ##################################################################################################### -->
+
+    <profiles>
+
+        <profile>
+            <id>app-stateless-server</id>
+            <modules>
+                <module>apps</module>
+                <module>shared</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>app-stateless-client</id>
+            <modules>
+                <module>apps</module>
+                <module>shared</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>app-stateful-server</id>
+            <modules>
+                <module>apps</module>
+                <module>shared</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>app-stateful-client</id>
+            <modules>
+                <module>apps</module>
+                <module>shared</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>app-web</id>
+            <modules>
+                <module>apps</module>
+                <module>shared</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>examples</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>shared</module>
+                <module>environment</module>
+                <module>model</module>
+                <module>examples</module>
+            </modules>
+        </profile>
+
+    </profiles>
+
+</project>

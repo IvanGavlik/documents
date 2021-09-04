@@ -1,0 +1,60 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2019-10-26T10:34:38+02:00
+
+====== 02 Using Spring Boot ======
+Created subota 26 listopada 2019 https://docs.spring.io/spring-boot/docs/current/reference/html/using-spring-boot.html#using-boot-starter
+
+
+==== Build Systems Maven ====
+
+Maven users can **inherit from the spring-boot-starter-parent** project to obtain defaults. Features are:
+	Java 1.8 as the default compiler level.
+	UTF-8 source encoding.
+	Sensible resource filtering (application.properties and application.yml)
+
+**Without the parent** 
+If you do not want to use the spring-boot-starter-parent, you can still keep the benefit of the dependency management (but not the plugin management) by using a dependency managment
+<dependency>
+			<!-- Import dependency management from Spring Boot -->
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-dependencies</artifactId>
+			<version>2.2.0.RELEASE</version>
+			<type>pom</type>
+			**<scope>import</scope>**
+ </dependency>
+
+
+==== Structuring Your Code - best practices ====
+The use of the “default package” is generally discouraged and should be avoided
+
+We generally recommend that you locate your **main application class in a root package** above other classes. The @SpringBootApplication annotation is often placed on your main class, and it implicitly defines a base “search package” for certain items
+
+Spring Boot favors **Java-based configuration**
+
+We generally recommend that your configuration  be in a single **@Configuration** class. Usually the class that defines the main method is a good candidate as the primary @Configuration.
+
+The **@Import** annotation can be used to import additional configuration classes. Alternatively, you can use @ComponentScan to automatically pick up all Spring components, including @Configuration classes.
+
+If you absolutely must use XML based configuration, we recommend that you still start with a @Configuration class. You can then use an @ImportResource annotation to load XML configuration files
+
+You should only ever add one @SpringBootApplication or @EnableAutoConfiguration annotation. We generally recommend that you add one or the other to your primary @Configuration class only
+
+If you find that specific auto-configuration classes that you do not want are being applied, you can use the **exclude attribute of @EnableAutoConfiguration** to disable them, as shown in the following example:
+@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+
+
+==== Spring Beans and Dependency Injection ====
+If a bean has one constructor, you can omit the @Autowired, as shown in the following example:
+
+If you may do not want to use component scan or configuration properties scan in your application you can use **@Import**
+Configuration(proxyBeanMethods = false)
+@EnableAutoConfiguration
+**@Import({ MyConfig.class, MyAnotherConfig.class })**
+public class Application {
+
+	public static void main(String[] args) {
+			SpringApplication.run(Application.class, args);
+	}
+
+}

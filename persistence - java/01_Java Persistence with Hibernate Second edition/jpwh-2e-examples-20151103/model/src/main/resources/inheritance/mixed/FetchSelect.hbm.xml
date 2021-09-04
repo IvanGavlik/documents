@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/orm/hbm"
+                   package="org.jpwh.model.inheritance.mixed"
+                   default-access="field">
+
+    <class name="BillingDetails"
+           abstract="true">
+        <id name="id">
+            <generator class="native"/>
+        </id>
+        <discriminator column="BD_TYPE" type="string"/>
+        <property name="owner"
+                  not-null="true"/>
+
+        <subclass name="CreditCard"
+                  discriminator-value="CC">
+            <join table="CREDITCARD" fetch="select">
+                <key column="CREDITCARD_ID"/>
+                <property name="cardNumber"
+                          column="CARDNUMBER"
+                          not-null="true"/>
+
+                <property name="expMonth"
+                          column="EXPMONTH"
+                          not-null="true"/>
+                <property name="expYear"
+                          column="EXPYEAR"
+                          not-null="true"/>
+            </join>
+        </subclass>
+
+        <subclass name="BankAccount"
+                  discriminator-value="BA">
+            <property name="account"
+                      not-null="false"/>
+            <property name="bankname"
+                      not-null="false"/>
+            <property name="swift"
+                      not-null="false"/>
+        </subclass>
+    </class>
+
+</hibernate-mapping>

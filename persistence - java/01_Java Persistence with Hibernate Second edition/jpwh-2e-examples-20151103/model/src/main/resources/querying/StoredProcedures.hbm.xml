@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/orm/hbm">
+
+    <database-object>
+        <create>
+            create procedure FIND_ITEMS()
+            begin
+                select * from ITEM;
+            end
+        </create>
+        <drop>
+            drop procedure FIND_ITEMS
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL57InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create procedure APPROVE_ITEMS()
+            begin
+                select * from ITEM where APPROVED = 0;
+                select * from ITEM where APPROVED = 1;
+                update ITEM set APPROVED = 1 where APPROVED = 0;
+            end
+        </create>
+        <drop>
+            drop procedure APPROVE_ITEMS
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL57InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create procedure FIND_ITEM_TOTAL(in PARAM_ITEM_ID bigint,
+                                             out PARAM_TOTAL bigint)
+            begin
+                select count(*) into PARAM_TOTAL from ITEM;
+                select * from ITEM where ID = PARAM_ITEM_ID;
+            end
+        </create>
+        <drop>
+            drop procedure FIND_ITEM_TOTAL
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL57InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create procedure UPDATE_ITEM(in PARAM_ITEM_ID bigint,
+                                         in PARAM_NAME varchar(255))
+            begin
+                update ITEM set NAME = PARAM_NAME where ID = PARAM_ITEM_ID;
+            end
+        </create>
+        <drop>
+            drop procedure UPDATE_ITEM
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL57InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create function FIND_ITEMS() returns refcursor as $$
+                declare someCursor refcursor;
+                begin
+                    open someCursor for select * from ITEM;
+                    return someCursor;
+                end;
+            $$ language plpgsql;
+        </create>
+        <drop>
+            drop function FIND_ITEMS()
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.PostgreSQL82Dialect"/>
+    </database-object>
+
+</hibernate-mapping>

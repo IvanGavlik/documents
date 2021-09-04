@@ -1,0 +1,127 @@
+<entity-mappings
+        version="2.1"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+    <named-native-query name="findAllCategories"
+                        result-set-mapping="CategoryResult">
+        <query>
+            with CATEGORY_LINK(ID, NAME, PARENT_ID, PATH, LEVEL) as (
+                select
+                    ID,
+                    NAME,
+                    PARENT_ID,
+                    '/' || NAME,
+                    0
+                from CATEGORY where PARENT_ID is null
+                union all
+                select
+                    c.ID,
+                    c.NAME,
+                    c.PARENT_ID,
+                    cl.PATH || '/' || c.NAME,
+                    cl.LEVEL + 1
+                from CATEGORY_LINK cl
+                join CATEGORY c on cl.ID = c.PARENT_ID
+            )
+            select
+                ID,
+                NAME as CAT_NAME,
+                PARENT_ID,
+                PATH,
+                LEVEL
+            from CATEGORY_LINK
+            order by ID
+        </query>
+    </named-native-query>
+
+    <sql-result-set-mapping name="CategoryResult">
+        <entity-result entity-class="org.jpwh.model.querying.Category">
+            <field-result name="id" column="ID"/>
+            <field-result name="name" column="CAT_NAME"/>
+            <field-result name="parent" column="PARENT_ID"/>
+        </entity-result>
+        <column-result name="PATH"/>
+        <column-result name="LEVEL" class="java.lang.Integer"/>
+    </sql-result-set-mapping>
+
+    <sql-result-set-mapping name="UserResult">
+        <entity-result entity-class="org.jpwh.model.querying.User">
+            <field-result name="id" column="ID"/>
+            <field-result name="name" column="NAME"/>
+            <field-result name="username" column="USERNAME"/>
+            <field-result name="firstname" column="FIRSTNAME"/>
+            <field-result name="lastname" column="LASTNAME"/>
+            <field-result name="activated" column="ACTIVATED"/>
+            <field-result name="homeAddress.street" column="USER_STREET"/>
+            <field-result name="homeAddress.zipcode" column="USER_ZIPCODE"/>
+            <field-result name="homeAddress.city" column="USER_CITY"/>
+        </entity-result>
+    </sql-result-set-mapping>
+
+    <sql-result-set-mapping name="ExternalizedItemResult">
+        <entity-result entity-class="org.jpwh.model.querying.Item">
+            <field-result name="id" column="ID"/>
+            <field-result name="name" column="EXTENDED_NAME"/>
+            <field-result name="createdOn" column="CREATEDON"/>
+            <field-result name="auctionEnd" column="AUCTIONEND"/>
+            <field-result name="auctionType" column="AUCTIONTYPE"/>
+            <field-result name="approved" column="APPROVED"/>
+            <field-result name="buyNowPrice" column="BUYNOWPRICE"/>
+            <field-result name="seller" column="SELLER_ID"/>
+        </entity-result>
+    </sql-result-set-mapping>
+
+    <sql-result-set-mapping name="ItemSellerResult">
+        <entity-result entity-class="org.jpwh.model.querying.Item">
+            <field-result name="id" column="ITEM_ID"/>
+            <field-result name="name" column="NAME"/>
+            <field-result name="createdOn" column="CREATEDON"/>
+            <field-result name="auctionEnd" column="AUCTIONEND"/>
+            <field-result name="auctionType" column="AUCTIONTYPE"/>
+            <field-result name="approved" column="APPROVED"/>
+            <field-result name="buyNowPrice" column="BUYNOWPRICE"/>
+            <field-result name="seller" column="SELLER_ID"/>
+        </entity-result>
+        <entity-result entity-class="org.jpwh.model.querying.User">
+            <field-result name="id" column="USER_ID"/>
+            <field-result name="name" column="NAME"/>
+            <field-result name="username" column="USERNAME"/>
+            <field-result name="firstname" column="FIRSTNAME"/>
+            <field-result name="lastname" column="LASTNAME"/>
+            <field-result name="activated" column="ACTIVATED"/>
+            <field-result name="homeAddress.street" column="STREET"/>
+            <field-result name="homeAddress.zipcode" column="ZIPCODE"/>
+            <field-result name="homeAddress.city" column="CITY"/>
+        </entity-result>
+    </sql-result-set-mapping>
+
+    <sql-result-set-mapping name="ItemBidResult">
+        <entity-result entity-class="org.jpwh.model.querying.Item"/>
+        <column-result name="NUM_OF_BIDS"/>
+    </sql-result-set-mapping>
+
+    <sql-result-set-mapping name="ItemSummaryResult">
+        <constructor-result target-class="org.jpwh.model.querying.ItemSummary">
+            <column name="ID" class="java.lang.Long"/>
+            <column name="NAME"/>
+            <column name="AUCTIONEND"/>
+        </constructor-result>
+    </sql-result-set-mapping>
+
+    <sql-result-set-mapping name="SellerItemSummaryResult">
+
+        <entity-result entity-class="org.jpwh.model.querying.User"/>
+
+        <constructor-result target-class="org.jpwh.model.querying.ItemSummary">
+            <column name="ID" class="java.lang.Long"/>
+            <column name="ITEM_NAME"/>
+            <column name="ITEM_AUCTIONEND"/>
+        </constructor-result>
+
+        <column-result name="NUM_OF_BIDS"/>
+    </sql-result-set-mapping>
+
+</entity-mappings>

@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="AllTests - app-web">
+    <test name="Services">
+        <packages>
+            <package name="org.jpwh.test.service"/>
+        </packages>
+    </test>
+</suite>

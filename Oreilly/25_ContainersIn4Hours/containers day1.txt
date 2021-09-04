@@ -1,0 +1,201 @@
+######CENTOS COMMANDS
+
+[student@localhost ~]$ history
+    1  sudo yum install -y vim bash-completion git
+    2  git clone https://github.com/sandervanvugt/containers
+    3  git clone https://github.com/sandervanvugt/microservices
+    4  git clone https://github.com/sandervanvugt/luth
+    5  echo Dan Walsh
+    6  ls
+    7  luth/countdown 12
+    8  sudo yum module install container-tools
+    9  yum install podman-docker
+   10  sudo yum install podman-docker
+   11  docker ps 
+   12  podman search ubuntu
+   13  sudo vim /etc/containers/registries.conf 
+   14  podman login registry.redhat.io
+   15  podman run --rm ubuntu:latest cat /etc/os-rela
+   16  podman run ubuntu:latest cat /etc/os-release
+   17  podman run ubuntu:latest uname -a
+   18  uname -a
+   19  podman run --rm --name=mycontainer -it ubuntu:18.04 /bin/bash
+   20  podman run --name=mynewcontainer -v /dev/log:/dev/log ubuntu:latest logger hello
+   21  sudo setenforce permissive
+   22  podman run --name=mynewcontainer -v /dev/log:/dev/log ubuntu:latest logger hello
+   23  podman run --name=mynewcontainerv -v /dev/log:/dev/log ubuntu:latest logger hello
+   24  cat /etc/os-release 
+   25  buildah from fedora:latest
+   26  buildah images
+   27  buildah containers
+   28  curl -sSL http://ftpmirror.gnu.org/hello/hello-2.10.tar.gz -o hello-2.10.tar.gz
+   29  ls
+   30  export cont=fedora-working-container
+   31  echo $cont
+   32  buildah copy $cont hello-2.10.tar.gz /tmp/
+   33  buildah run $cont dnf install -y tar gzip gcc make automake gettext
+   34  buildah run $cont dnf clean all
+   35  buildah run $cont tar xzvf /tmp/hello-2.10.tar.gz -C /opt
+   36  buildah config --workingdir /opt/hello-2.10 $cont
+   37  buildah run $cont ./configure
+   38  buildah run $cont autoreconf
+   39  buildah run $cont make
+   40  buildah run $cont ls
+   41  buildah run $cont cp hello /usr/local/bin/
+   42  buildah run $cont hello -v
+   43  buildah config --entrypoint /usr/local/bin/hello $cont
+   44  buildah commit --format docker $cont hello:latest
+   45  buildah ps
+   46  buildah images
+   47  buildah rm fedora-working-container
+   48  podman run hello
+   49  podman run hello -v
+   50  history
+
+######UBUNTU COMMAND    1  id
+    2  docker search ubuntu
+    3  docker search ubuntu | less
+    4  docker run busybox
+    5  docker images
+    6  docker run ubuntu
+    7  docker images
+    8  docker ps
+    9  docker ps --all
+   10  docker run -d nginx
+   11  docker ps
+   12  docker images
+   13  docker run -it busybox /bin/sh
+   14  docker ps
+   15  docker run -it busybox /bin/sh
+   16  docker ps
+   17  docker stop ecstatic_allen 
+   18  docker kill nervous_driscoll 
+   19  docker ps --all
+   20  docker rm nervous_driscoll 
+   21  sudo -i
+   22  docker ps
+   23  docker run -it busybox /bin/sh
+   24  docker run nginx
+   25  docker run -d nginx
+   26  docker ps
+   27  docker inspect dazzling_chaum | less
+   28  docker ps
+   29  docker logs hopeful_mendel 
+   30  docker run -d mysql
+   31  docker ps
+   32  docker ps --all
+   33  docker inspect gracious_sinoussi | less
+   34  docker logs gracious_sinoussi 
+   35  docker run -d mysql -e MYSQL_ROOT_PASSWORD=secret
+   36  docker pos
+   37  docker ps
+   38  docker stats
+   39  ps aux | grep docker
+   40  sudo kill -9 50270
+   41  docker ps
+   42  docker attach dazzling_chaum 
+   43  ps fax | less 
+   44  history
+   45  docker run -dit centos bash
+   46  docker ps
+   47  docker attach thirsty_mendeleev 
+   48  docker container run --name webserver -d -p 8080:80 nginx
+   49  curl localhost:8080
+   50  ip a | less
+   51  docker run -d -p 8081:80 --memory="16m" nginx
+   52  docker ps
+   53  docker stats
+   54  lscpu
+   55  lscpu | less
+   56  docker run -it --rm -c 512 mycontainer busybox sleep 3600
+   57  docker run -it --rm -c 512 busybox sleep 3600
+   58  docker run -dit --rm -c 512 busybox sleep 3600
+   59  docker ps
+   60  docker kill recursing_nobel 
+   61  docker run -dit --rm -c 512 busybox dd if=/dev/zero of=/dev/null
+   62  docker run -dit --rm -c 1024 busybox dd if=/dev/zero of=/dev/null
+   63  top
+   64  docker ps 
+   65  docker kill nostalgic_galois 
+   66  docker kill gifted_ardinghelli 
+   67  docker run -dit --rm -c 1024 --cpuset=0 busybox dd if=/dev/zero of=/dev/null
+   68  docker run -dit --rm --cpuset=0 -c 1024 busybox dd if=/dev/zero of=/dev/null
+   69  docker run -h | less
+   70  docker run 
+   71  docker run --help
+   72  docker run --help | less
+   73  docker run -dit --rm --cpuset-cpus=0 -c 1024 busybox dd if=/dev/zero of=/dev/null
+   74  docker run -dit --rm --cpuset-cpus=0 -c 512 busybox dd if=/dev/zero of=/dev/null
+   75  top
+   76  docker ps
+   77  docker kill friendly_pike 
+   78  docker kill tender_euclid 
+   79  docker run -dit --rm --cpuset-cpus=0 -c 512 busybox dd if=/dev/zero of=/dev/null --cpu 1
+   80  docker run -dit --rm --cpuset-cpus=0 -c 1024 busybox dd if=/dev/zero of=/dev/null --cpu 1
+   81  top
+   82  luth/countdown 12
+   83  history
+   84  docker run -dit --rm --cpuset-cpus=0 --cpu 1 -c 1024 busybox dd if=/dev/zero of=/dev/null 
+   85  docker run -dit --rm --cpuset-cpus=0 --cpus 1 -c 1024 busybox dd if=/dev/zero of=/dev/null 
+   86  docker run -dit --rm --cpuset-cpus=0 --cpus 1 -c 512 busybox dd if=/dev/zero of=/dev/null 
+   87  top
+   88  luth/countdown 6
+   89  history
+   90  top
+   91  docker ps
+   92  docker kill nervous_dewdney 
+   93  docker kill pensive_spence 
+   94  cd containers/
+   95  ls
+   96  cd sandertest/
+   97  ls
+   98  cat sander.repo 
+   99  vim Dockerfile 
+  100  docker build -t nmap .
+  101  docker images
+  102  docker run nmap
+  103  vim Dockerfile 
+  104  cd
+  105  mkdir bind1
+  106  docker run --rm -dit --name=bind1 --mount type=bind,source=$(pwd)/bind1,target=/app nginx:latest
+  107  docker ps
+  108  docker inspect bind1
+  109  docker inspect bind1 | less
+  110  docker exec bind1 touch /app/file1
+  111  ls bind1/
+  112  sudo apt install nfs-server nfs-common
+  113  sudo mkdir /nfsdata
+  114  sudo vim /etc/exports
+  115  sudo chown nobody:nogroup /nfsdata
+  116  sudo chmod 777 /nfsdata
+  117  sudo systemctl restart nfs-kernel-server
+  118  showmount -e localhost
+  119  #docker volume create --driver local --opt type=nfs --opt o=addr=
+  120  ipa 
+  121  ip a
+  122  #docker volume create --driver local --opt type=nfs --opt o=addr=172.17.0.1,rw --opt device=:/nfsdata nfsvol
+  123  docker volume create --driver local --opt type=nfs --opt o=addr=172.17.0.1,rw --opt device=:/nfsdata nfsvol
+  124  docker volume ls
+  125  docker run -it --name voltest2 --rm --mount source=nfsvol,target=/data nginx /bin/sh
+  126  ls
+  127  ls /nfsdata/
+  128  history
+  129  docker network ls
+  130  ip a | less
+  131  docker run -dit --name alpine1 alpine ash
+  132  docker run -dit --name alpine2 alpine ash
+  133  docker container ls
+  134  docker network inspect bridge
+  135  docker attach alpine1
+  136  docker ps
+  137  docker kill alpine2
+  138  docker network create --driver bridge alpnet
+  139  docker network ls
+  140  docker network inspect alpnet 
+  141  docker run -dit --name alpine1 --network alpnet alpine ash
+  142  docker run -dit --name alpine3 --network alpnet alpine ash
+  143  docker run -dit --name alpine4 --network alpnet alpine ash
+  144  docker inspect alpnet
+  145  docker inspect bridge
+  146  docker attach alpine3
+  147  history

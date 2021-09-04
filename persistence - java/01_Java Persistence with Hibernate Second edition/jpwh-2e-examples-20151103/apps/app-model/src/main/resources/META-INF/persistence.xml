@@ -1,0 +1,31 @@
+<persistence
+        version="2.1"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+                            http://xmlns.jcp.org/xml/ns/persistence_2_1.xsd">
+
+    <persistence-unit name="CaveatEmptorPU">
+
+        <!-- This is the "built-in" JBoss AS datasource, with a temporary in-memory H2 database -->
+        <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+
+        <properties>
+
+            <!-- We have customized the Hibernate SQL dialect -->
+            <property name="hibernate.dialect"
+                      value="org.jpwh.shared.ImprovedH2Dialect"/>
+
+            <!-- Hibernate should generate and export a clean schema on deployment, and
+                 Arquillian will import/clean test data, see arquillian.xml -->
+            <property name="javax.persistence.schema-generation.database.action"
+                      value="drop-and-create"/>
+
+            <!-- You typically want portable, predictable sorting for nulls in your app -->
+            <property name="hibernate.order_by.default_null_ordering"
+                      value="first"/>
+
+        </properties>
+
+    </persistence-unit>
+</persistence>

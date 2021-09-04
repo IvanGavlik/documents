@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<arquillian xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://jboss.org/schema/arquillian"
+            xsi:schemaLocation="http://jboss.org/schema/arquillian
+                                http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+    <!-- Arquillian will import/clean test data for each test method, after
+        Hibernate generates the schema, see persistence.xml -->
+    <extension qualifier="persistence">
+
+        <!-- Use this datasource -->
+        <property name="defaultDataSource">java:jboss/datasources/ExampleDS</property>
+
+        <!-- Do not wrap a transaction around each test method -->
+        <property name="defaultTransactionMode">DISABLED</property>
+
+    </extension>
+
+</arquillian>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!--
+
+    This module contains all examples, in the form of unit tests in the src/test/java folder.
+
+    It uses the test harness of the environment module and the domain model and persistence
+    units as defined in the persistence.xml of the model module.
+
+    Tests are grouped in a TestNG suite in src/test/AllTests.tng.xml
+
+    -->
+
+    <!-- ##################################################################################################### -->
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jpwh</groupId>
+        <artifactId>jpwh</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <!-- ##################################################################################################### -->
+
+    <artifactId>examples</artifactId>
+    <packaging>jar</packaging>
+
+    <!-- ##################################################################################################### -->
+
+    <name>Examples</name>
+
+    <!-- ##################################################################################################### -->
+
+    <reporting>
+        <excludeDefaults>true</excludeDefaults>
+    </reporting>
+
+    <!-- ##################################################################################################### -->
+
+    <dependencies>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
+        <!-- API, java.xml.bind module -->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
+        <!-- Runtime, com.sun.xml.bind module -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jpwh</groupId>
+            <artifactId>environment</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jpwh</groupId>
+            <artifactId>model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

@@ -1,0 +1,131 @@
+a {
+    text-decoration: none;
+    font-size: inherit !important;
+}
+
+a, a:visited {
+  color: #186cce;
+}
+
+a:hover {
+    color: #333333;
+}
+
+body {
+    font-family: sans-serif;
+    font-size: 0.9em;
+}
+
+.navigation {
+    margin: 0.5em auto;
+    text-align: center;
+}
+
+.navigation > * {
+    margin: 0 0.2em;
+    padding: 0.2em;
+    display: inline-block;
+    border-bottom: 0.1em solid #bbbbbb;
+    background-color: #eeeeee;
+}
+
+.navigation a {
+    margin: 0 0.5em;
+}
+
+.title {
+    margin: 1em 0 0.5em 0;
+    text-align: center;
+}
+
+.messages {
+    margin: 1em auto 0 auto;
+    color: #f08080;
+}
+
+.center {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
+.content {
+}
+
+.pageNavigation {
+    margin: 0.5em auto;
+}
+
+.pageNavigation a,
+.pageNavigation span {
+    margin: 2em;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: larger;
+}
+
+.pageNavigation .label {
+    font-size: smaller;
+    font-family: sans-serif;
+}
+
+.dataTable {
+    margin: 0.5em auto;
+    border-collapse: collapse;
+}
+
+.dataTable th,
+.dataTable td {
+    text-align: left;
+    padding: 0.5em;
+}
+
+.dataTable th {
+    border-top: 0.1em solid #bbbbbb;
+    border-bottom: 0.1em solid #bbbbbb;
+    background: #eeeeee;
+}
+
+.dataTable td {
+    border-bottom: 0.1em solid #bcbfc1;
+}
+
+.dataTable td:first-child {
+    min-width: 10em;
+}
+
+.dataTable td+td,
+.dataTable th+th {
+    border-left: 0.1em solid #bbbbbb;
+}
+
+.dataTable .label {
+    padding: 0 0.5em 0 0;
+}
+
+.itemDescription,
+.itemImages {
+    margin: 0 auto;
+    display: block;
+    max-width: 70%;
+    padding: 0.5em;
+    text-align: center;
+}
+
+.formFields {
+    margin: 0.5em auto 0 auto;
+}
+
+.formFields .label {
+    padding: 0.25em 0.5em;
+    font-weight: bold;
+    text-align: right;
+}
+
+.horizontalFormField {
+    padding: 0 0.5em 0 0;
+}
+
+.formControls {
+    margin: 0 auto;
+}

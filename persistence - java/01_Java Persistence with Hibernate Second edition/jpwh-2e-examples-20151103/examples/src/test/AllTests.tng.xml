@@ -1,0 +1,102 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="AllTests - examples">
+
+    <method-selectors>
+        <method-selector>
+            <selector-class name="org.jpwh.shared.util.DatabaseTestMethodSelector"/>
+        </method-selector>
+    </method-selectors>
+
+    <test name="Hello World">
+        <packages>
+            <package name="org.jpwh.helloworld"/>
+        </packages>
+    </test>
+
+    <test name="Simple Mappings">
+        <packages>
+            <package name="org.jpwh.test.simple"/>
+        </packages>
+    </test>
+
+    <test name="Inheritance Mappings">
+        <packages>
+            <package name="org.jpwh.test.inheritance"/>
+        </packages>
+    </test>
+
+    <test name="Advanced Mappings">
+        <packages>
+            <package name="org.jpwh.test.advanced"/>
+            <package name="org.jpwh.test.converter"/>
+        </packages>
+    </test>
+
+    <test name="Collections/Associations">
+        <packages>
+            <package name="org.jpwh.test.collections"/>
+            <package name="org.jpwh.test.associations"/>
+        </packages>
+    </test>
+
+    <test name="Complex Schemas">
+        <packages>
+            <package name="org.jpwh.test.complexschemas"/>
+        </packages>
+    </test>
+
+    <test name="Concurrency Control">
+        <packages>
+            <package name="org.jpwh.test.concurrency"/>
+        </packages>
+    </test>
+
+    <test name="Conversations">
+        <packages>
+            <package name="org.jpwh.test.conversation"/>
+        </packages>
+    </test>
+
+    <test name="Fetching">
+        <packages>
+            <package name="org.jpwh.test.fetching"/>
+        </packages>
+    </test>
+
+    <test name="Filtering">
+        <packages>
+            <package name="org.jpwh.test.filtering"/>
+        </packages>
+    </test>
+
+    <test name="Querying">
+        <packages>
+            <package name="org.jpwh.test.querying"/>
+            <package name="org.jpwh.test.querying.jpql"/>
+            <package name="org.jpwh.test.querying.criteria"/>
+            <package name="org.jpwh.test.querying.advanced"/>
+            <package name="org.jpwh.test.querying.sql"/>
+        </packages>
+    </test>
+
+    <test name="Custom SQL">
+        <packages>
+            <package name="org.jpwh.test.customsql"/>
+        </packages>
+    </test>
+
+    <test name="Serialization">
+        <packages>
+            <package name="org.jpwh.test.serialize"/>
+        </packages>
+    </test>
+
+    <test name="Scaling">
+        <packages>
+            <package name="org.jpwh.test.bulkbatch"/>
+            <package name="org.jpwh.test.cache"/>
+        </packages>
+    </test>
+
+</suite>

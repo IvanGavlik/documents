@@ -1,0 +1,49 @@
+<entity-mappings
+        version="2.1"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+    <named-query name="group">
+        <query>
+            select u.lastname, count(u) from User u
+                group by u.lastname
+        </query>
+    </named-query>
+
+    <named-query name="average">
+        <query>
+            select i.name, avg(b.amount)
+                from Bid b join b.item i
+                group by i.name
+        </query>
+    </named-query>
+
+    <named-query name="averageIllegal">
+        <query>
+            select i, avg(b.amount)
+                from Bid b join b.item i
+                group by i
+        </query>
+    </named-query>
+
+    <named-query name="averageWorkaround">
+        <query>
+            select i, avg(b.amount)
+                from Bid b join b.item i
+                group by i.id, i.name, i.createdOn, i.auctionEnd,
+                         i.auctionType, i.approved, i.buyNowPrice,
+                         i.seller
+        </query>
+    </named-query>
+
+    <named-query name="having">
+        <query>
+            select u.lastname, count(u) from User u
+                group by u.lastname
+                having u.lastname like 'D%'
+        </query>
+    </named-query>
+
+</entity-mappings>

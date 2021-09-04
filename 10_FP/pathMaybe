@@ -1,0 +1,42 @@
+po prioritetu
+0. form basic to advanced https://learning.oreilly.com/library/view/becoming-functional/9781491947487/
+DONE
+1. Mastering  https://learning.oreilly.com/library/view/mastering-javascript-functional/9781787287440/
+DONE
+
+2. Architecture problems https://learning.oreilly.com/library/view/domain-modeling-made/9781680505481/
+	DONE - biljše napraviti pogledaj još jednom zadnji dio handling changes
+	
+3. narucena https://learning.oreilly.com/library/view/functional-javascript/9781449360757/
+3.1 pratcial approach https://learning.oreilly.com/library/view/javascript-functional-programming/9781787124660/
+	BAD
+
+3.2 https://learning.oreilly.com/library/view/functional-programming-in/9781617292828/
+	IN PROGRESS
+	
+and video https://learning.oreilly.com/videos/functional-programming-in/9781617292828VE/
+4. Type Script https://learning.oreilly.com/library/view/hands-on-functional-programming/9781788831437/
+5. pratcial approach project https://learning.oreilly.com/videos/building-an-interpreter/9781801071338/
+6. advanced more the one langulages https://learning.oreilly.com/library/view/functional-thinking/9781449365509/
+7. "Functional Programming in Java" TODO
+7.1- video more then one language https://learning.oreilly.com/videos/functional-thinking/9781449368630/
+8. https://learning.oreilly.com/library/view/beginning-functional-javascript/9781484240878/
+9. implement algo in FP https://learning.oreilly.com/library/view/learning-functional-data/9781785888731/
+10. articles and advices https://learning.oreilly.com/library/view/functional-programming-a/9781680502756/
+11. for dummies https://learning.oreilly.com/library/view/functional-programming-for/9781119527503/
+12. video courses covers 4 langulages https://learning.oreilly.com/videos/the-functional-programming/9781491968307/
+13. oop and FP https://learning.oreilly.com/videos/object-oriented-and/9781491934555/
+
+FP
+-> SICP is book 
+-> https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/
+-> https://wiki.haskell.org/All_About_Monads
+->  Functional Programming (International Computer Science Series)
+-> Logical foundations of functional programmingJune 1990
+
+FP Architecture
+-> https://increment.com/software-architecture/primer-on-functional-architecture/
+-> https://techtalkwithbhatt.com/2018/12/18/design-patterns-for-functional-programming/
+
+on JS
+Douglas Crockford’s JavaScript: The Good Parts (O’Reilly)

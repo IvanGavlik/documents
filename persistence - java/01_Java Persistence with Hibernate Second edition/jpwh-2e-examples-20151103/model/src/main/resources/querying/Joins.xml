@@ -1,0 +1,160 @@
+<entity-mappings
+        version="2.1"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+    <named-query name="implicitInner">
+        <query>
+            select b from Bid b where b.item.name like 'Fo%'
+        </query>
+    </named-query>
+
+    <named-query name="multipleImplicitInner">
+        <query>
+            select b from Bid b where b.item.seller.username = 'johndoe'
+        </query>
+    </named-query>
+
+    <named-query name="multipleImplicitInnerAnd">
+        <query>
+            select b from Bid b where b.item.seller.username = 'johndoe'
+               and b.item.buyNowPrice is not null
+        </query>
+    </named-query>
+
+    <named-query name="explicitInner">
+        <query>
+            select i from Item i
+                join i.bids b
+                where b.amount > 100
+        </query>
+    </named-query>
+
+    <named-query name="explicitOuter">
+        <query>
+            select i, b from Item i
+                left join i.bids b on b.amount > 100
+        </query>
+    </named-query>
+
+    <!-- The "same" result data as previous query, but without the 'on' keyword -->
+    <named-query name="explicitOuterRight">
+        <query>
+            select b, i from Bid b
+                right outer join b.item i
+                where b is null or b.amount > 100
+        </query>
+    </named-query>
+
+    <named-query name="outerFetchCollection">
+        <query>
+            select i from Item i
+                left join fetch i.bids
+        </query>
+    </named-query>
+
+    <named-query name="outerFetchCollectionDistinct">
+        <query>
+            select distinct i from Item i
+                left join fetch i.bids
+        </query>
+    </named-query>
+
+    <named-query name="outerFetchMultiple">
+        <query>
+            select distinct i from Item i
+                left join fetch i.bids b
+                    join fetch b.bidder
+                    left join fetch i.seller
+        </query>
+    </named-query>
+
+    <named-query name="badProductFetch">
+        <query>
+            select distinct i from Item i
+                left join fetch i.bids
+                left join fetch i.images
+        </query>
+    </named-query>
+
+    <named-query name="thetaStyle">
+        <query>
+            select u, log from User u, LogRecord log
+                where u.username = log.username
+        </query>
+    </named-query>
+
+
+    <named-query name="thetaEqualsId">
+        <query>
+            select i, b from Item i, Bid b
+                where b.item = i and i.seller = b.bidder
+        </query>
+    </named-query>
+
+    <named-query name="implicitEqualsId">
+        <query>
+            select i, u from Item i, User u
+                where i.seller = u and u.username like 'j%'
+        </query>
+    </named-query>
+
+    <named-query name="explicitEqualsId">
+        <query>
+            select i, u from Item i, User u
+                where i.seller.id = u.id and u.username like 'j%'
+        </query>
+    </named-query>
+
+    <named-query name="parameterEqualsEntity">
+        <query>
+            select i from Item i where i.seller = :seller
+        </query>
+    </named-query>
+
+    <named-query name="parameterEqualsId">
+        <query>
+            select i from Item i where i.seller.id = :sellerId
+        </query>
+    </named-query>
+
+    <named-query name="nojoinEqualsId">
+        <query>
+            select b from Bid b where b.item.id = :itemId
+        </query>
+    </named-query>
+
+    <!-- ################################ TESTABLE SQL ILLUSTRATIONS ################################# -->
+
+    <named-native-query name="outerFetchMultipleSQL"
+            result-set-mapping="outerFetchMultipleSQLMapping">
+        <query>
+            select
+                i.name as ITEM_NAME,
+                b.amount as BID_AMOUNT,
+                u1.username as BIDDER_USERNAME,
+                u2.username as SELLER_USERNAME
+            from
+                Item i
+            left outer join
+                Bid b
+                    on i.id=b.item_id
+            inner join
+                users u1
+                    on b.bidder_id=u1.id
+            left outer join
+                users u2
+                    on i.seller_id=u2.id;
+        </query>
+    </named-native-query>
+
+    <sql-result-set-mapping name="outerFetchMultipleSQLMapping">
+        <column-result name="ITEM_NAME"/>
+        <column-result name="BID_AMOUNT"/>
+        <column-result name="BIDDER_USERNAME"/>
+        <column-result name="SELLER_USERNAME"/>
+    </sql-result-set-mapping>
+
+</entity-mappings>

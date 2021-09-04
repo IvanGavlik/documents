@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jpwh</groupId>
+        <artifactId>apps</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <!-- ##################################################################################################### -->
+
+    <artifactId>app-stateless-client</artifactId>
+    <packaging>jar</packaging>
+
+    <!-- ##################################################################################################### -->
+
+    <name>App Stateless Client</name>
+
+    <!-- ##################################################################################################### -->
+
+    <reporting>
+        <excludeDefaults>true</excludeDefaults>
+    </reporting>
+
+    <!-- ##################################################################################################### -->
+
+    <build>
+        <plugins>
+            <!-- No tests in this module-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <!-- ##################################################################################################### -->
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.jpwh</groupId>
+            <artifactId>app-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jpwh</groupId>
+            <artifactId>app-stateless-server</artifactId>
+            <version>${project.version}</version>
+            <classifier>classes</classifier>
+        </dependency>
+
+        <!-- This is an EJB client application, so we need the tools to communicate with the server -->
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-ejb-client-bom</artifactId>
+            <version>${wildfly.version}</version>
+            <type>pom</type>
+        </dependency>
+
+        <!--
+        If we want to serialize Hibernate's collection wrappers and proxies, we need
+        Hibernate on the client classpath! There is unfortunately no trimmed or slim version
+        of Hibernate, like a hibernate-client.jar. In practice not many people serialize
+        persistent entity instances and collections. They use DTOs to expose only a (safe)
+        subset of persistent data.
+        -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <!-- Also need the JSR 303 API and implementation to serialize/deserialize
+             validation errors wrapped in EJBException/ValidationException -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <!-- ##################################################################################################### -->
+
+    <profiles>
+        <profile>
+            <id>app-stateless-client</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.2.1</version>
+                        <executions>
+                            <execution>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>org.jpwh.stateless.AuctionClient</mainClass>
+                                    <systemProperties>
+                                        <property>
+                                            <key>java.util.logging.config.file</key>
+                                            <value>shared/src/main/resources/logging.properties</value>
+                                        </property>
+                                    </systemProperties>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

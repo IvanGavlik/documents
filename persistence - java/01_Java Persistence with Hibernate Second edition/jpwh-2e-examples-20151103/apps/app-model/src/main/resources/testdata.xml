@@ -1,0 +1,24 @@
+<dataset>
+
+    <item id="1" version="0"
+          name="Baseball Glove" description="It is brown." auctionend="2018-03-06 15:00:00"/>
+    <bid id="1" item_id="1" amount="11" createdon="2018-03-06 15:01:00"/>
+    <bid id="2" item_id="1" amount="12" createdon="2018-03-06 15:02:00"/>
+    <bid id="3" item_id="1" amount="13" createdon="2018-03-06 15:03:00"/>
+
+    <item id="2" version="0"
+          name="Aquarium" description="Like new, barely used, 100 litres." auctionend="2018-03-07 16:00:00"/>
+
+    <item id="3" version="0"
+          name="Golf GTI" description="Type 5G, a great car, good condition." auctionend="2018-03-08 09:30:00"/>
+    <bid id="4" item_id="3" amount="30000" createdon="2018-03-08 10:00:00"/>
+
+    <item id="4" version="0"
+          name="Blade Runner Bluray" description="Director's cut version!" auctionend="2018-03-09 10:20:00"/>
+
+    <item id="5" version="0"
+          name="Coffee Machine" description="Get it while it's hot." auctionend="2018-03-10 14:55:00"/>
+    <bid id="5" item_id="5" amount="5" createdon="2018-03-10 15:00:00"/>
+    <bid id="6" item_id="5" amount="6" createdon="2018-03-10 16:00:00"/>
+
+</dataset>

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/orm/hbm"
+                   package="org.jpwh.model.customsql.procedures"
+                   default-access="field">
+
+    <database-object>
+        <create>
+            create procedure FIND_USER_BY_ID(in PARAM_USER_ID bigint)
+            begin
+                select * from USERS where ID = PARAM_USER_ID;
+            end
+        </create>
+        <drop>
+            drop procedure FIND_USER_BY_ID
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL57InnoDBDialect"/>
+    </database-object>
+
+
+    <database-object>
+        <create>
+            create procedure INSERT_USER(in PARAM_ACTIVATED bit,
+                                         in PARAM_USERNAME varchar(255),
+                                         in PARAM_ID bigint)
+            begin
+                insert into USERS (ACTIVATED, USERNAME, ID)
+                    values (PARAM_ACTIVATED, PARAM_USERNAME, PARAM_ID);
+            end
+        </create>
+        <drop>
+            drop procedure INSERT_USER
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL57InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create procedure UPDATE_USER(in PARAM_ACTIVATED bit,
+                                         in PARAM_USERNAME varchar(255),
+                                         in PARAM_ID bigint)
+            begin
+                update USERS set
+                    ACTIVATED = PARAM_ACTIVATED,
+                    USERNAME = PARAM_USERNAME
+                where ID = PARAM_ID;
+            end
+        </create>
+        <drop>
+            drop procedure UPDATE_USER
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL57InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create procedure DELETE_USER(in PARAM_ID bigint)
+            begin
+                delete from USERS where ID = PARAM_ID;
+            end
+        </create>
+        <drop>
+            drop procedure DELETE_USER
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL57InnoDBDialect"/>
+    </database-object>
+
+</hibernate-mapping>

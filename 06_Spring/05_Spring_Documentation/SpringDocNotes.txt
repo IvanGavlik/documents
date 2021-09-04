@@ -1,0 +1,1024 @@
+Overview
+Core Technologies
+
+
+1. The IoC Container
+The org.springframework.beans and org.springframework.context packages are the
+basis for Spring Framework’s IoC container
+public interface BeanFactory
+The root interface for accessing a Spring bean container
+look for init methods on bean (https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/BeanFactory.html)
+ApplicationContext interface adds more enterprise-specific functionality then BeanFactory.
+The configuration metadata is represented in XML, Java annotations, or Java code
+implementations: ClassPathXmlApplicationContext, FileSystemXmlApplicationContext
+
+
+1.3. Bean Overview
+bean definitions are represented as BeanDefinition objects witch contain metadata for
+that bean (class, name, scope, constructor arguments, initializion method...)
+
+Every bean must have one (can have more) identifiers: id, name, alias
+These identifiers must be unique within the container that hosts the bean
+
+Bean can be instantiantion:  constructor static factory method
+
+
+1.4 DI
+Constructor based
+container invoke a constructor (calling static factory method is the same)
+argument resolution matching by argument type
+
+Setter based
+container invoke setter methods on bean after invoking no-argument constructor
+
+use constructors for mandatory dependencies and setter methods or configuration methods
+for optional dependencie
+
+The Spring container validates the configuration of each bean as the container is created
+.However, the bean properties themselves are not set until the bean is actually created.
+Beans that are singleton-scoped and set to be pre-instantiated (the default) are created
+when the container is created.Otherwise, the bean is created only when it is requested
+
+Inner Bean
+does not require a defined ID or name ignores the scope
+anonymous and are always created with the outer bean
+It is not possible to access inner beans independently or to inject them into
+collaborating beans other than into the enclosing bean
+
+Spring treats empty arguments for properties and the like as empty Strings
+The <null/> element represent null values. (in xml)
+
+The depends-on attribute can explicitly force one or more beans to be initialized
+before the bean using this element is initialized
+
+By default container creates and configure all singleton beans at the start up.
+A lazy-initialized bean tells the IoC container to
+create a bean instance when it is first requested. Use lazy-init attribute
+
+Autowiring
+Spring container will automatically resolve dependencies by inspecting contents
+reduce the need to specify properties or r constructor arguments
+updates a configuration as your objects evolve
+modes:
+no
+default, No autowiring
+byName
+by property name.
+Spring looks for a bean with the same name as the property that needs to
+be autowired
+byType
+constructor
+
+You cannot autowire simple properties such as primitives, Strings
+
+set the autowire-candidate attribute of the <bean/> element to false to
+exclude a bean from autowiring
+
+Suppose singleton bean A needs to use non-singleton (prototype) bean (it not created)
+
+Method Replacement
+ability to replace arbitrary methods in a managed bean with another method implementation
+
+
+1.5 Bean Scopes
+singleton
+one bean for each container
+prototype
+any number of instances
+creation of a new bean instance every time a request for that specific bean is made
+The client code must clean up prototype-scoped objects and release expensive resources
+that the prototype beans hold
+try using a custom bean post-processor,
+which holds a reference to beans that need to be cleaned up
+request
+each HTTP request has its own instance of a bean created
+@RequestScope annotation can be used to assign a component to the request scope
+session
+lifecycle of an HTTP Session
+@SessionScope annotation to assign a component to the session scope
+application
+lifecycle of a ServletContext
+@ApplicationScope annotation to assign a component to the application scope
+websocket
+lifecycle of a WebSocket
+
+As a rule, you should use the prototype scope for all stateful beans and the
+singleton scope for stateless beans ( don’t “store” data )
+
+You can define your own scopes or even redefine existing scopes
+
+
+1.6 Customizing the Nature of a Bean
+Lifecycle Callbacks
+@PostConstruct and @PreDestroy
+ApplicationContextAware and BeanNameAware
+Aware Interfaces
+
+
+1.7. Bean Inheritance
+A child bean definition inherits configuration data from a parent definition.
+The child definition can override some values or add others as needed.
+Effectively, this is a form of templating
+
+A child bean definition inherits scope, constructor argument values, property values,
+and method overrides from the parent, with the option to add new values
+
+The remaining settings are always taken from the child definition:
+depends on, autowire mode, dependency check, singleton, and lazy init.
+
+When a definition is abstract, it is usable only as a pure template
+bean definition that serves as a parent definition for child definitions
+
+1.9. Annotation-based Configuration
+
+@Required
+for setter methods
+must be populated at configuration time
+The container throws an exception if the affected bean property has not been populated
+
+@Autowired / @Inject
+is type-driven injection with optional semantic qualifiers
+to constructors, to setter methods, to fields
+@Autowired(required = false) on setter method to mark that is not required
+
+@Primary indicates that a particular bean should be given preference when
+multiple beans are candidates to be autowired to a single-valued dependency
+
+When you need more control over the selection process,
+you can use Spring’s @Qualifier annotation
+
+if you intend to express annotation-driven injection by name,
+do not primarily use @Autowired  use the JSR-250
+@Resource ( supported only for fields and bean property setter methods with a
+single argument)
+
+You can create your own custom qualifier annotations using Qualifier annotation
+and
+CustomAutowireConfigurer is a BeanFactoryPostProcessor that lets you register your
+own custom qualifier annotation types, even if they are not annotated with
+Spring’s @Qualifier annotation
+
+@Resource
+on fields or bean property setter methods
+takes a name attribute. By default, Spring interprets that value as the bean name to be injected.
+@Resource(name="myMovieFinder")
+If no name is explicitly specified, the default name is derived from the field
+name or setter method
+
+@Value
+used to inject externalized properties
+can use SpEL
+if you want to maintain strict control over nonexistent values,
+you should declare a PropertySourcesPlaceholderConfigurer
+
+@PostConstruct and @PreDestroy
+lifecycle callback mechanism
+
+@Repository annotation
+is a marker for any class that fulfills the role or stereotype of a repository
+(also known as Data Access Object or DAO).
+
+Spring provides further stereotype annotations: @Component, @Service, and @Controller
+@Component  generic stereotype for any Spring-managed component.
+@Repository, @Service, and @Controller are specializations of @Component
+for more specific use cases  (in the persistence, service, and presentation
+layers, respectively).
+
+A meta-annotation is an annotation that can be applied to another annotation.
+
+@Scope
+define scope ex: @Scope("prototype")
+
+@Inject and @Named - javax.inject.*
+Instead of @Autowired, you can use @javax.inject.Inject
+what is @Qualifier for @Autowired that is @Named for @Inject
+
+Instead of @Component, you can use @javax.inject.Named or javax.annotation.ManagedBean
+@Named("movieListener")  // @ManagedBean("movieListener") could be used as well
+public class SimpleMovieLister { ....
+
+be carefuul
+@Scope("singleton") is Spring
+@Singleton is javax.inject.*
+
+
+1.10 Classpath Scanning
+To autodetect these classes and register the corresponding beans, you need to add
+@ComponentScan to your @Configuration class, and set the basePackages attribute
+@Configuration
+@ComponentScan(basePackages = "org.example")
+public class AppConfig  {}
+
+@ComponentScan have includeFilters and excludeFilters attributes
+
+in xml:
+	    <context:component-scan base-package="com.acme"/>
+
+Spring components can also contribute bean definition metadata with:
+@Qualifier,  @Scope , @Lazy .itd
+
+the default bean name generator returns the uncapitalized non-qualified class name
+public class MovieFinderImpl -> name is movieFinderImpl
+can provide a custom bean-naming strategy
+
+While classpath scanning is very fast, it is possible to improve the startup
+performance of large applications by creating a static list of candidates at
+compilation time
+To generate the index, add an additional dependency to each module that
+contains components that are targets for component scan directives.
+Ex:
+<dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-indexer</artifactId>
+        <version>5.2.3.RELEASE</version>
+        <optional>true</optional>
+    </dependency>
+
+
+1.12. Java-based Container Configuration
+(how to use annotations in your Java code to configure the Spring container ?)
+
+done with: @Configuration-annotated classes and @Bean-annotated methods.
+The @Bean annotation is used to indicate that a method instantiates, configures,
+and initializes a new object to be managed by the Spring IoC container
+Annotating a class with @Configuration indicates that its primary purpose
+is as a source of bean definitions.
+
+ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class)
+
+
+Any @Component or JSR-330 annotated class 
+may be supplied as input to the constructor, as the following example shows:
+    ApplicationContext ctx = new AnnotationConfigApplicationContext(MyServiceImpl.class, Dependency1.class, Dependency2.class);
+	
+You can instantiate an AnnotationConfigApplicationContext 
+by using a no-arg constructor and then configure it by using the register() method.	
+	 AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+    ctx.register(AppConfig.class, OtherConfig.class);
+    ctx.register(AdditionalConfig.class);
+    ctx.refresh();
+    MyService myService = ctx.getBean(MyService.class);
+
+A WebApplicationContext variant of AnnotationConfigApplicationContext 
+is available with AnnotationConfigWebApplicationContex
+
+@Bean is a method-level annotation and a direct analog of the XML <bean/> element. The annotation supports 
+some of the attributes offered by <bean/>, such as: * init-method * destroy-method * autowiring * name.
+ By default, the bean name is the same as the method name.
+
+Any classes defined with the @Bean annotation support the regular lifecycle callbacks
+
+The default scope is singleton, but you can override this with the @Scope annotatio
+	@Bean
+    @Scope("prototype")
+    public Encryptor encryptor() {...}
+
+Spring offers a convenient way of working with scoped dependencies through scoped proxies. 
+@Scope annotation have proxyMode attribute. 
+
+with the name attribute on @Bean you can define bean name
+
+@Description("Provides a basic example of a bean")
+anotation to add description to a @Bean
+
+the @Import annotation allows for loading @Bean definitions from another configuration class
+@Configuration
+@Import(ConfigA.class)
+public class ConfigB { ..
+
+
+It is often useful to conditionally enable or disable a complete @Configuration class or even 
+individual @Bean methods, based on some arbitrary system state. One common example of this is to use 
+the @Profile annotation to activate beans only when a specific profile has been enabled in 
+the Spring Environment
+The @Profile annotation is actually implemented by using annotation called @Conditional
+
+combinig java and xml configuration
+using AnnotationConfigApplicationContext and the @ImportResource annotation to import XML as needed.
+@ImportResource("classpath:/com/acme/properties-config.xml")
+or @Configuration class delcare in xml as bean
+
+
+1.13. Environment Abstraction
+The Environment interface is an abstraction integrated in the container 
+that models two key aspects of the application environment: profiles and properties.
+
+A profile is a named, logical group of bean definitions to be registered with the container only
+if the given profile is active. Beans may be assigned to a profile whether defined in XML or with
+annotations. The role of the Environment object with relation to profiles is in determining which
+profiles (if any) are currently active, and which profiles (if any) should be active by default.
+
+
+@Profile annotation lets you indicate that a component is eligible for 
+registration when one or more specified profiles are active
+	@Configuration
+	@Profile("development")
+	public class StandaloneDataConfig {
+
+The profile string may contain a simple profile name (for example, production) or a profile expression.
+A profile expression allows for more complicated profile logic to be expressed 
+(for example, production & us-east)
+
+You can use @Profile as a meta-annotation for the purpose of creating a custom composed annotation.
+The following example defines a custom @Production 
+
+@Profile can also be declared at the method level 
+to include only one particular bean of a configuration class
+
+Profile activating
+- programmatically
+	AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
+	ctx.getEnvironment().setActiveProfiles("development");
+- declaratively activate profiles through the spring.profiles.active property, which may be specified
+	through system environment variables, JVM system properties, servlet context parameters in web.xml, 
+	or even as an entry in JNDI (see PropertySource Abstraction). In integration tests
+
+You can activate multiple profiles at once.
+
+The default profile represents the profile that is enabled by default
+If any profile is enabled, the default profile does not apply.
+You can change the name of the default profile by using setDefaultProfiles() on the Environment or
+,declaratively, by using the spring.profiles.default property.
+
+PropertySource Abstraction
+simple abstraction over any source of key-value pairs, and Spring’s StandardEnvironment is
+configured with two PropertySource objects — one representing the set of JVM system properties 
+(System.getProperties()) and one representing the set of system environment variables (System.getenv())
+
+Perhaps you have a custom source of properties that you want to integrate into this search. To do so,
+implement and instantiate your own PropertySource and add it to the set of PropertySources for the 
+current Environment
+	ConfigurableApplicationContext ctx = new GenericApplicationContext();
+	MutablePropertySources sources = ctx.getEnvironment().getPropertySources();
+	sources.addFirst(new MyPropertySource());
+
+@PropertySource
+the following @Configuration class uses @PropertySource
+@Configuration
+@PropertySource("classpath:/com/myco/app.properties")
+public class AppConfig {
+
+    @Autowired
+    Environment env;
+
+    @Bean
+    public TestBean testBean() {
+        TestBean testBean = new TestBean();
+        testBean.setName(env.getProperty("testbean.name"));
+        return testBean;
+    }
+}
+
+@EnableLoadTimeWeaving
+is used by Spring to dynamically transform classes as they are loaded into the Java virtual machine (JVM).
+To enable load-time weaving, you can add the @EnableLoadTimeWeaving to config class
+
+Additional Capabilities of the ApplicationContext
+1. Internationalization through the MessageSource interface.
+2. Access to resources, such as URLs and files, through the ResourceLoader interface
+3. Event publication, namely to beans that implement the ApplicationListener (use e ApplicationEventPublisher)
+4. Loading of multiple (hierarchical) contexts
+
+Internationalization using MessageSource
+app is started spring automatically searches for a MessageSource (interface) bean in the context(name messageSource)
+if no bean is found it will create DelegatingMessageSource (empthy)
+spring have two MessageSource implementations: ResourceBundleMessageSource and StaticMessageSource
+The messageSource bean definition refers to a number of resource bundles (files with properties)
+through its basenames property.
+	acces: 
+	MessageSource resources = new ClassPathXmlApplicationContext("beans.xml");
+    String message = resources.getMessage("message", null, "Default", Locale.ENGLISH);
+    System.out.println(message);
+
+ReloadableResourceBundleMessageSource
+reading files from any Spring resource location (not only from the classpath)
+supports hot reloading of bundle property file
+
+Event publication
+If a bean that implements the ApplicationListener interface is deployed into the context, 
+every time an ApplicationEvent gets published to the ApplicationContext, that bean is notified. 
+
+To publish a custom ApplicationEvent, call the publishEvent() method on an ApplicationEventPublisher. 
+Typically, this is done by creating a class that implements ApplicationEventPublisherAware and registering 
+it as a Spring bean.
+
+You can register as many event listeners as you wish, but note that, by default, 
+event listeners receive events synchronously.
+This means that the publishEvent() method blocks until all listeners have finished processing the event. 
+
+you can register an event listener on any public method of a managed bean by using the @EventListener
+
+It is also possible to add additional runtime filtering by using the condition attribute 
+of the annotation that defines a SpEL expression 
+
+If you want a particular listener to process events asynchronously, you can reuse the regular @Async
+	@EventListener
+	@Async
+	public void processBlackListEvent(BlackListEvent event) {}
+	
+If you need one listener to be invoked before another one, you can add the @Order annotation
+You can also use generics to further define the structure of your event.
+Consider using an EntityCreatedEvent<T> where T is the type of the actual entity that got created
+
+Access to Low-level Resources
+A Resource is essentially a more feature rich version of the JDK java.net.URL class
+can obtain low-level resources from almost any location in a transparent fashion, including from the classpath, 
+a filesystem location, anywhere describable with a standard URL, and some other variations.
+
+You can also expose properties of type Resource, to be used to access static resources. 
+
+
+2. Resources
+Resource interface extends the InputStreamSource and add more functionality
+Resource implementations: UrlResource, ClassPathResource, FileSystemResource, ServletContextResource, 
+InputStreamResource, ByteArrayResource
+
+UrlResource
+wraps a java.net.URL and can be used to access any object that is normally accessible with a URL,
+such as files, an HTTP target, an FTP target...
+All URLs have a standardized String representation, such that appropriate standardized prefixes 
+are used to indicate one URL type from another. This includes file: for accessing filesystem paths, http: 
+for accessing resources through the HTTP protocol, ftp: for accessing resources through FTP, and others
+
+FileSystemResource
+This is a Resource implementation for 
+java.io.File and java.nio.file.Path handles. It supports resolution as a File and as a URL
+
+ServletContextResource
+This is a Resource implementation for ServletContext resources that interprets relative paths
+within the relevant web application’s root directory.
+
+If the bean itself is going to determine and supply the resource path through some sort of dynamic process,
+it probably makes sense for the bean to use the ResourceLoader interface to load resources
+
+In practice, if you need true absolute filesystem paths, you should avoid using absolute paths
+with FileSystemResource or FileSystemXmlApplicationContext and force the use of a UrlResource by 
+using the file: URL prefix. 
+
+
+3. Validation, Data Binding, and Type Conversion
+Validation by Using Spring’s Validator Interface
+Validator interface works by using an Errors object so that, while validating, validators 
+can report validation failures to the Errors object
+
+ValidationUtils helper class methods like (rejectIfEmpty) ...
+
+we want to output the error messages by using a MessageSource
+MessageCodesResolver determines which error codes the Errors interface registers.
+By default, the DefaultMessageCodesResolver
+
+BeanWrapper works is partly indicated by its name: 
+it wraps a bean to perform actions on that bean (java bean, pojo objet)
+, such as setting and retrieving properties
+offers functionality to set and get property values (individually or in bulk),
+get property descriptors, and query properties to determine if they are readable or writable .itd
+	BeanWrapper company = new BeanWrapperImpl(new Company());
+	company.setPropertyValue("name", "Some Company Inc.");
+
+
+Spring uses the concept of a PropertyEditor to effect the conversion between an Object and a String.
+It can be handy to represent properties in a different way than the object itself. 
+For example, a Date can be represented in a human readable way (as the String: '2007-14-09'),
+while we can still convert the human readable form back to the original date (or, even better, 
+convert any date entered in a human readable form back to Date objects).
+Spring has a number of built-in PropertyEditor implementations to make life easy. 
+They are all located in the org.springframework.beans.propertyeditors package.
+
+Spring Type Conversion
+type conversion logic and an API to perform type conversions at runtime
+To create your own converter, implement the Converter interface and parameterize S 
+as the type you are converting from and T as the type you are converting to.
+
+When you need to centralize the conversion logic for an entire class hierarchy 
+(for example, when converting from String to Enum objects), you can implement ConverterFactory,
+
+GenericConverter supports converting between multiple source and target types.
+A good example of a GenericConverter is a converter that converts between a 
+Java array and a collection. Such an ArrayToCollectionConverter 
+
+ConditionalGenericConverter is the union of the GenericConverter
+and ConditionalConverter interfaces that lets you define criteria when to conversion shoud take place.
+
+ConversionService defines a unified API for executing type conversion logic at runtime. 
+Most ConversionService implementations also implement ConverterRegistry,
+which provides an SPI for registering converters. Internally
+A ConversionService is a stateless object designed to be instantiated at application startup 
+and then shared between multiple threads. In a Spring application, you typically configure 
+a ConversionService instance for each Spring container 
+
+In certain situations, you may wish to apply formatting during conversion. See The FormatterRegistry
+
+o work with a ConversionService instance programmatically,
+you can inject a reference to it like you would for any other bean. 
+	public class MyService {
+	    public MyService(ConversionService conversionService) {}
+		.... 
+		his.conversionService.convert(...) // in some method
+		
+Field Formatting
+In general, you can use the Converter SPI when you need to implement general-purpose 
+type conversion logic — for example, for converting between a java.util.Date and a Long. 
+You can use the Formatter SPI when you work in a client environment (such as a web application) 
+and need to parse and print localized field values. 
+The ConversionService provides a unified type conversion API for both SPIs
+
+To create your own Formatter, implement the Formatter interface ( org.springframework.format)
+Spring provides NumberStyleFormatter, CurrencyStyleFormatter, and PercentStyleFormatter 
+
+Field formatting can be configured by field type or annotation. 
+To bind an annotation to a Formatter, implement AnnotationFormatterFactory. 
+To trigger formatting, you can annotate fields with @NumberFormat 
+ @NumberFormat(style=Style.CURRENCY)
+  private BigDecimal decimal;
+
+The FormatterRegistry is an SPI for registering formatters and converters. 
+FormattingConversionService is an implementation of FormatterRegistry
+
+By default, date and time fields that are not annotated with 
+@DateTimeFormat are converted from strings by using the DateFormat.SHORT
+you can change this by defining your own global format
+you should register all formatters manually.
+Use the org.springframework.format.datetime.joda.JodaTimeFormatterRegistrar 
+or org.springframework.format.datetime.DateFormatterRegistrar class,
+depending on whether you use the Joda-Time library
+
+Spring Bean Validation API 
+	@NotNull
+    @Size(max=64)
+    private String name;
+
+    @Min(0)
+    private int age;
+
+You can inject a reference to javax.validation.Validator
+
+ou can configure a DataBinder instance with a Validator. 
+Once configured, you can invoke the Validator by calling binder.validate(). 
+Any validation Errors are automatically added to the binder’s BindingResult
+
+
+4. Spring Expression Language (SpEL)
+powerful expression language that supports querying and manipulating an object graph at runtime
+The ExpressionParser interface is responsible for parsing an expression string.
+wo exceptions that can be thrown, ParseException and EvaluationException,
+when calling parser.parseExpression and exp.getValue
+SpEL supports a wide range of features, such as calling methods,
+accessing properties, and calling constructors
+
+Expression exp = parser.parseExpression("'Hello World'.concat('!')"); 
+String message = (String) exp.getValue();
+The value of message is now 'Hello World!'.
+
+SpEL also supports nested properties by using the standard dot notation
+
+Inventor tesla = new Inventor("Nikola Tesla", c.getTime(), "Serbian");
+ExpressionParser parser = new SpelExpressionParser();
+Expression exp = parser.parseExpression("name"); // Parse name as an expression
+String name = (String) exp.getValue(tesla);
+
+The EvaluationContext interface is used when evaluating an expression to resolve properties, methods, ž
+or fields and to help perform type conversion.Spring have two implem:
+SimpleEvaluationContext and StandardEvaluationContext
+
+By default, SpEL uses the conversion service available in Spring core 
+ž(org.springframework.core.convert.ConversionService). This conversion service comes with
+many built-in converters for common conversions but is also fully extensible so that you can 
+add custom conversions between types
+
+It is possible to configure the SpEL expression parser by using a parser 
+configuration object (org.springframework.expression.spel.SpelParserConfiguration
+
+Spring Framework 4.1 includes a basic expression compiler (because of performace)
+The compiler is not turned on by default
+The compiler can operate in one of three modes,
+OFF, IMMEDIATE, MIXED
+
+Expressions in Bean Definitions
+ the syntax to define the expression is of the form #{ <expression string> }
+ex in xml:
+ value="#{ T(java.lang.Math).random() * 100.0 }"
+The systemProperties variable is predefined, so you can use it in your expressions
+You can also refer to other bean properties by name
+
+To specify a default value, you can place the @Value annotation 
+on fields, methods, and method or constructor parameters
+@Value("#{ systemProperties['user.region'] }")
+private String defaultLocale;
+
+The types of literal expressions supported are strings, numeric values (int, real, hex), boolean,
+and null. Strings are delimited by single quotation marks.
+To put a single quotation mark itself in a string, use two single quotation mark characters
+
+The contents of maps are obtained by specifying the literal key value within the brackets
+Officers['president']
+you can directly express lists in an expression by using {} notation.
+You can also directly express maps in an expression by using {key:value} notation. 
+{:} by itself means an empty map
+In addition to the standard relational operators, 
+SpEL supports the instanceof and regular expression-based matches operator
+You can use the special T operator to specify an instance of java.lang.Class (the type)
+ ex: T(java.math.RoundingMode).CEILING
+You can invoke constructors by using the new operator. You should use the fully qualified class name 
+for all but the primitive types (int, float, and so on) and String
+
+You can reference variables in the expression by using the #variableName 
+The #this variable is always defined and refers to the current evaluation object 
+(against which unqualified references are resolved). The #root variable is always defined and 
+refers to the root context object. Although #this may vary as components of an expression are evaluated
+You can extend SpEL by registering user-defined functions that can be called within the expression string. 
+The function is registered through the EvaluationContext. 	
+If the evaluation context has been configured with a bean resolver, you can look up beans 
+from an expression by using the @ symbol
+
+Collection -> Selection uses a syntax of .?[selectionExpression]. 
+It filters the collection and returns a new collection that contain a subset of the original elements
+
+Expression templates allow mixing literal text with one or more evaluation blocks. 
+Each evaluation block is delimited with prefix and suffix characters that you can define. 
+A common choice is to use #{ } as the delimiters,
+
+String randomPhrase = parser.parseExpression(
+        "random number is #{T(java.lang.Math).random()}",
+
+
+5. Aspect Oriented Programming with Spring
+the unit of modularity is the aspect
+Spring provides simple and powerful ways of writing custom aspects by
+using either a schema-based approach or the @AspectJ annotation style. 
+
+AOP terminology also: https://howtodoinjava.com/spring-aop-tutorial/
+-Aspect: A modularization of a concern that cuts across multiple classes.
+-Join point
+-Advice: Action taken by an aspect at a particular join point
+	types of advice: “around”, “before” and “after”....
+-Pointcut: A predicate that matches join points. 
+	Advice is associated with a pointcut expression and runs at any join point matched by the pointcut 
+-Introduction: Declaring additional methods or fields on behalf of a type
+-Target object: An object being advised by one or more aspects. Also referred to as the “advised object”.
+	In Spring this object is always a proxied object
+-AOP proxy: An object created by the AOP framework in order to implement the aspect contracts
+	Weaving: linking aspects with other application types or objects to create an advised object.
+	This can be done at compile time load time, or at runtime. Spring performs it at weaving at runtime.
+
+
+What are Cross-Cutting Concerns?
+
+• Generic functionality that is needed in many places in your application
+• Examples
+	– Logging and Tracing
+	– Transaction Management	
+	– Security
+	– Caching
+	– Error Handling
+	– Performance Monitoring
+	– Custom Business Rules
+
+Spring AOP includes the following types of advice:
+-Before advice: Advice that runs before a join point but that does not have the ability to prevent 
+	 execution flow proceeding to the join point (unless it throws an exception).
+-After returning advice: Advice to be run after a join point completes normally (for example,
+	if a method returns without throwing an exception).
+-After throwing advice: Advice to be executed if a method exits by throwing an exception.
+-After (finally) advice: Advice to be executed regardless of the means by which a join point 
+	exits (normal or exceptional return).
+-Around advice: Advice that surrounds a join point such as a method invocation. 
+	Can perform custom behavior before and after the method invocation. 
+	It is also responsible for choosing whether to proceed to the join point or to shortcut 
+	the advised method execution by returning its own return value or throwing an exception
+	most general kind of advice
+
+Spring AOP currently supports only method execution join points (advising the execution of methods on Spring beans). 
+Field interception is not implemented (use AspectJ)
+Note: You have the choice of AspectJ, Spring AOP, or both. You also have the choice of either the @AspectJ 
+annotation-style approach or the Spring XML configuration-style approach. 
+	@Configuration
+	@EnableAspectJAutoProxy
+	public class AppConfig {...
+
+
+In either case, you also need to ensure that AspectJ’s aspectjweaver.jar
+library is on the classpath of your application (version 1.8 or later). 
+
+To enable @AspectJ support with Java @Configuration, 
+add the @EnableAspectJAutoProxy annotation
+
+Declaring a Pointcut
+A pointcut declaration has two parts: a signature comprising a name and 
+any parameters and a pointcut expression that determines exactly 
+which method executions we are interested in
+pointcut expression is indicated by using the @Pointcut annotation 
+(the method serving as the pointcut signature must have a void return type).
+
+Spring AOP supports the following AspectJ pointcut designators:
+execution, within, this, target, args, @target, @args, @within, @annotation, bean
+You can combine pointcut expressions by using &&, || and !
+Ex:
+	// 1. matches if a method execution join point represents
+	// the execution of any public method.
+	@Pointcut("execution(public * (..))")
+	private void anyPublicOperation() {} 
+	
+	// 2. matches if a method execution is in the trading module package
+	@Pointcut("within(com.xyz.someapp.trading..)")
+	
+	// matches if is 1. and 2.
+	@Pointcut("anyPublicOperation() && inTrading()")
+	
+	// The execution of any method defined in the service package:
+	@Pointcut("execution(* com.xyz.service.*.*(..))")
+
+execution pointcut
+-> execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern(param-pattern)
+                throws-pattern?)(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern(param-pattern)
+                throws-pattern?)
+FOR MORE SEE:
+https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#aop-pointcuts-examples
+
+Writing Good Pointcuts:
+The existing designators naturally fall into one of three groups: 
+kinded, scoping, and contextual:
+Kinded designators select a particular kind of join point:
+execution, get, set, call, and handler.
+Scoping designators select a group of join points of interest 
+(probably of many kinds): within and withincode
+Contextual designators match (and optionally bind) based on context: 
+this, target, and @annotation
+
+A well written pointcut 
+should include at least the first two types (kinded and scoping)
+
+Declaring Advice
+Advice is associated with a pointcut expression and runs before, after, or 
+around method executions matched by the pointcut
+
+Advice Parameters
+you can declare the parameters you need in the advice signature 
+
+TODO: Passing Parameters to Advice, Advice Parameters and Generics, 
+Determining Argument Names, Proceeding with Arguments, Advice Ordering
+
+Introductions
+(known as inter-type declarations in AspectJ) 
+enable an aspect to declare that advised objects implement a given interface
+and to provide an implementation of that interface on behalf of those objects.
+You can make an introduction by using the @DeclareParents 
+-> matching types have a new parent 
+
+@DeclareParents(value="com.xzy.myapp.service.*+", defaultImpl=DefaultUsageTracked.class)
+public static UsageTracked mixin;
+-> the following aspect declares that all implementors of 
+service interfaces also implement the UsageTracked 
+
+Aspect Instantiation Models
+By default, there is a single instance of each aspect
+within the application context. AspectJ calls this the singleton instantiation model. It is possible to define aspects with alternate lifecycles.
+Spring supports AspectJ’s perthis and pertarget instantiation models
+
+You can declare a perthis aspect by specifying a perthis clause in the @Aspect annotation
+Ex: @Aspect("perthis(com.xyz.myapp.SystemArchitecture.businessService())")
+	-> ne aspect instance is created for each unique service 
+		object that executes a business service
+perthis creates one aspect instance for each unique target object
+ at matched join point
+ 
+for xml:
+https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#aop-schema
+
+
+Proxying Mechanisms
+Spring AOP uses either JDK dynamic proxies or CGLIB to create the proxy 
+for a given target object. JDK dynamic proxies are built into the JDK, 
+whereas CGLIB is a common open-source class definition library 
+(repackaged into spring-core).
+
+If the target object to be proxied implements at least one interface, 
+a JDK dynamic proxy is used. All of the interfaces implemented by the target
+type are proxied. If the target object does not implement any interfaces,
+a CGLIB proxy is create
+
+TODO HOLE 5.10. Using AspectJ with Spring Applications (aslo 5.10.1...5.10.2)
+TODO Spring AOP APIs hole 6 maybe not mandatory
+
+stao 7. Null-safety 2020_03_20
+https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#null-safety
+
+
+
+Testing
+
+
+intro
+-spring support for unit testing
+-spring support for integration testing
+
+2. Unit testing
+mock: Environment, JNDI, Servlet Api, Spring Web Reactive
+Environment
+MockEnvironment and MockPropertySource are useful for developing out-of-container
+tests for code that depends on environment-specific properties
+
+JNDI -use Simple-JNDI
+
+Servlet API
+-for testig web context, controllers, filters
+- see: Spring MVC Test Framewrok
+
+Spring Web Reactive
+-moc of HttpRequest/Response for use in WebFlux applications
+
+General Testing Utilities
+-> ReflectionTestUtils
+	- where you need to change the value of the field
+-> AopTestUtils
+	- collection of AOP-related utility methods
+MVC Testing Utilities
+-> ModelAndViewAssert 
+	-for Spring MVC ModelAndView objects
+
+3. Integration Testing
+- test Spring IoC container context
+- databse access
+
+provided in the form of the annotation-driven Spring TestContext Framewor
+TODO
+
+
+
+Data Access
+Transaction Management
+- consistent programming model across different transaction APIs 
+(JTA, JDBC, Hibernate, JPA)
+
+Global Transactions
+- multiple transactional resources, typically relational 
+ databases and message queues
+- managed throught JTA  
+- Stand-alone transaction managers (such as Atomikos Transactions and JOTM) are other options. Of course, 
+you may need other application server capabilities, such as 
+Java Message Service (JMS) and Java EE Connector Architecture (JCA
+
+Local Transactions
+- resource-specific
+
+A transaction strategy is defined by 
+the org.springframework.transaction.PlatformTransactionManager
+it have TransactionDefinition and TransactionStatu interfaces 
+ 
+TransactionDefinition interface specifies
+- Propagation (code can continue running in the existing transaction or
+the existing transaction can be suspended and new created)
+see: https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/data-access.html#tx-propagation
+- Isolation (degree to witch tran. is isolated from the work of other trans.)
+- Timeout
+- Read-only status
+
+TransactionStatus interface specifices the control of transaction and query on
+tran. status
+
+in JDBC 
+Connection conn = DataSourceUtils.getConnection(dataSource)
+if trans. already exist it will be returned
+
+Declarative transaction management
+The Spring Framework’s declarative transaction management is 
+made possible with Spring aspect-oriented programming (AOP).
+he combination of AOP with transactional metadata yields an AOP proxy that uses a TransactionInterceptor 
+in conjunction with an appropriate PlatformTransactionManager
+
+fist step annotate your classes with the @Transactional annotation and 
+@EnableTransactionManagement to your configuration
+The Spring team recommends that you annotate only concrete classes (and 
+methods of concrete classes) with the @Transactional annotation
+also see @Transactional Settings 
+in https://docs.spring.io/spring/docs/5.2.5.RELEASE/spring-framework-reference/data-access.html#transaction-declarative
+
+You can use the value attribute of the @Transactional annotation to 
+optionally specify the identity of the PlatformTransactionManager to be used.
+
+Programmatic Transaction Management
+use TransactionTemplate (recomended) 
+or PlatformTransactionManager 
+
+TransactionTemplate adopts the same approach as Spring templates
+like JdbcTemplate (callback metod)
+
+Transaction-bound Events
+the listener of an event can be bound to a phase of the transaction
+You can register a regular event listener by using the
+ @EventListener annotation. If you need to bind it to the 
+ transaction, use @TransactionalEventListener
+  The valid phases are BEFORE_COMMIT, AFTER_COMMIT (default), 
+  AFTER_ROLLBACK, and AFTER_COMPLETION 
+
+
+DAO Support
+
+Spring provides a convenient translation from technology-specific 
+exceptions, such as SQLException to its own exception class 
+hierarchy, which has DataAccessException as the root exception.
+The best way to guarantee that your Data Access Objects (DAOs) 
+or repositories provide exception translation is to use the 
+@Repository annotation
+
+Any DAO or repository implementation needs access to a persistence resource
+asiest way to accomplish this is to have this resource dependency injected by 
+using one of the @Autowired, @Inject, @Resource or @PersistenceContext 
+EX:
+	@Repository
+	public class JpaMovieFinder implements MovieFinde {
+		@PersistenceContext
+		private EntityManager entityManager;
+	}
+
+JDBC Database Access
+You can choose:
+- JdbcTemplate 
+	-> “lowest-level” approach
+	-> thread-safe, one for all Dao-S
+- NamedParameterJdbcTemplate provide named parameters
+- SimpleJdbcInsert and SimpleJdbcCall (databes have metadata
+- RDBMS objects: MappingSqlQuery, SqlUpdate and StoredProcedure
+
+SQLExceptionTranslator is an interface to be implemented by classes that can
+translate between SQLExceptions and Spring’s own 
+org.springframework.dao.DataAccessExceptioN
+
+Controlling Database Connections
+you can use
+- DataSource
+- DataSourceUtils
+there are others but ther are not for standar uses
+
+JDBC Batch Operations
+you can use 
+- JdbcTemplate, NamedParameterJdbcTemplate (jdbcTemplate.batchUpdate(...)
+
+SimpleJdbc Classes
+
+SqlQuery is a reusable, thread-safe class that encapsulates an SQL query
+
+appingSqlQuery is a reusable query in which concrete subclasses must implement 
+the abstract mapRow(..) method to convert each row of the supplied 
+ResultSet into an object of the type specified.
+
+The SqlUpdate class encapsulates an SQL update
+
+LobCreator and LobHandler provide the following support for LOB input and output
+You can store images, other binary data, and large chunks of text in the
+database. These large objects are called BLOBs (Binary Large OBject) 
+for binary data and CLOBs (Character Large OBject) for character data.
+
+Embedded Database Support
+- useful during the development phase of a project because of its lightweight
+nature
+- The EmbeddedDatabaseBuilder class provides a 
+fluent API for constructing an embedded database programmatically.
+- you can use HSQL, H2, Derby 
+
+You can extend Spring JDBC embedded database support in two ways:
+- Implement EmbeddedDatabaseConfigurer to support a new embedded database type.
+- Implement DataSourceFactory to support a new DataSource implementation, 
+ such as a connection pool to manage embedded database connections.
+
+XML Marshaling 
+- two global interfaces: Marshaller and Unmarshaller
+The Marshaller interface has one main method, which marshals the given object
+ to a given javax.xml.transform.Result (XML )
+- Result -> DOMResult, SAXResult, StreamResult(File, OutputStream, Writer)
+- Unmarshaller: eads from the given javax.xml.transform.Source 
+(an XML input abstraction) and returns the object read
+
+Ex:
+	Settings settings = new Settings()
+	public void saveSettings() throws IOException {
+        try (FileOutputStream os = new FileOutputStream(FILE_NAME)) {
+            this.marshaller.marshal(settings, new StreamResult(os));
+        }
+    }
+
+    public void loadSettings() throws IOException {
+        try (FileInputStream is = new FileInputStream(FILE_NAME)) {
+            this.settings = (Settings) this.unmarshaller.unmarshal(new StreamSource(is));
+        }
+    }
+
+The JAXB binding compiler translates a W3C XML Schema into one 
+or more Java classes, a jaxb.properties file, and possibly some 
+resource files. JAXB also offers a way to generate a schema 
+from annotated Java classes	
+	-> The Jaxb2Marshaller class implements both of Spring’s
+	Marshaller and Unmarshaller interfaces
+
+The JiBX framework offers a solution similar to that which
+Hibernate provides for ORM: A binding definition defines the 
+rules for how your Java objects are converted to or from XML
+	
+XStream is a simple library to serialize objects to XML and back again.
+It does not require any mapping and generates clean XML
+
+//TODO Bean and @Component declaration in the same is needed ? 
+//TODO programticaly set and use ResourceBundleMessageSource (Internationalization using MessageSource)
+//TODO ConversionService
+//TODO Field formatting can be configured by field type or annotation.
+//TODO Spring Bean Validation API 
+//TODO to learn more: Java Transaction Design Strategies is a book available from InfoQ t

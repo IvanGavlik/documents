@@ -1,0 +1,32 @@
+<ui:component
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:cc="http://java.sun.com/jsf/composite">
+
+    <cc:interface>
+        <cc:attribute name="page" required="true"
+                      shortDescription="The Page component."/>
+        <cc:attribute name="label" default="Next page..."
+                      shortDescription="The 'Next page... ' label."/>
+    </cc:interface>
+
+    <cc:implementation>
+
+        <h:panelGrid styleClass="pageNavigation"
+                     columns="2"
+                     rendered="#{cc.attrs.page.moreThanOneAvailable}">
+            <h:outputText styleClass="label"
+                          value="Total: #{cc.attrs.page.totalRecords}"/>
+            <h:link>
+                <h:outputText styleClass="label" value="${cc.attrs.label}"/>
+                <f:param name="sortBy" value="#{persistentAttributeConverter.getString(cc.attrs.page.sortAttribute)}"/>
+                <f:param name="sortDirection" value="#{cc.attrs.page.sortDirection}"/>
+                <f:param name="lastValue" value="#{base64Converter.getString(cc.attrs.page.lastValue)}"/>
+                <f:param name="lastUniqueValue" value="#{base64Converter.getString(cc.attrs.page.lastUniqueValue)}"/>
+            </h:link>
+        </h:panelGrid>
+
+    </cc:implementation>
+</ui:component>

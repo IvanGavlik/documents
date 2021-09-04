@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="AllTests - app-stateless-server">
+    <test name="Services">
+        <packages>
+            <package name="org.jpwh.test.stateless"/>
+        </packages>
+    </test>
+</suite>

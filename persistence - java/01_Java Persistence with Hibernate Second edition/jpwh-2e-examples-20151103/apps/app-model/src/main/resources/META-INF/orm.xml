@@ -1,0 +1,33 @@
+<entity-mappings
+        version="2.1"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+    <named-query name="getItemsByName">
+        <query>
+            select i from Item i where i.name = :itemName
+        </query>
+    </named-query>
+
+    <named-query name="getItemsByNameSubstring">
+        <query>
+            select i from Item i where lower(i.name) like lower(:itemName)
+        </query>
+    </named-query>
+
+    <named-query name="getItemBidSummaries">
+        <query>
+            select
+            new org.jpwh.model.ItemBidSummary(
+                i.id, i.name, i.auctionEnd, max(b.amount)
+            )
+            from Bid b right outer join b.item i
+            group by i.id, i.name, i.auctionEnd
+            order by i.auctionEnd asc
+        </query>
+    </named-query>
+
+
+</entity-mappings>

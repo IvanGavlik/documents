@@ -1,0 +1,396 @@
+Java Tutorials
+https://docs.oracle.com/javase/tutorial/
+
+Learning the Java Language
+https://docs.oracle.com/javase/tutorial/java/index.html
+
+Nested Classes
+Why Use Nested Classes?
+-It is a way of logically grouping classes that are only used in one place
+-It increases encapsulation
+-It can lead to more readable and maintainable code:
+
+Static Nested Classes
+Note: A static nested class interacts with the instance members of its outer class (and other classes) just like any other top-level class. In effect, a static nested class is behaviorally a top-level class that has been nested in another top-level class for packaging convenience.
+
+cannot refer directly to instance variables or methods defined in its enclosing class: it can use them only through an object reference.
+
+accessed: 
+	OuterClass.StaticNestedClass nestedObject = new OuterClass.StaticNestedClass();
+
+Inner Classes
+associated with an instance of its enclosing class and has direct access to that object's methods and fields 
+it cannot define any static members 
+exist only within an instance of OuterClass
+	OuterClass.InnerClass innerObject = outerObject.new InnerClass();
+-three types: inner class, local inner class and anonymous inner class
+-serialization of inner classes, including local and anonymous classes, is strongly discouraged. 
+-you can use the same modifiers for inner classes that you use for other members of the outer class.
+
+Shadowing
+-variables/methods have same name/definiction
+-to refer member variable from inner class this.x 
+-to refer member variable that from outer class
+		Outer.this.x 
+		
+Local inner class		
+-defined in a block (Ex: in the method body, if clause..)
+-in addition, a local class has access to effectively final local variables (effectively: value is never changed after it is initialized)
+-it can access the method's parameters
+-they cannot define static members (A local class can have static members provided that they are constant variables)
+-can refer to static members of the enclosing class
+-cannot declare an interface inside a block; interfaces are inherently static
+-cannot declare static initializers or member interfaces in a local class	
+
+Anonymous Classes
+-enable you to declare and instantiate a class at the same time
+-like local classes except that they do not have a name
+-use them if you need to use a local class only once
+-anonymous classes are expressions (you define the class in another expression, it must be part of a statement.)
+-cannot declare constructors in an anonymous class
+
+Lambda Expressions
+-to treat functionality as method argument, or code as data.
+-functional interface is any interface that contains only one abstract method ( may contain one or more default methods or static methods.)
+
+-sintax: 
+x -> y
+x -> list of parameters, you can omit the data type, you can omit the parantheses if is one parameter
+y -> body, single expresion or a statement block 
+	single expresion do not need return and braces
+	statement block you need braces and return 
+Ex: 
+(a, b) -> a + b;
+p -> p.getGender() == Person.Sex.MALE;
+p -> System.out.println(email);
+p -> { return p.getGender() == Person.Sex.MALE; }
+
+-do not inherit any names from a supertype or introduce a new level of scoping. 
+Declarations in a lambda expression are interpreted just as they are in the enclosing environment.
+(The compiler generates the error "variable x is already defined in method) 
+
+-you can directly access fields, methods, and effectively final local variables of the enclosing scope
+-the serialization of lambda expressions is strongly discouraged
+
+Method References
+- a lambda expression call an existing method
+- it is clearer to refer to the existing method by name
+- Person::compareByAge is semantically the same as the lambda expression (a, b) -> Person.compareByAge(a, b)
+- Ex:
+	Reference to a static method												ContainingClass::staticMethodName
+	Reference to an instance method of a particular object						containingObject::instanceMethodName
+	Reference to an instance method of an arbitrary object of a particular type	ContainingType::methodName
+	Reference to a constructor													ClassName::new
+	
+Enum Types
+- enables for a variable to be a set of predefined constants, use when you need to represent a fixed set of constant
+- static values method that returns an array containing all of the values of the enum in the order they are declared
+- constructor for an enum type must be package-private or private access. It automatically creates the constants that are defined at the 	beginning of the enum body. You cannot invoke an enum constructor yourself.
+
+Annotations
+- a form of metadata, provide data about a program that is not part of the program itself
+- Uses:
+	->Information for the compiler (can be used by the compiler to detect errors or suppress warnings)
+	->Compile-time and deployment-time processing (process annotation information to generate code, XML files..)
+	->Runtime processing (available to be examined at runtime)
+	
+-(@) indicates to the compiler that what follows is an annotation
+- can include elements, which can be named or unnamed, and there are values for those elements:
+	@SuppressWarnings(value = "unchecked")
+	If there is just one element named value, then the name can be omitted, as in:
+	@SuppressWarnings("unchecked")
+-can be applied to declarations(classes, fields, methods)
+-annotation types are a form of interface
+	Ex: custome anotation
+	@interface ClassPreamble {
+		String author();
+		String date();
+		int currentRevision() default 1;
+		String lastModified() default "N/A";
+		String lastModifiedBy() default "N/A";
+		// Note use of array
+		String[] reviewers();
+	}
+-you must annotate the your anotation definition with the @Documented annotation to make the info apppear in the Java doc
+
+-@Deprecated annotation indicates that the marked element is deprecated and should no longer be used.
+-@Override annotation informs the compiler that the element is meant to override an element declared in a superclass
+-@SuppressWarnings annotation tells the compiler to suppress specific warnings that it would otherwise generate
+ @FunctionalInterface indicates that the type declaration is intended to be a functional interface
+
+-http://tutorials.jenkov.com/java-reflection/annotations.html 
+ 
+Annotations that apply to other annotations are called meta-annotations
+- @Retention annotation specifies how the marked annotation is stored
+	RetentionPolicy.SOURCE – The marked annotation is retained only in the source level and is ignored by the compiler.
+	RetentionPolicy.CLASS – The marked annotation is retained by the compiler at compile time, but is ignored by the Java Virtual Machine (JVM).
+	RetentionPolicy.RUNTIME – The marked annotation is retained by the JVM so it can be used by the runtime environment.
+- @Documented indicates that whenever the specified annotation is used those elements should be documented using the Javadoc tool
+- @Inherited annotation indicates that the annotation type can be inherited from the super class
+- @Target annotation marks another annotation to restrict what kind of Java elements the annotation can be applied to. 
+	->ElementType.ANNOTATION_TYPE can be applied to an annotation type.
+	->ElementType.CONSTRUCTOR can be applied to a constructor.
+	->ElementType.FIELD can be applied to a field or property.
+	->ElementType.LOCAL_VARIABLE can be applied to a local variable.
+	->ElementType.METHOD can be applied to a method-level annotation.
+	->ElementType.PACKAGE can be applied to a package declaration.
+	->ElementType.PARAMETER can be applied to the parameters of a method.
+	->ElementType.TYPE can be applied to any element of a class.
+
+Type Annotations and Pluggable Type Systems
+- annotations can be used anywhere you use a type. A few examples of where types are used are class instance creation expressions (new), casts, implements clauses, and throws clauses.	
+-For example, you want to ensure that a particular variable in your program is never assigned to null; you want to avoid triggering a NullPointerException. You can write a custom plug-in to check for this. You would then modify your code to annotate that particular variable, indicating that it is never assigned to null. The variable declaration might look like this:
+@NonNull String str;
+When you compile the code, including the NonNull module at the command line, the compiler prints a warning if it detects a potential problem, allowing you to modify the code to avoid the error. After you correct the code to remove all warnings, this particular error will not occur when the program runs. One is Checker Framework
+
+Repeating Annotations
+-apply the same annotation to a declaration or type use
+Ex:
+@Alert(role="Manager")
+@Alert(role="Administrator")
+public class UnauthorizedAccessException	
+to do this: 
+	1. The annotation type must be marked with the @Repeatable meta-annotation
+		Ex: @Repeatable(Schedules.class)
+			public @interface Schedule 
+	2. Declare the Containing Annotation Type (The containing annotation type must have a value element with an array type)
+		Schedule[] value();
+-There are several methods available in the Reflection API that can be used to retrieve annotations. 
+
+Interface
+-reference type
+-can contain only constants, method signatures, default methods, static methods, and nested types
+-if you do not specify that the interface is public, then your interface is accessible only to classes defined in the same package as the
+interface
+-default methods enable you to add new functionality to the interfaces of your libraries and ensure binary compatibility with code written for older versions of those interfaces.
+-When you extend an interface that contains a default method, you can do the following:
+	extended interface and inherit the default method.
+	Redeclare the default method, which makes it abstract.
+	Redefine the default method, which overrides it.				
+
+Inheritance
+-classes can be derived from other classes, thereby inheriting fields and methods from those classes
+-in a subclass
+		->the inherited fields and methods can be used directly, just like any other fields.
+		->can declare a field in the subclass with the same name as the one in the superclass, thus hiding it (not recommended).
+		->new fields in the subclass that are not in the superclass.
+		->can write a new instance method in the subclass that has the same signature as the one in the superclass, thus overriding
+		->can write a new static method in the subclass that has the same signature as the one in the superclass, thus hiding
+		->subclass constructor that invokes the constructor of the superclass, either implicitly or by using the keyword super
+-private 
+A subclass does not inherit the private members of its parent class. However, if the superclass has public or protected methods for accessing its private fields, these can also be used by the subclass.
+A nested class has access to all the private members of its enclosing class—both fields and methods. Therefore, a public or protected nested class inherited by a subclass has indirect access to all of the private members of the superclass.
+
+Casting Objects
+MountainBike is descended from Bicycle and Object. Therefore, a MountainBike is a Bicycle and is also an Object, and it can be used wherever Bicycle or Object objects are called for.
+The reverse is not necessarily true: a Bicycle may be a MountainBike, but it isn't necessarily. Similarly, an Object may be a Bicycle or a MountainBike, but it isn't necessarily.
+Casting shows the use of an object of one type in place of another type, among the objects permitted by inheritance and implementations. For example, if we write
+Object obj = new MountainBike();
+then obj is both an Object and a MountainBike (until such time as obj is assigned another object that is not a MountainBike). This is called implicit casting
+
+If, on the other hand, we write
+MountainBike myBike = obj;
+
+we would get a compile-time error because obj is not known to the compiler to be a MountainBike. However, we can tell the compiler that we promise to assign a MountainBike to obj by explicit casting:
+MountainBike myBike = (MountainBike)obj; //  runtime exception can be thrown
+You can make a logical test as to the type of a particular object using the instanceof operator
+if (obj instanceof MountainBike) {
+    MountainBike myBike = (MountainBike)obj;
+}		
+
+Instance methods are preferred over interface default methods
+Ex: 
+public class Horse {
+    public String identifyMyself() {
+        return "I am a horse.";
+    }
+}
+public interface Flyer {
+    default public String identifyMyself() {
+        return "I am able to fly.";
+    }
+}
+public interface Mythical {
+    default public String identifyMyself() {
+        return "I am a mythical creature.";
+    }
+}
+public class Pegasus extends Horse implements Flyer, Mythical {
+    public static void main(String... args) {
+        Pegasus myApp = new Pegasus();
+        System.out.println(myApp.identifyMyself());
+    }
+}
+Return: I am a horse.
+Within a class, a field that has the same name as a field in the superclass hides the superclass's field, even if their types are different.
+
+
+Object as a Superclass
+The Object class, in the java.lang package, sits at the top of the class hierarchy tree
+-clone()
+If a class, or one of its superclasses, implements the Cloneable interface, you can use the clone() method to create a copy from an existing object. To create a clone, you write:
+aCloneableObject.clone();
+
+-equals()
+public boolean equals(Object obj), You should always override the equals()
+
+-finalize()
+that may be invoked on an object when it becomes garbage
+
+-getClass()
+method returns a Class object, which has methods you can use to get information about the class, such as its name (Reflection)
+
+-hashCode()
+is the object's hash code, which is the object's memory address in hexadecimal
+ if two objects are equal, their hash code must also be equal
+ 
+-toString()
+always consider overriding  
+
+Numbers
+Java platform provides wrapper classes for each of the primitive data types
+There are four other subclasses of Number that are not discussed here BigDecimal and BigInteger are used for high-precision calculations. AtomicInteger and AtomicLong are used for multi-threaded applications
+
+reasons that you might use a Number object rather than a primitive:
+->As an argument of a method that expects an object (often used when manipulating collections of numbers).
+->To use constants defined by the class, such as MIN_VALUE and MAX_VALUE, that provide the upper and lower bounds of the data type.
+->To use class methods for converting values to and from other primitive types, for converting to and from strings, and for converting between number systems (decimal, octal, hexadecimal, binary).
+
+Format
+System.out.format(.....) and  public PrintStream format(String format, Object... args) in PrintStream  same methods 
+Format specifiers begin with a percent sign (%) and end with a converter. The converter is a character indicating the type of argument to be formatted. In between the percent sign (%) and the converter you can have optional flags and specifiers.
+System.out.format("The value of i is: %d%n", i); %d -> integer %n -> new line
+
+You can use the java.text.DecimalFormat class to control the display of leading and trailing zeros, prefixes and suffixes, 
+grouping (thousands) separators, and the decimal separator. DecimalFormat offers a great deal of flexibility in the formatting of numbers, but it can make your code more complex.
+
+Strings
+-creating String
+String greeting = "Hello world!";
+String helloString = new String("Hello world!"); 
+String's static format() method allows you to create a formatted string 
+-immutable, what these methods really do is create and return a new string that contains the result of the operation
+-some of the methods: length,charAt
+
+-string to number
+The Number subclasses that wrap primitive numeric types ( Byte, Integer, Double, Float, Long, and Short) each provide a class method named valueOf that converts a string to an object of that type
+float a = (Float.valueOf("12.4")).floatValue(); 
+Each of the Number subclasses that wrap primitive numeric types also provides a parseXXXX() method (for example, parseFloat()) that can be used to convert strings to primitive numbers
+float a = Float.parseFloat("12.4");
+
+-convert a number to a string
+String s1 = "" + 12;
+String s2 = String.valueOf(i);
+String s3 = Integer.toString(12);
+
+You can get the character at a particular index within a string by invoking the charAt() accessor method. The index of the first character is 0, while the index of the last character is length()-1 
+
+substring(int beginIndex, int endIndex)	Returns a new string that is a substring of this string. The substring begins at the specified beginIndex and extends to the character at index endIndex - 1.
+or substring(int beginIndex)
+
+String[] split(String regex)
+String[] split(String regex, int limit)
+Searches for a match as specified by the string argument (which contains a regular expression) and splits this string into an array of strings accordingly. The optional integer argument specifies the maximum size of the returned array.
+
+have replace method 
+//TODO DIFF NEW AND ==
+
+StringBuilder 
+-objects are like String objects, except that they can be modified.
+-every string builder also has a capacity, the number of character spaces that have been allocated. The capacity, which is returned by the capacity() method, is always greater than or equal to the length 
+//TODO DIFF STRING AND STRINGBULDER METHODS
+
+Autoboxing
+-automatic conversion that the Java compiler makes between the primitive types and their corresponding object wrapper classes
+
+Generics
+-generics add stability to your code by making more of your bugs detectable at compile tim 
+-enable types (classes and interfaces) to be parameters when defining classes, interfaces and methods.
+Much like the more familiar formal parameters used in method declarations, type parameters provide a way for you to re-use the same code with different inputs. The difference is that the inputs to formal parameters are values, while the inputs to type parameters are types.
+-benefits: Stronger type checks at compile time, Elimination of casts, generic algorithms, 
+A generic type is a generic class or interface that is parameterized over types
+
+generic class and interfaces
+class name<T1, T2, ..., Tn> { /* ... */ }
+The type parameter section, delimited by angle brackets (<>), follows the class name. It specifies the type parameters (also called type variables) T1, T2, ...,
+This introduces the type variable, T, that can be used anywhere inside the class.
+he most commonly used type parameter names are:E - Element (used extensively by the Java Collections Framework)
+K (Key), V (Value) ,N (Number), T (Type), S,U,V(2nd, 3rd, 4th types)
+To reference the generic Box class from within your code, you must perform a generic type invocation, which replaces T with some concrete value, such as Integer:
+	Box<Integer> integerBo
+
+A raw type is when you use generic class like he is not 
+	class Box<T> {}
+	Book b; //raw type
+	Book<String> b2;
+You get warnning from compiler (and when you calling the method), to disable  @SuppressWarnings("unchecked")	
+
+generic methods and constructor
+-introduce their own type parameters
+-parameter's scope is limited to the method where it is declared
+-syntax for a generic method includes a list of type parameters, inside angle brackets, which appears before the method's return type
+-public static <K, V> boolean compare(Pair<K, V> p1, Pair<K, V> p2) {}
+	syntax for invoking this method would be: ClassName.<Integer, String>compare(p1, p2); 
+	if the type has been explicitly provided ClassName.compare(p1, p2) -> it is type inference;
+
+Bounded Type Parameters
+-restrict the types that can be used as type arguments in a parameterized type
+-list the type parameter's name, followed by the extends keyword -> upper bound 
+-allow you to invoke methods defined in the bounds
+but a type parameter can have multiple bounds: <T extends B1 & B2 & B3>
+
+-public void boxTest(Box<Number> n) { /* ... */ }
+Are you allowed to pass in Box<Integer> or Box<Double>, as you might expect? The answer is "no", because Box<Integer> and Box<Double> are not subtypes of Box<Number>
+Box<Integer> is not a subtype of Box<Number> even though Integer is a subtype of Number.
+ArayList<E> implements List<E>, and List<E> extends Collection<E>. So ArrayList<String> is a subtype of List<String>, which is a subtype of Collection<String>
+
+Type inference is a Java compiler's ability to look at each method invocation and corresponding declaration to determine the type argument (or arguments) that make the invocation applicable. The inference algorithm determines the types of the arguments and, if available, the type that the result is being assigned, or returned. Finally, the inference algorithm tries to find the most specific type that works with all of the arguments.
+
+Wildcard (Upper bounded)
+-represents an unknown type
+-used as the type of a parameter, field, or local variable; sometimes as a return type 
+-is never used as a type argument for a generic method invocation, a generic class instance creation, or a supertype.	
+-character ('?'), followed by the extends keyword, followed by its upper bound. Note that, in this context, extends is used in a general sense to mean either "extends" (as in classes) or "implements" (as in interfaces).
+	Ex: To write the method that works on lists of Number and the subtypes of Number, such as Integer, Double, and Float, you would specify List<? extends Number>. The term List<Number> is more restrictive than List<? extends Number> because the former matches a list of type Number only, whereas the latter matches a list of type Number or any of its subclasses.
+
+Unbounded Wildcards
+-using the wildcard character (?)
+-use:
+	-If you are writing a method that can be implemented using functionality provided in the Object class.
+	-When the code is using methods in the generic class that don't depend on the type parameter. For example, List.size or List.clear. In fact, Class<?> is so often used because most of the methods in Class<T> do not depend on T.
+
+-Usage case
+Consider the following method, printList:
+
+public static void printList(List<Object> list) {
+    for (Object elem : list)
+        System.out.println(elem + " ");
+    System.out.println();
+}
+The goal of printList is to print a list of any type, but it fails to achieve that goal — it prints only a list of Object instances; it cannot print List<Integer>, List<String>, List<Double>, and so on, because they are not subtypes of List<Object>. To write a generic printList method, use List<?>:
+
+public static void printList(List<?> list) {
+    for (Object elem: list)
+        System.out.print(elem + " ");
+    System.out.println();
+}
+
+It's important to note that List<Object> and List<?> are not the same. You can insert an Object, or any subtype of Object, into a List<Object>. But you can only insert null into a List<?>
+
+Lower Bounded Wildcards
+-restricts the unknown type to be a specific type or a super type of that type.
+-character ('?'), following by the super keyword, followed by its lower bound: <? super A>.
+
+-inheritance of regular classes follows this rule of subtyping: class B is a subtype of class A if B extends A. This rule does not apply to generic types:
+	List<B> lb = new ArrayList<>();
+	List<A> la = lb;   // compile-time error
+	Given that Integer is a subtype of Number, what is the relationship between List<Integer> and List<Number>?	
+	The common parent of List<Number> and List<Integer> is List<?>
+Solutuion:
+		In order to create a relationship between these classes so that the code can access Number's methods through List<Integer>'s elements, use an upper bounded wildcard:
+		List<? extends Integer> intList = new ArrayList<>();
+		List<? extends Number>  numList = intList; // OK. List<? extends Integer> is a subtype of 	List<? extends Number>
+stao: https://docs.oracle.com/javase/tutorial/java/generics/capture.html
+
+
+and this https://docs.oracle.com/javase/tutorial/extra/generics/index.html

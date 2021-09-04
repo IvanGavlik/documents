@@ -1,0 +1,116 @@
+Array
+An array is a built-in data structure that contains other objects or primitives.
+
+to list
+	String[] array = { "gerbil", "mouse" };
+	List<String> list = Arrays.asList(array);
+	šta ako se podatak promjeni ? 
+
+Arrays.binarySearch(array, 6); 
+	array must be sorted in natural order 
+	if not found the returns one less negated index where the requested value
+	would need to be inserted
+
+
+Collections
+	List: A list is an ordered collection of elements that allows duplicate entries. Elements
+	in a list can be accessed by an int index.
+	Set: A set is a collection that does not allow duplicate entries.
+	Queue: A queue is a collection that orders its elements in a specific order for processing.
+	A typical queue processes its elements in a first-in, first-out order
+	Map: A map is a collection that maps keys to values, with no duplicate keys allowed.
+	The elements in a map are key/value pairs	
+
+
+Common Collections Methods
+	boolean add(E element)
+	boolean remove(Object object)
+	boolean isEmpty()
+	int size()
+	void clear()
+	boolean contains(Object object)
+	Iterator<T> iterator();
+	stream, removeIf , removeAll, retatin, splitIteratot
+
+List Interface
+	ordered collection that can contain duplicate entries
+	ArrayList is like a resizable array. 
+		ArrayList a good choice when you are reading more
+	LinkedList is special because it implements both List and Queue
+		LinkedList a good choice when you’ll be using it as Queue
+	Vector does the same thing as ArrayList but is is thread-safe
+	A Stack is a data structure where you add and remove elements from the top
+		use an ArrayDeque instead
+	
+	void add(E element)
+	void add(int index, E element)
+	E get(int index)
+	int indexOf(Object o) // istražiti kako radi sa impleme. kada se gleda objekt
+	int lastIndexOf(Object o)
+	void remove(int index)
+	E set(int index, E e)
+	ListIterator<T> listIterator()
+	Object[] toArray or toArray(T[] array)
+	sort(Comparator c);
+
+Looping through a List
+	foreach, for
+	Iterator iter = list.iterator(); .... String string = (String) iter.next();
+	Iterator<String> iter = list.iterator(); ..... iter.next();
+	
+Set Interface
+	equals() method is used to determine equality
+	HashSet stores its elements in a hash table
+		uses the hashCode() method of the objects to retrieve them more efficiently
+	TreeSet sorted tree structure
+		implements interface called NavigableSet
+
+NavigableSet Interface
+	E lower(E e) Returns greatest element that is < e, or null
+	E higher(E e) Returns smallest element that is > e, or null
+	E floor(E e) Returns greatest element that is <= e, or null
+	E ceiling(E e) Returns smallest element that is >= e, or null
+	element stays in collection
+	
+Queue Interface
+	You use a queue when elements are added and removed in a specific order
+	LinkedList and ArrayDeque
+
+ArrayDeque methods
+	void push(E e) (STACK)
+		Adds an element to the front of the queue
+	
+	boolean add(E e) 
+		Adds an element to the back of the queue and returns true or throws an exception
+	boolean offer(E e)
+		Adds an element to the back of the queue and returns whether successful
+	
+	E element()
+		Returns next element or throws an exception if empty queue
+	E peek() 
+		Returns next element or returns null if empty queue
+
+	E remove()
+		Removes and returns next element or throws an exception if empty queue
+	E pop() (STACK)
+		Removes and returns next element or throws an exception if empty queue
+	E poll() 
+		Removes and returns next element or returns null if empty queue
+	
+	Unless stated otherwise, a queue is assumed to be FIFO (first-in, first-out)
+
+LinkedList methods TODO	
+
+Map stalo page 138
+	
+	
+	
+Gennerics 
+The Dimanod Operator page 107 
+
+	
+	
+
+		
+	
+	

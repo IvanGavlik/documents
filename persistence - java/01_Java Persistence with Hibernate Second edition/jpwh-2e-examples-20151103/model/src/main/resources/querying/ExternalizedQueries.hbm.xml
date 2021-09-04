@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/orm/hbm">
+
+    <query name="findItemsOrderByAuctionEndHibernate">
+        select i from Item i order by i.auctionEnd asc
+    </query>
+
+    <sql-query name="findItemsSQLHibernate">
+        <return class="org.jpwh.model.querying.Item"/>
+        select * from ITEM order by NAME asc
+    </sql-query>
+
+    <query name="findItemsOrderByAuctionEndHibernateWithHints"
+           cache-mode="ignore"
+           comment="Custom SQL comment"
+           fetch-size="50"
+           read-only="true"
+           timeout="60">
+        select i from Item i order by i.auctionEnd asc
+    </query>
+
+</hibernate-mapping>

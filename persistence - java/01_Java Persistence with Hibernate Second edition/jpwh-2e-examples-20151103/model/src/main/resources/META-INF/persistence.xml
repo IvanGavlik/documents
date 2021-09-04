@@ -1,0 +1,940 @@
+<persistence
+        version="2.1"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+                            http://xmlns.jcp.org/xml/ns/persistence_2_1.xsd">
+
+    <!-- 
+         The <code>persistence.xml</code> file configures at least one persistence unit;
+         each unit must have a unique name.
+    -->
+    <persistence-unit name="HelloWorldPU">
+
+        <!-- 
+             Each persistence unit must have a database connection. Here you delegate to
+             an existing <code>java.sql.DataSource</code>. Hibernate will find the data source
+             by name with a JNDI lookup on startup.
+        -->
+        <jta-data-source>myDS</jta-data-source>
+
+        <!-- 
+            A persistent unit has persistent (mapped) classes, you list them here.
+        -->
+        <class>org.jpwh.model.helloworld.Message</class>
+
+        <!-- 
+            Hibernate can scan your classpath for mapped classes and add them automatically
+            to your persistence unit. This setting disables that feature.
+        -->
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+        <!-- 
+            Standard or vendor-specific options can be set as properties on a persistence unit.
+            Any standard properties have the <code>javax.persistence</code> name prefix, Hibernate's
+            settings use <code>hibernate</code>
+        -->
+        <properties>
+
+            <!-- 
+                The JPA engine should drop and re-create the SQL schema in the database
+                automatically when it boots. This is ideal for automated testing, when
+                you want to work with a clean database for every test run.
+            -->
+            <property
+                name="javax.persistence.schema-generation.database.action"
+                value="drop-and-create"/>
+
+            <!-- 
+                When printing SQL in logs, let Hibernate format the SQL nicely and generate
+                comments into the SQL string so we know why Hibernate executed the SQL statement.
+            -->
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+
+            <!-- Disable Hibernate scanning completely, we also don't want any hbm.xml files
+                 discovered and added automatically. -->
+            <property name="hibernate.archive.autodetection" value="none"/>
+
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="SimplePU">
+        <jta-data-source>myDS</jta-data-source>
+        <mapping-file>simple/Queries.xml</mapping-file>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.simple.Item</class>
+        <class>org.jpwh.model.simple.User</class>
+        <class>org.jpwh.model.simple.Bid</class>
+        <class>org.jpwh.model.simple.Address</class>
+        <class>org.jpwh.model.simple.Category</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <!-- When remove(entity) is called, reset the identifier value of entity.
+                 so it's considered transient after removal -->
+            <property name="hibernate.use_identifier_rollback" value="true"/>
+
+            <!-- Enable this to try a custom table naming strategy
+            <property name="hibernate.physical_naming_strategy"
+                      value="org.jpwh.shared.CENamingStrategy"/>
+            -->
+
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="SimpleXMLCompletePU">
+        <jta-data-source>myDS</jta-data-source>
+
+        <mapping-file>simple/Mappings.xml</mapping-file>
+        <mapping-file>simple/Queries.xml</mapping-file>
+        <properties>
+            <!-- Ignore hbm.xml files and annotated classes -->
+            <property name="hibernate.archive.autodetection"
+                      value="none"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="SimpleXMLOverridePU">
+        <jta-data-source>myDS</jta-data-source>
+        <mapping-file>simple/Queries.xml</mapping-file>
+        <mapping-file>simple/MappingsOverride.xml</mapping-file>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.simple.Item</class>
+        <class>org.jpwh.model.simple.User</class>
+        <class>org.jpwh.model.simple.Bid</class>
+        <class>org.jpwh.model.simple.Address</class>
+        <class>org.jpwh.model.simple.Category</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="SimpleXMLHibernatePU">
+        <jta-data-source>myDS</jta-data-source>
+        <properties>
+            <!-- Only detect hbm.xml files, ignore annotations
+            <property name="hibernate.archive.autodetection"
+                      value="hbm"/>
+            -->
+            <!-- But in our environment, we have many conflicting hbm.xml
+            files, so we need to pick which ones we need in each unit test. -->
+            <property name="hibernate.archive.autodetection"
+                      value="none"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="ConverterPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.advanced.converter.Item</class>
+        <class>org.jpwh.model.advanced.converter.User</class>
+        <!--
+        If automatic discovery/scanning is disabled, you have to
+         add your @Converter classes here. In fact, to be compatible
+         with Java SE, converter classes should always be listed here.
+         -->
+        <class>org.jpwh.converter.MonetaryAmountConverter</class>
+        <class>org.jpwh.converter.ZipcodeConverter</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="UserTypePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <!-- For @TypeDefs in package-info.java -->
+        <class>org.jpwh.converter</class>
+        <class>org.jpwh.model.advanced.usertype.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="MappedSuperclassPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.inheritance.mappedsuperclass.BillingDetails</class>
+        <class>org.jpwh.model.inheritance.mappedsuperclass.CreditCard</class>
+        <class>org.jpwh.model.inheritance.mappedsuperclass.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="TablePerClassPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.inheritance.tableperclass.BillingDetails</class>
+        <class>org.jpwh.model.inheritance.tableperclass.CreditCard</class>
+        <class>org.jpwh.model.inheritance.tableperclass.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="SingleTablePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.inheritance.singletable.BillingDetails</class>
+        <class>org.jpwh.model.inheritance.singletable.CreditCard</class>
+        <class>org.jpwh.model.inheritance.singletable.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="JoinedPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.inheritance.joined.BillingDetails</class>
+        <class>org.jpwh.model.inheritance.joined.CreditCard</class>
+        <class>org.jpwh.model.inheritance.joined.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="MixedPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.inheritance.mixed.BillingDetails</class>
+        <class>org.jpwh.model.inheritance.mixed.CreditCard</class>
+        <class>org.jpwh.model.inheritance.mixed.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="MixedFetchSelectPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="InheritanceEmbeddablePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.inheritance.embeddable.Measurement</class>
+        <class>org.jpwh.model.inheritance.embeddable.Dimensions</class>
+        <class>org.jpwh.model.inheritance.embeddable.Weight</class>
+        <class>org.jpwh.model.inheritance.embeddable.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="PolymorphicManyToOnePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.inheritance.associations.manytoone.BillingDetails</class>
+        <class>org.jpwh.model.inheritance.associations.manytoone.BankAccount</class>
+        <class>org.jpwh.model.inheritance.associations.manytoone.CreditCard</class>
+        <class>org.jpwh.model.inheritance.associations.manytoone.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="PolymorphicOneToManyPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.inheritance.associations.onetomany.BillingDetails</class>
+        <class>org.jpwh.model.inheritance.associations.onetomany.BankAccount</class>
+        <class>org.jpwh.model.inheritance.associations.onetomany.CreditCard</class>
+        <class>org.jpwh.model.inheritance.associations.onetomany.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="AdvancedPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.advanced.Item</class>
+        <class>org.jpwh.model.advanced.Bid</class>
+        <class>org.jpwh.model.advanced.User</class>
+        <class>org.jpwh.model.advanced.Address</class>
+        <class>org.jpwh.model.advanced.City</class>
+        <class>org.jpwh.model.advanced.ItemBidSummary</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="CustomSchemaPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.complexschemas.custom.Bid</class>
+        <class>org.jpwh.model.complexschemas.custom.Item</class>
+        <class>org.jpwh.model.complexschemas.custom.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <!-- 
+                 By default, Hibernate expects one SQL statement per line in scripts. This
+                 switches to the more convenient multi-line extractor. SQL statements in
+                 scripts are then terminated with semicolon. You can write your own
+                 <code>org.hibernate.tool.hbm2ddl.ImportSqlCommandExtractor</code>
+                 implementation if you want to handle the SQL script in a different way.
+             -->
+            <property name="hibernate.hbm2ddl.import_files_sql_extractor"
+                      value="org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor"/>
+
+            <!--
+ 
+                This property defines when the create and drop scripts should be executed.
+                Our custom SQL scripts will contain <code>CREATE DOMAIN</code> statements, which
+                have to be executed before the tables using these domains are created. With
+                these settings the schema generator will run the create script first, before
+                reading your ORM metadata (annotations, XML files) and creating the tables.
+                The drop script will execute after Hibernate drops the tables, giving us
+                a chance to clean up anything we created. Other options are
+                <code>metadata</code> (ignore custom script sources) and
+                <code>script</code> (only use custom script source, ignore ORM metadata in
+                annotations and XML files).
+             -->
+            <property name="javax.persistence.schema-generation.create-source"
+                      value="script-then-metadata"/>
+            <property name="javax.persistence.schema-generation.drop-source"
+                      value="metadata-then-script"/>
+
+            <!--
+ 
+                The location of the custom SQL script for creation of the schema. The
+                path is either (a) the location of the script resource on the classpath
+                or (b) the location of the script as a <code>file://</code> URL or
+                (c) if neither (a) or (b) match, the absolute or relative file path on
+                the local file system. This example uses (a).
+            -->
+            <property name="javax.persistence.schema-generation.create-script-source"
+                      value="complexschemas/CreateScript.sql.txt"/>
+
+            <!--
+ 
+                The custom SQL script for dropping the schema.
+            -->
+            <property name="javax.persistence.schema-generation.drop-script-source"
+                      value="complexschemas/DropScript.sql.txt"/>
+
+            <!--
+ 
+                This load script runs after the tables have been created.
+            -->
+            <property name="javax.persistence.sql-load-script-source"
+                      value="complexschemas/LoadScript.sql.txt"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="NaturalPrimaryKeyPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model.complexschemas.naturalprimarykey.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="CompositeKeyEmbeddedIdPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model.complexschemas.compositekey.embedded.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="CompositeKeyMapsIdPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.complexschemas.compositekey.mapsid.User</class>
+        <class>org.jpwh.model.complexschemas.compositekey.mapsid.Department</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="CompositeKeyReadOnlyPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.complexschemas.compositekey.readonly.User</class>
+        <class>org.jpwh.model.complexschemas.compositekey.readonly.Department</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="CompositeKeyManyToOnePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.complexschemas.compositekey.manytoone.User</class>
+        <class>org.jpwh.model.complexschemas.compositekey.manytoone.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="NaturalForeignKeyPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.complexschemas.naturalforeignkey.User</class>
+        <class>org.jpwh.model.complexschemas.naturalforeignkey.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="SecondaryTablePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.complexschemas.secondarytable.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="CustomSQLPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.customsql.Category</class>
+        <class>org.jpwh.model.customsql.Bid</class>
+        <class>org.jpwh.model.customsql.Item</class>
+        <class>org.jpwh.model.customsql.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="CRUDProceduresPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.customsql.procedures.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="SetOfStringsPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.setofstrings.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="BagOfStringsPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.bagofstrings.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="ListOfStringsPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.listofstrings.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="MapOfStringsPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.mapofstrings.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="SortedSetOfStringsPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.sortedsetofstrings.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="SortedMapOfStringsPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.sortedmapofstrings.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="SetOfStringsOrderByPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.setofstringsorderby.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="BagOfStringsOrderByPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.bagofstringsorderby.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="MapOfStringsOrderByPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.mapofstringsorderby.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="SetOfEmbeddablesPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.setofembeddables.Item</class>
+        <class>org.jpwh.model.collections.setofembeddables.Image</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="SetOfEmbeddablesOrderByPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.setofembeddablesorderby.Item</class>
+        <class>org.jpwh.model.collections.setofembeddablesorderby.Image</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="BagOfEmbeddablesPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.bagofembeddables.Item</class>
+        <class>org.jpwh.model.collections.bagofembeddables.Image</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="MapOfStringsEmbeddablesPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.mapofstringsembeddables.Item</class>
+        <class>org.jpwh.model.collections.mapofstringsembeddables.Image</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="MapOfEmbeddablesPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.mapofembeddables.Item</class>
+        <class>org.jpwh.model.collections.mapofembeddables.Image</class>
+        <class>org.jpwh.model.collections.mapofembeddables.Filename</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="EmbeddableSetOfStringsPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.collections.embeddablesetofstrings.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToManyBidirectionalPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetomany.bidirectional.Item</class>
+        <class>org.jpwh.model.associations.onetomany.bidirectional.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToManyCascadePersistPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetomany.cascadepersist.Item</class>
+        <class>org.jpwh.model.associations.onetomany.cascadepersist.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToManyCascadeRemovePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetomany.cascaderemove.Item</class>
+        <class>org.jpwh.model.associations.onetomany.cascaderemove.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToManyOrphanRemovalPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetomany.orphanremoval.Item</class>
+        <class>org.jpwh.model.associations.onetomany.orphanremoval.Bid</class>
+        <class>org.jpwh.model.associations.onetomany.orphanremoval.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToManyOnDeleteCascadePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetomany.ondeletecascade.Item</class>
+        <class>org.jpwh.model.associations.onetomany.ondeletecascade.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToManyBagPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetomany.bag.Item</class>
+        <class>org.jpwh.model.associations.onetomany.bag.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToManyListPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetomany.list.Item</class>
+        <class>org.jpwh.model.associations.onetomany.list.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToManyJoinTablePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetomany.jointable.Item</class>
+        <class>org.jpwh.model.associations.onetomany.jointable.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToManyEmbeddablePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetomany.embeddable.User</class>
+        <class>org.jpwh.model.associations.onetomany.embeddable.Shipment</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToManyEmbeddableJoinTablePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetomany.embeddablejointable.User</class>
+        <class>org.jpwh.model.associations.onetomany.embeddablejointable.Shipment</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToOneSharedPrimaryKeyPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetoone.sharedprimarykey.User</class>
+        <class>org.jpwh.model.associations.onetoone.sharedprimarykey.Address</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToOneForeignGeneratorPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetoone.foreigngenerator.User</class>
+        <class>org.jpwh.model.associations.onetoone.foreigngenerator.Address</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToOneForeignKeyPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetoone.foreignkey.User</class>
+        <class>org.jpwh.model.associations.onetoone.foreignkey.Address</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="OneToOneJoinTablePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.onetoone.jointable.Item</class>
+        <class>org.jpwh.model.associations.onetoone.jointable.Shipment</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="ManyToManyBidirectionalPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.manytomany.bidirectional.Category</class>
+        <class>org.jpwh.model.associations.manytomany.bidirectional.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="ManyToManyLinkEntityPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.manytomany.linkentity.Category</class>
+        <class>org.jpwh.model.associations.manytomany.linkentity.Item</class>
+        <class>org.jpwh.model.associations.manytomany.linkentity.CategorizedItem</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="ManyToManyTernaryPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.manytomany.ternary.Category</class>
+        <class>org.jpwh.model.associations.manytomany.ternary.Item</class>
+        <class>org.jpwh.model.associations.manytomany.ternary.User</class>
+        <class>org.jpwh.model.associations.manytomany.ternary.CategorizedItem</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="MapsMapKeyPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.maps.mapkey.Item</class>
+        <class>org.jpwh.model.associations.maps.mapkey.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="MapsTernaryPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.associations.maps.ternary.Item</class>
+        <class>org.jpwh.model.associations.maps.ternary.Category</class>
+        <class>org.jpwh.model.associations.maps.ternary.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="ConcurrencyVersioningPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.concurrency.version.Item</class>
+        <class>org.jpwh.model.concurrency.version.Bid</class>
+        <class>org.jpwh.model.concurrency.version.Category</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="ConcurrencyVersioningTimestampPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.concurrency.versiontimestamp.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="ConcurrencyVersioningAllPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.concurrency.versionall.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="ConversationPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.conversation.User</class>
+        <class>org.jpwh.model.conversation.Item</class>
+        <class>org.jpwh.model.conversation.Image</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FilteringCascadePU">
+        <jta-data-source>myDS</jta-data-source>
+        <mapping-file>filtering/DefaultCascadePersist.xml</mapping-file>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.filtering.cascade.Item</class>
+        <class>org.jpwh.model.filtering.cascade.Bid</class>
+        <class>org.jpwh.model.filtering.cascade.User</class>
+        <class>org.jpwh.model.filtering.cascade.BillingDetails</class>
+        <class>org.jpwh.model.filtering.cascade.CreditCard</class>
+        <class>org.jpwh.model.filtering.cascade.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FilteringCallbackPU">
+        <jta-data-source>myDS</jta-data-source>
+        <mapping-file>filtering/EventListeners.xml</mapping-file>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.filtering.callback.Item</class>
+        <class>org.jpwh.model.filtering.callback.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FilteringInterceptorPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.filtering.interceptor.Item</class>
+        <class>org.jpwh.model.filtering.interceptor.User</class>
+        <class>org.jpwh.model.filtering.interceptor.AuditLogRecord</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.ejb.event.load"
+                      value="org.jpwh.test.filtering.SecurityLoadListener"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="FilteringEnversPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.filtering.envers.Item</class>
+        <class>org.jpwh.model.filtering.envers.User</class>
+        <class>org.jpwh.model.filtering.envers.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FilteringDynamicPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.filtering.dynamic</class>
+        <class>org.jpwh.model.filtering.dynamic.User</class>
+        <class>org.jpwh.model.filtering.dynamic.Item</class>
+        <class>org.jpwh.model.filtering.dynamic.Category</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="QueryingPU">
+        <jta-data-source>myDS</jta-data-source>
+        <mapping-file>querying/ExternalizedQueries.xml</mapping-file>
+        <mapping-file>querying/Selection.xml</mapping-file>
+        <mapping-file>querying/Restriction.xml</mapping-file>
+        <mapping-file>querying/Projection.xml</mapping-file>
+        <mapping-file>querying/Joins.xml</mapping-file>
+        <mapping-file>querying/Grouping.xml</mapping-file>
+        <mapping-file>querying/Subselects.xml</mapping-file>
+        <mapping-file>querying/NativeQueries.xml</mapping-file>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.querying</class>
+        <class>org.jpwh.model.querying.Category</class>
+        <class>org.jpwh.model.querying.Item</class>
+        <class>org.jpwh.model.querying.Bid</class>
+        <class>org.jpwh.model.querying.Image</class>
+        <class>org.jpwh.model.querying.User</class>
+        <class>org.jpwh.model.querying.Address</class>
+        <class>org.jpwh.model.querying.LogRecord</class>
+        <class>org.jpwh.model.inheritance.tableperclass.BillingDetails</class>
+        <class>org.jpwh.model.inheritance.tableperclass.CreditCard</class>
+        <class>org.jpwh.model.inheritance.tableperclass.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <!-- You typically want portable, predictable sorting for nulls in your app -->
+            <property name="hibernate.order_by.default_null_ordering" value="first"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="FetchingProxyPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.fetching.proxy.Category</class>
+        <class>org.jpwh.model.fetching.proxy.Item</class>
+        <class>org.jpwh.model.fetching.proxy.Bid</class>
+        <class>org.jpwh.model.fetching.proxy.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FetchingInterceptionPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.fetching.interception.Item</class>
+        <class>org.jpwh.model.fetching.interception.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FetchingEagerJoinPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.fetching.eagerjoin.Item</class>
+        <class>org.jpwh.model.fetching.eagerjoin.User</class>
+        <class>org.jpwh.model.fetching.eagerjoin.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FetchingNPlusOneSelectsPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.fetching.nplusoneselects.Item</class>
+        <class>org.jpwh.model.fetching.nplusoneselects.User</class>
+        <class>org.jpwh.model.fetching.nplusoneselects.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FetchingCartesianProductPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.fetching.cartesianproduct.Item</class>
+        <class>org.jpwh.model.fetching.cartesianproduct.User</class>
+        <class>org.jpwh.model.fetching.cartesianproduct.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FetchingBatchPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.fetching.batch.Item</class>
+        <class>org.jpwh.model.fetching.batch.User</class>
+        <class>org.jpwh.model.fetching.batch.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FetchingSubselectPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.fetching.subselect.Item</class>
+        <class>org.jpwh.model.fetching.subselect.User</class>
+        <class>org.jpwh.model.fetching.subselect.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FetchingEagerSelectPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.fetching.eagerselect.Item</class>
+        <class>org.jpwh.model.fetching.eagerselect.User</class>
+        <class>org.jpwh.model.fetching.eagerselect.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FetchingProfilePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.fetching.profile</class>
+        <class>org.jpwh.model.fetching.profile.Item</class>
+        <class>org.jpwh.model.fetching.profile.User</class>
+        <class>org.jpwh.model.fetching.profile.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FetchingReadOnlyPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.fetching.readonly.Item</class>
+        <class>org.jpwh.model.fetching.readonly.User</class>
+        <class>org.jpwh.model.fetching.readonly.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="FetchingFetchLoadGraphPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.fetching.fetchloadgraph.Item</class>
+        <class>org.jpwh.model.fetching.fetchloadgraph.User</class>
+        <class>org.jpwh.model.fetching.fetchloadgraph.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="BulkBatchPU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model.bulkbatch</class>
+        <!-- Note the special ID generator in this package -->
+        <class>org.jpwh.model.bulkbatch.Item</class>
+        <class>org.jpwh.model.bulkbatch.User</class>
+        <class>org.jpwh.model.bulkbatch.Bid</class>
+        <class>org.jpwh.model.bulkbatch.BillingDetails</class>
+        <class>org.jpwh.model.bulkbatch.CreditCard</class>
+        <class>org.jpwh.model.bulkbatch.BankAccount</class>
+        <class>org.jpwh.model.bulkbatch.StolenCreditCard</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.jdbc.batch_size" value="100"/>
+            <property name="hibernate.jdbc.batch_versioned_data" value="true"/>
+            <property name="hibernate.order_inserts" value="true"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="CachePU">
+        <jta-data-source>myDS</jta-data-source>
+        <class>org.jpwh.model</class>
+        <class>org.jpwh.model.cache.Item</class>
+        <class>org.jpwh.model.cache.Bid</class>
+        <class>org.jpwh.model.cache.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <!-- 
+             The shared cache mode controls how entity classes of this persistence
+             unit become cacheable. Usually you prefer to enable caching selectively
+             for only some entity classes. Other options are
+             <code>DISABLE_SELECTIVE</code>, <code>ALL</code>, and <code>NONE</code>.
+        -->
+        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+        <properties>
+            <!-- 
+                 Hibernate's second-level cache system has to be enabled
+                 explicitly, as it is not enabled by default. You can separately
+                 enable the query result cache; it's disabled by default as well.
+            -->
+            <property name="hibernate.cache.use_second_level_cache"
+                      value="true"/>
+            <property name="hibernate.cache.use_query_cache"
+                      value="true"/>
+
+            <!-- 
+                 Next, you pick a provider for the second-level cache system. For EHCache,
+                 add the <code>org.hibernate:hibernate-ehcache</code> Maven artifact
+                 dependency to your classpath. Then, pick how Hibernate uses EHCache with this
+                 region factory setting; here we tell Hibernate to manage a single
+                 EHCache instance internally as the second-level cache provider.
+            -->
+            <property name="hibernate.cache.region.factory_class"
+                      value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory"/>
+
+            <!-- 
+                 Hibernate will pass this property along to EHCache when the provider
+                 is started, setting the location of the EHCache configuration file. All
+                 physical cache settings for cache regions are in this file.
+            -->
+            <property name="net.sf.ehcache.configurationResourceName"
+                      value="/cache/ehcache.xml"/>
+
+            <!-- 
+                 This setting controls how Hibernate disassembles and assembles
+                 entity state when data is stored and loaded from the second-level
+                 cache. The "structured" cache entry format is less efficient but
+                 necessary in a clustered environment. For a non-clustered
+                 second-level cache, like our singleton EHCache on this JVM, you
+                 can disable this setting and a more efficient format is used.
+            -->
+            <property name="hibernate.cache.use_structured_entries"
+                      value="false"/>
+
+            <!-- 
+                 While you experiment with the second-level cache, you usually
+                 want to see and examine what's happening behind the scenes. Hibernate
+                 has a statistics collector and an API to access these statistics. For
+                 performance reasons, it is disabled by default (and should be
+                 disabled in production).
+            -->
+            <property name="hibernate.generate_statistics"
+                      value="true"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                           http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
+       version="1.1"
+       bean-discovery-mode="all">
+
+    <!--
+    This marker file makes this an explicit CDI bean archive. Without it, only
+    classes with a scope annotation would be discovered as beans. We want all
+    classes of this archive to be beans.
+
+    And this is NOT the default, why exactly, dear experts? The confusion you
+    created by defaulting to only "half" of the classes being CDI managed is
+    ridiculous.
+    -->
+
+</beans>

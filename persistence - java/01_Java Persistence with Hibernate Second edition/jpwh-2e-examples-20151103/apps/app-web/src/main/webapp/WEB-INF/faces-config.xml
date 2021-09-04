@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+        version="2.0">
+
+    <application>
+        <!-- Since this is the hardcoded name of the single Bean Validation message bundle, it's a good
+             idea to also set this as the JSF application message bundle name, so you can have it all
+             in one. Of course, the "experts" should probably talk to each other at some point...
+         -->
+        <message-bundle>
+            ValidationMessages
+        </message-bundle>
+    </application>
+
+</faces-config>

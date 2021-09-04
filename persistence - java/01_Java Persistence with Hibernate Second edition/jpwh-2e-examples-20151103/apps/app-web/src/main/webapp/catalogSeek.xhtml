@@ -1,0 +1,111 @@
+<ui:composition
+        template="/WEB-INF/templates/master.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:util="http://java.sun.com/jsf/composite/util">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <ui:include src="/WEB-INF/templates/pageSeekMeta.xhtml">
+                <ui:param name="page" value="#{catalogSeekService.page}"/>
+            </ui:include>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="title">
+        Catalog
+    </ui:define>
+
+    <ui:define name="content">
+
+        <!-- DOC:CALLOUT
+            We've encapsulated the paging controls in a composite JSF component, so they
+            can be reused. The component will simply render the links for the next,
+            last, previous page and so on. The current sorting settings are also needed
+            to render the links, you want to preserve the order of the data.
+        -->
+
+        <!-- DOC:CALLOUT
+            When the data table is rendered, a list of <code>ItemBidSummary</code> objects
+            is retrieved from the <code>catalogSeekService</code>.
+        -->
+        <h:dataTable styleClass="dataTable"
+                     value="#{catalogSeekService.itemBidSummaries}"
+                     rendered="#{not empty catalogSeekService.itemBidSummaries}"
+                     var="ibs">
+            <!-- DOC:CALLOUT
+                This is the first column of the table, with the item name.
+            -->
+            <h:column>
+                <!-- DOC:CALLOUT
+                    It has a custom header and we again externalize rendering of the
+                    link into a reusable JSF component. You must declare the path of
+                    the JPA attribute (in the metamodel of the persistence unit) you
+                    want to sort by, and the label of the link you want to render.
+                    The current sorting settings must also be provided.
+                -->
+                <f:facet name="header">
+                    <util:pageSortNavigation
+                            page="#{catalogSeekService.page}"
+                            attribute="Item.name"
+                            label="Item"/>
+                </f:facet>
+
+                <!-- DOC:CALLOUT
+                    This is the value of the table cell, the clickable name of the
+                    item. It's a simple link you can click to get to the auction
+                    item details page, where you can place bids.
+                -->
+                <h:link value="#{ibs.name}" outcome="auction">
+                    <f:param name="id" value="#{ibs.itemId}"/>
+                </h:link>
+
+                <util:pageSeekUpdate page="${catalogSeekService.page}"
+                                     attribute="Item.name"
+                                     lastValue="${ibs.name}"
+                                     lastUniqueValue="${ibs.itemId}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <util:pageSortNavigation
+                            page="#{catalogSeekService.page}"
+                            attribute="Item.auctionEnd"
+                            label="Auction End"/>
+                </f:facet>
+                <h:outputText value="#{ibs.auctionEnd}">
+                    <f:convertDateTime pattern="dd. MMM yyyy HH:mm"/>
+                </h:outputText>
+
+                <util:pageSeekUpdate page="${catalogSeekService.page}"
+                                     attribute="Item.auctionEnd"
+                                     lastValue="${ibs.auctionEnd}"
+                                     lastUniqueValue="${ibs.itemId}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <util:pageSortNavigation
+                            page="#{catalogSeekService.page}"
+                            attribute="Item.maxBidAmount"
+                            label="Highest Bid"/>
+                </f:facet>
+                <h:outputText value="#{ibs.highestBid != 0 ? ibs.highestBid : '-'}"/>
+
+                <util:pageSeekUpdate page="${catalogSeekService.page}"
+                                     attribute="Item.maxBidAmount"
+                                     lastValue="${ibs.highestBid}"
+                                     lastUniqueValue="${ibs.itemId}"/>
+            </h:column>
+        </h:dataTable>
+
+        <util:pageSeekNavigation page="#{catalogSeekService.page}"
+                                 rendered="#{not empty catalogSeekService.itemBidSummaries}"/>
+
+        <h:outputText styleClass="center"
+                      value="No more records available..."
+                      rendered="#{empty catalogSeekService.itemBidSummaries}"/>
+
+    </ui:define>
+
+</ui:composition>

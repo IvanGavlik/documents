@@ -1,0 +1,67 @@
+<ui:composition
+        template="/WEB-INF/templates/master.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:pass="http://xmlns.jcp.org/jsf/passthrough"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="metadata">
+        <!-- This is the "Edit item" entry point, if there is no id request parameter,
+             this is instead the "Create item" entry point. -->
+        <f:metadata>
+            <f:viewParam name="id" value="#{editItemService.itemId}"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="title">
+        <h:outputText value="Sell Item" rendered="#{empty editItemService.itemId}"/>
+        <h:outputText value="Edit Item" rendered="#{not empty editItemService.itemId}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="itemForm">
+
+            <h:panelGrid styleClass="formFields"
+                         columnClasses="label, field"
+                         columns="2">
+
+                <h:outputText value="Name:"/>
+                <h:inputText id="name"
+                             size="20" value="#{editItemService.item.name}"/>
+
+                <h:outputText value="Description:"/>
+                <h:inputText id="description"
+                             size="50"
+                             value="#{editItemService.item.description}"/>
+
+                <h:outputText value="Starting Price:"/>
+                <h:inputText id="initialPrice"
+                             size="5"
+                             value="#{editItemService.item.initialPrice}"/>
+
+                <h:outputText value="Auction End:"/>
+                <h:inputText id="auctionEnd"
+                             pass:type="datetime"
+                             value="#{editItemService.item.auctionEnd}">
+                    <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
+                </h:inputText>
+                <!-- HTML5 datetime picker isn't implemented by many browsers, so use custom widget -->
+                <link rel="stylesheet" type="text/css" href="#{resource['jquery.datetimepicker.css']}"/>
+                <script type="text/javascript" src="#{resource['jquery.js']}"/>
+                <script type="text/javascript" src="#{resource['jquery.datetimepicker.js']}"/>
+                <script type="text/javascript">
+                    jQuery('#itemForm_auctionEnd').datetimepicker({ format: 'd.m.Y H:m' });
+                </script>
+            </h:panelGrid>
+
+            <h:panelGrid styleClass="formControls"
+                         columns="2">
+                <h:commandButton value="Cancel" immediate="true" action="#{editItemService.cancel}"/>
+                <h:commandButton value="Next" action="#{editItemService.editImages}"/>
+            </h:panelGrid>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,91 @@
+
+01 Spring Boot Intro 
+Created subota 26 listopada 2019 https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started
+
+Main page: https://docs.spring.io/spring-boot/docs/current/reference/html/
+
+Spring Boot 2.2.0.RELEASE requires Java 8 and is compatible up to Java 13 (included). Spring Framework 5.2.0.RELEASE or above is also required.
+Explicit build support is provided for the following build tools:
+	Maven 3.3+
+	Gradle
+	
+You can use Spring Boot in the same way as any standard Java library. To do so, include the appropriate spring-boot-*.jar files on your classpath.
+Spring Boot does not require any special tools integration, so you can use any IDE or text editor
+
+
+ Maven  installation pom file -> 
+<?xml version"1.0" encoding"UTF-8"?>
+<project xmlns"http://maven.apache.org/POM/4.0.0" xmlns:xsi"http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.example</groupId>
+	<artifactId>myproject</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<!-- Inherit defaults from Spring Boot -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.0.RELEASE</version>
+	</parent>
+
+	<!-- Add typical dependencies for a web application -->
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+	</dependencies>
+
+	<!-- Package as an executable jar →
+<!-- To create an executable jar ->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
+
+ Writing the Code 
+import org.springframework.boot.*;
+import org.springframework.boot.autoconfigure.*;
+import org.springframework.web.bind.annotation.*;
+
+**@RestController**
+**@EnableAutoConfiguration**
+public class Example {
+
+	@RequestMapping("/")
+	String home() {
+		return "Hello World!";
+	}
+
+	public static void main(String[] args) {
+		**SpringApplication.run(Example.class, args);**
+	}
+
+}
+
+**@RestController**. This is known as a stereotype annotation.
+It provides hints for people reading the code and for Spring that the class plays a specific role.
+In this case, our class is a web @Controller, so Spring considers it when handling incoming web requests
+
+**@RequestMapping** annotation provides “routing” information. It tells Spring that any HTTP request with the / path should be mapped to the home method
+
+**@EnableAutoConfiguration**. This annotation tells Spring Boot to “guess” how you want to configure Spring, based on the jar dependencies that you have added
+
+**Main method** delegates to Spring Boot’s SpringApplication class by calling run.
+SpringApplication bootstraps our application, starting Spring, which, in turn, starts the auto-configured Tomcat web server.
+We need to pass Example.class as an argument to the run method to tell SpringApplication which is the primary Spring component.
+The args array is also passed through to expose any command-line arguments.
+
+
+ Creating an Executable Jar 
+run mvn package
+

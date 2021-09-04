@@ -1,0 +1,10 @@
+org\jpwh\env\DatabaseProduct$3.class
+org\jpwh\env\DatabaseProduct$DataSourceConfiguration.class
+org\jpwh\env\DatabaseProduct.class
+org\jpwh\env\JPASetup.class
+org\jpwh\env\DatabaseProduct$1.class
+org\jpwh\env\DatabaseProduct$4.class
+org\jpwh\env\JPATest.class
+org\jpwh\env\DatabaseProduct$2.class
+org\jpwh\env\TransactionManagerSetup.class
+org\jpwh\env\TransactionManagerTest.class

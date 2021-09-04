@@ -1,0 +1,12 @@
+Spring in Action
+
+At its core, Spring offers a container, often referred to as the Spring application con-
+text, that creates and manages application components. These components, or beans,
+are wired together inside the Spring application context to make a complete applica-
+tion, much like bricks, mortar, timber, nails, plumbing, and wiring are bound together
+to make a house.
+
+Rather than have components create and maintain the lifecycle of other beans
+that they depend on, a dependency-injected application relies on a separate entity
+(the container) to create and maintain all components and inject those into the beans
+that need them.

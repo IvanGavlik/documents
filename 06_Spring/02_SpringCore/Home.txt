@@ -1,0 +1,62 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2019-11-01T21:17:57+01:00
+
+====== Intro ======
+Created petak 01 studenoga 2019 https://docs.spring.io/spring/docs/5.2.0.RELEASE/spring-framework-reference/index.html
+https://docs.spring.io/spring/docs/5.2.0.RELEASE/spring-framework-reference/core.html#beans-introduction
+
+
+The Spring Framework is divided into modules. Applications can choose which modules they need. At the heart are the modules of the core container, including a configuration model and a dependency injection mechanism. Beyond that, the Spring Framework provides foundational support for different application architectures, including messaging, transactional data and persistence, and web. It also includes the Servlet-based Spring MVC web framework and, in parallel, the Spring WebFlux reactive web framework.
+
+===== The IoC Container =====
+IoC is also known as dependency injection (DI). It is a process whereby objects define their dependencies (that is, the other objects they work with) only through constructor arguments, arguments to a factory method, or properties that are set on the object instance after it is constructed or returned from a factory method. The container then injects those dependencies when it creates the bean
+
+The BeanFactory provides the configuration framework and basic functionality, and the ApplicationContext adds more enterprise-specific functionality. 
+
+Objects that form the backbone of your application and that are managed by the Spring IoC container are called **beans**. A bean is an object that is instantiated, assembled, and otherwise managed by a Spring IoC container
+
+The org.springframework.context.ApplicationContext interface represents the Spring IoC container and is responsible for instantiating, configuring, and assembling the beans.
+ The configuration metadata is represented in XML, Java annotations, or Java code
+
+Several implementations of the ApplicationContext interface  **ClassPathXmlApplicationContext,** **FileSystemXmlApplicationContext ... **For metadata you can use XML, annotations or code
+
+Your application classes are combined with configuration metadata so that, after the ApplicationContext is created and initialized, you have a fully configured and executable system or application.
+
+The ApplicationContext is the interface for an advanced factory capable of maintaining a registry of different beans and their dependencies. By using the method **T getBean(String name, Class<T> requiredType)**, you can retrieve instances of your beans.
+
+
+===== Configuration Metadata =====
+Configuration metadata represents how you, as an application developer, tell the Spring container to instantiate, configure, and assemble the objects in your application.
+
+Within the container itself, these bean definitions are represented as BeanDefinition objects, which contain (among other information) the following metadata:
+	Class
+	Name
+	Scope
+	Constructor arguments
+	Properties
+	Autowiring mode
+	Lazy initialization mode
+	Initialization method
+	Initialization Callbacks
+	Destruction method
+
+
+===== Bean =====
+Every bean has one or more identifiers. These identifiers must be unique within the container that hosts the bean.
+You use the **id attribute**, the **name attribute**, or both
+if you want to refer to that using ref element or a service locator style lookup you must provide a name
+
+**Constructor-based Dependency Injection**
+Constructor argument resolution matching occurs by using the argument’s type.
+
+
+**Setter-based Dependency Injection**
+is accomplished by the container calling setter methods on your beans after invoking a no-argument constructor or a no-argument static factory method to instantiate your bean
+
+It is a good rule of thumb to use constructors for mandatory dependencies and setter methods or configuration methods for optional dependencies. Note that use of the @Required annotation on a setter method can be used to make the property be a required dependency; however, constructor injection with programmatic validation of arguments is preferable.
+
+The bean is created only when it is requested. Creation of a bean potentially causes a graph of beans to be created, as the bean’s dependencies and its dependencies' dependencies (and so on) are created and assigned
+
+1.4.2. Dependencies and Configuration in Detail **TODO**
+

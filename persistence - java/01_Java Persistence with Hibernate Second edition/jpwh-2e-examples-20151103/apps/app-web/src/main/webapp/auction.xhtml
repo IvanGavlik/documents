@@ -1,0 +1,94 @@
+<ui:composition
+        template="/WEB-INF/templates/master.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="id" value="#{auctionService.id}"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="navigation">
+        <h:link value="Edit Item" outcome="editItem">
+            <f:param name="id" value="#{auctionService.id}"/>
+        </h:link>
+        <h:outputLink value="#{request.contextPath}/v1/item/#{auctionService.id}">
+            GET XML
+        </h:outputLink>
+        <h:outputLink value="#{request.contextPath}/v1/item/#{auctionService.id}/images">
+            GET images XML
+        </h:outputLink>
+    </ui:define>
+
+    <ui:define name="title">
+        <h:outputText value="#{auctionService.item.name}"/>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <h:panelGrid styleClass="formFields"
+                     columnClasses="label, field"
+                     columns="2">
+
+            <h:outputText value="Auction End:"/>
+            <h:outputText value="#{auctionService.item.auctionEnd}">
+                <f:convertDateTime pattern="dd. MMM yyyy HH:mm"/>
+            </h:outputText>
+
+            <h:outputText value="Starting Price:"/>
+            <h:outputText value="#{auctionService.item.initialPrice}"/>
+
+            <h:outputText value="Current Highest Bid:"/>
+            <h:form>
+                <h:panelGrid columns="4" columnClasses="horizontalFormField">
+                <h:outputText value="#{auctionService.highestBidAmount}"
+                              rendered="#{not empty auctionService.highestBidAmount}"/>
+                <h:outputText value="-" rendered="#{empty auctionService.highestBidAmount}"/>
+                <!-- DOC:CALLOUT
+                    You need to transmit the identifier value of the item when the
+                    form is submitted. The backend service is request-scoped, so it
+                    needs to be initialized for every request, this will call the
+                    <code>AuctionService#setId()</code> method.
+                -->
+                <h:inputHidden value="#{auctionService.id}"/>
+
+                <!-- DOC:CALLOUT
+                    The entered bid amount will be set by JSF with the
+                    <code>AuctionService#setNewBidAmount()</code> method when the
+                    POSTback of this form is processed.
+                -->
+                <h:inputText value="#{auctionService.newBidAmount}"
+                             size="6"/>
+
+                <!-- DOC:CALLOUT
+                    After all values have been bound, the action method
+                    <code>AuctionService#placeBid()</code> will be called.
+                -->
+                <h:commandButton value="Place Bid"
+                                 action="#{auctionService.placeBid}"/>
+                </h:panelGrid>
+            </h:form>
+
+        </h:panelGrid>
+
+        <h:panelGroup layout="block"
+                      styleClass="itemImages"
+                      rendered="#{not empty auctionService.item.images}">
+            <ui:repeat value="#{auctionService.item.imagesSorted}" var="image">
+                <img src="#{request.contextPath}/v1/image/#{image.id}"
+                     alt="#{image.name}"
+                     width="120" height="120"/>
+            </ui:repeat>
+        </h:panelGroup>
+
+        <h:panelGroup layout="block"
+                      styleClass="itemDescription">
+                #{auctionService.item.description}
+        </h:panelGroup>
+
+    </ui:define>
+
+</ui:composition>

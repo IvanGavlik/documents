@@ -1,0 +1,54 @@
+<ui:component
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:cc="http://java.sun.com/jsf/composite">
+
+    <cc:interface>
+        <cc:attribute name="page" required="true"
+                      shortDescription="The Page component."/>
+        <cc:attribute name="label" default="Records"
+                      shortDescription="The label of the records: 'LABEL 1 to 5 of 10'"/>
+    </cc:interface>
+
+    <cc:implementation>
+
+        <h:panelGrid styleClass="pageNavigation"
+                     columns="5"
+                     rendered="#{cc.attrs.page.moreThanOneAvailable}">
+            <h:link value="&lt;"
+                    style="border-left: 0.1em solid; padding-left: 0.2em;"
+                    disabled="#{!cc.attrs.page.previousAvailable}">
+                <f:param name="sortBy"
+                         value="#{persistentAttributeConverter.getString(cc.attrs.page.sortAttribute)}"/>
+                <f:param name="sortDirection" value="#{cc.attrs.page.sortDirection}"/>
+            </h:link>
+            <h:link value="&lt;" disabled="#{!cc.attrs.page.previousAvailable}">
+                <f:param name="page" value="#{cc.attrs.page.previous}"/>
+                <f:param name="sortBy"
+                         value="#{persistentAttributeConverter.getString(cc.attrs.page.sortAttribute)}"/>
+                <f:param name="sortDirection" value="#{cc.attrs.page.sortDirection}"/>
+            </h:link>
+            <h:outputText styleClass="label"
+                          value="#{cc.attrs.label} #{cc.attrs.page.rangeStart + 1}
+                                    to #{cc.attrs.page.rangeEnd + 1}
+                                    of #{cc.attrs.page.totalRecords}"/>
+            <h:link value=">" disabled="#{!cc.attrs.page.nextAvailable}">
+                <f:param name="page" value="#{cc.attrs.page.next}"/>
+                <f:param name="sortBy"
+                         value="#{persistentAttributeConverter.getString(cc.attrs.page.sortAttribute)}"/>
+                <f:param name="sortDirection" value="#{cc.attrs.page.sortDirection}"/>
+            </h:link>
+            <h:link value=">" style="border-right: 0.1em solid; padding-right: 0.2em;"
+                    disabled="#{!cc.attrs.page.nextAvailable}">
+                <f:param name="page" value="#{cc.attrs.page.last}"/>
+                <f:param name="sortBy"
+                         value="#{persistentAttributeConverter.getString(cc.attrs.page.sortAttribute)}"/>
+                <f:param name="sortDirection" value="#{cc.attrs.page.sortDirection}"/>
+            </h:link>
+        </h:panelGrid>
+
+    </cc:implementation>
+</ui:component>

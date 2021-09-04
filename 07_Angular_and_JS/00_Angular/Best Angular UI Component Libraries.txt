@@ -1,0 +1,11 @@
+Best Angular UI Component Libraries
+	Angulat Material
+	https://www.ngdevelop.tech/best-angular-ui-component-libraries/
+	https://teradata.github.io/covalent/#/components
+	https://www.primefaces.org/primeng/#/scrollpanel
+	https://aglowiditsolutions.com/blog/top-angular-component-libraries/
+	https://github.com/brillout/awesome-angular-components
+	https://colorlib.com/wp/angular-components/
+		
+	
+https://angular.io/resources	

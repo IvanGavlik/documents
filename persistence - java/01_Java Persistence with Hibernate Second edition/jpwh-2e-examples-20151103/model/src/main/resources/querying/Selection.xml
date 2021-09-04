@@ -1,0 +1,68 @@
+<entity-mappings
+        version="2.1"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+    <named-query name="selection">
+        <query>
+            from Item
+        </query>
+    </named-query>
+
+    <named-query name="aliases">
+        <query>
+            select i from Item i
+        </query>
+    </named-query>
+
+    <named-query name="aliasesAs">
+        <query>
+            select i from Item as i
+        </query>
+    </named-query>
+
+    <named-query name="polymorphismObject">
+        <query>
+            select o from java.lang.Object o
+        </query>
+    </named-query>
+
+    <named-query name="polymorphismInterface">
+        <query>
+            select s from java.io.Serializable s
+        </query>
+    </named-query>
+
+    <named-query name="polymorphismBillingDetails">
+        <query>
+            select bd from BillingDetails bd
+        </query>
+    </named-query>
+
+    <named-query name="polymorphismCreditCard">
+        <query>
+            select cc from CreditCard cc
+        </query>
+    </named-query>
+
+    <named-query name="polymorphismRestrictName">
+        <query>
+            select bd from BillingDetails bd where type(bd) = CreditCard
+        </query>
+    </named-query>
+
+    <named-query name="polymorphismRestrictParameter">
+        <query>
+            select bd from BillingDetails bd where type(bd) in :types
+        </query>
+    </named-query>
+
+    <named-query name="polymorphismRestrictNot">
+        <query>
+            select bd from BillingDetails bd where not type(bd) = BankAccount
+        </query>
+    </named-query>
+
+</entity-mappings>

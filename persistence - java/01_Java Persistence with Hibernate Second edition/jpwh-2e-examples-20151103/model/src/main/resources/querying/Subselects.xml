@@ -1,0 +1,53 @@
+<entity-mappings
+        version="2.1"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+    <named-query name="correlated">
+        <query>
+            select u from User u
+                where (
+                    select count(i) from Item i where i.seller = u
+                ) > 1
+        </query>
+    </named-query>
+
+    <named-query name="uncorrelated">
+        <query>
+            select b from Bid b
+                where b.amount + 1 >= (
+                    select max(b2.amount) from Bid b2
+                )
+        </query>
+    </named-query>
+
+    <named-query name="exists">
+        <query>
+            select i from Item i
+                where exists (
+                    select b from Bid b where b.item = i
+                )
+        </query>
+    </named-query>
+
+    <named-query name="quantifyAll">
+        <query>
+            select i from Item i
+                where 10 >= all (
+                    select b.amount from i.bids b
+                )
+        </query>
+    </named-query>
+
+    <named-query name="quantifyAny">
+        <query>
+            select i from Item i
+                where 101.00 = any (
+                    select b.amount from i.bids b
+                )
+        </query>
+    </named-query>
+
+</entity-mappings>
