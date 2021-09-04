@@ -1,0 +1,44 @@
+Udemy_course Apache Kafka notes
+https://www.udemy.com/course/kafka-streams-real-time-stream-processing-master-class/learn/lecture/14216296?components=buy_button%2Cdiscount_expiration%2Cgift_this_course%2Cintroduction_asset%2Cpurchase%2Cdeal_badge%2Credeem_coupon#overview
+
+Topic go to Log File can have more Partitions can have more Replicas 
+can have more Segments
+						
+Topic - place where you group msg
+- table in db msg is row
+
+Topic Partitions
+break the msg insise topic in more files.
+Kafka will create x direcotires for x partions
+
+Replicion Facotor
+- how many copies of msg for each partion
+- Partitions (5) x Repliction(3) = Number od Replicas (15)
+		for each partion create 3 repicas (kopijes) = 15 partions (15 direcotires)
+		for each parž group (of 3) one is leader two are copies
+in dir kafa do not create one file but more them -> there are called 
+log segments
+if the segement file max size is recived kafa create new segement file
+
+in segmet each msg is identified by number (16 bit) called offset
+when new segemnt is created it have the name of first offest 
+new segmet offest cout starst where previus was finished
+
+each msg have: topic name, partion number, offset number, 
+timestap (time index)
+
+Kafa Cluster Architecture
+broker -> server
+cluster -> group of serevers that work for same goal
+Apache Zookeoer maintains brokers inside clusters 
+(every broker have id)
+one broker in cluster is also a controller responible for 
+admin task on others brokers inside cluster
+
+Work Distributions
+broker is responible for managing partions
+Ex: 
+	if you have 10 partitons and replica factor 3 -> totoal 30 partitoins
+	if they are 5 brokers kafkas goal is even distribution and fault tolerance
+	
+	

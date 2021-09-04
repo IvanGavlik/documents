@@ -1,0 +1,9 @@
+https://data-flair.training/blogs/apache-kafka-books/#
+
+https://www.findcareerinfo.com/best-apache-kafka-books/
+
+read 
+
+https://www.confluent.io/blog/apache-kafka-spring-boot-application/
+
+https://kafka.apache.org/

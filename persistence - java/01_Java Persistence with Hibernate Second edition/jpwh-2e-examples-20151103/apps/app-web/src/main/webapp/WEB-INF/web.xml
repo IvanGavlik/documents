@@ -1,0 +1,107 @@
+<web-app
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+        version="3.0">
+
+    <!-- Never serve XHTML files directly, always let JSF render them -->
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+
+    <!-- Configure the start page -->
+    <welcome-file-list>
+        <welcome-file>catalog.xhtml</welcome-file>
+    </welcome-file-list>
+
+    <!-- This is a stateful server application (because of JSF), configure session handling -->
+    <session-config>
+        <!-- 3 hours -->
+        <session-timeout>180</session-timeout>
+        <!-- URL rewriting is something you should avoid -->
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+
+    <!-- This enables HTTP session passivation across redeploys in Wildfly >= 8.1. You
+         will get an error if you redeploy and you've put a non-serializable object
+         into the session or conversation context. In general, it's a marker that
+         indicates serializability of your session data and that this application
+         might support session failover in a cluster. -->
+    <distributable/>
+
+    <!--
+        Pretty much every JSF application needs this. View state stored on server for form POST
+        processing may be dropped either due to session timeout, or because the maximum number
+        of stored views per session has been reached. The number of stored views per session isn't
+        standardized, nor configurable in a standardized fashion either. Your users will just have
+        to learn that a JSF application can break when they press BACK too often and then resubmit
+        a POST form.
+    -->
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/error/expiredView.html</location>
+    </error-page>
+
+    <!--
+        When a conversation has timed out and the user submits a conversation-backed form
+        or reloads an old POST request in the browser, for which we might still have the
+        JSF component tree, but not the conversation data anymore.
+    -->
+    <error-page>
+        <exception-type>org.jboss.weld.context.NonexistentConversationException</exception-type>
+        <location>/error/expiredConversation.html</location>
+    </error-page>
+
+    <!--
+        An optimistic lock exception thrown by Hibernate. Yes, it should be
+        javax.persistence.OptimisticLockException but Hibernate has always been bi-polar.
+    -->
+    <error-page>
+        <exception-type>org.hibernate.StaleObjectStateException</exception-type>
+        <location>/error/staleState.html</location>
+    </error-page>
+
+    <!--
+    You should also map expected exceptions such as
+    javax.persistence.EntityNotFoundException to a 404 HTTP response.
+    -->
+
+    <!-- The default colon is a reserved character in JS/CSS, underscore is better -->
+    <context-param>
+        <param-name>javax.faces.SEPARATOR_CHAR</param-name>
+        <param-value>_</param-value>
+    </context-param>
+
+    <!-- If you comment out a block in an XHTML template, you'd expect it to be ignored -->
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <!-- Required to enable BeanValidation @NotNull constraints -->
+    <context-param>
+        <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <!-- ############################### DEV MODE ############################### -->
+    <!-- Some JSF implementations might actually do something useful with this project
+         stage, like more debug output. Or more aggressive caching in Production stage. -->
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+
+    <!-- How many seconds should elapse before XHTML files are checked again for changes -->
+    <context-param>
+        <param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
+        <param-value>0</param-value>
+    </context-param>
+    <!-- ############################### DEV MODE ############################### -->
+
+</web-app>

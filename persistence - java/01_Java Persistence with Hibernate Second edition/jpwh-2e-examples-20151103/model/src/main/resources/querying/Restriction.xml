@@ -1,0 +1,175 @@
+<entity-mappings
+        version="2.1"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+    <named-query name="equalsString">
+        <query>
+            select i from Item i where i.name = 'Foo'
+        </query>
+    </named-query>
+
+    <named-query name="equalsBoolean">
+        <query>
+            select u from User u where u.activated = true
+        </query>
+    </named-query>
+
+    <named-query name="between">
+        <query>
+            select b from Bid b where b.amount between 99 and 110
+        </query>
+    </named-query>
+
+    <named-query name="greaterThan">
+        <query>
+            select b from Bid b where b.amount > 100
+        </query>
+    </named-query>
+
+    <named-query name="inList">
+        <query>
+            select u from User u where u.username in ('johndoe', 'janeroe')
+        </query>
+    </named-query>
+
+    <named-query name="tupleComparison">
+        <query>
+            select u from User u
+                where (u.firstname, u.lastname)
+                    in (('John', 'Doe'), ('Jane', 'Roe'))
+        </query>
+    </named-query>
+
+    <named-query name="componentComparison">
+        <query>
+            <!-- Don't do this with annotation mappings, only with XML metadata! -->
+            select u from User u
+                where u.homeAddress =
+                    ('Some Street 123', '12345', 'Some City')
+        </query>
+    </named-query>
+
+    <named-query name="enum">
+        <query>
+            select i from Item i
+                where i.auctionType = org.jpwh.model.querying.AuctionType.HIGHEST_BID
+        </query>
+    </named-query>
+
+    <named-query name="isNull">
+        <query>
+            select i from Item i where i.buyNowPrice is null
+        </query>
+    </named-query>
+
+    <named-query name="isNotNull">
+        <query>
+            select i from Item i where i.buyNowPrice is not null
+        </query>
+    </named-query>
+
+    <named-query name="likeEnd">
+        <query>
+            select u from User u where u.username like 'john%'
+        </query>
+    </named-query>
+
+    <named-query name="likeEndNot">
+        <query>
+            select u from User u where u.username not like 'john%'
+        </query>
+    </named-query>
+
+    <named-query name="likeSubstring">
+        <query>
+            select u from User u where u.username like '%oe%'
+        </query>
+    </named-query>
+
+    <named-query name="likeEscape">
+        <query>
+            select i from Item i where i.name like 'Name\_with\_underscores' escape :escapeChar
+        </query>
+    </named-query>
+
+    <named-query name="arithmetic">
+        <query>
+            select b from Bid b where (b.amount / 2) - 0.5 > 49
+        </query>
+    </named-query>
+
+    <named-query name="logicalGroups">
+        <query>
+            select i from Item i
+                where (i.name like 'Fo%' and i.buyNowPrice is not null)
+                      or i.name = 'Bar'
+        </query>
+    </named-query>
+
+    <named-query name="functionsLower">
+        <query>
+            select i from Item i where lower(i.name) like 'ba%'
+        </query>
+    </named-query>
+
+    <named-query name="collectionNotEmpty">
+        <query>
+            select c from Category c
+                where c.items is not empty
+        </query>
+    </named-query>
+
+    <named-query name="memberOf">
+        <query>
+            select c from Category c
+                where :item member of c.items
+        </query>
+    </named-query>
+
+    <named-query name="collectionSize">
+        <query>
+            select c from Category c
+                where size(c.items) > 1
+        </query>
+    </named-query>
+
+    <named-query name="functionsDateDiff">
+        <query>
+            select i from Item i
+                where
+                    function('DATEDIFF', 'DAY', i.createdOn, i.auctionEnd)
+                > 1
+        </query>
+    </named-query>
+
+    <named-query name="functionsDateDiffHibernate">
+        <query>
+            select i from Item i
+                where
+                    datediff('DAY', i.createdOn, i.auctionEnd)
+                > 1
+        </query>
+    </named-query>
+
+    <named-query name="orderbyUsername">
+        <query>
+            select u from User u order by u.username
+        </query>
+    </named-query>
+
+    <named-query name="orderbyUsernameDesc">
+        <query>
+            select u from User u order by u.username desc
+        </query>
+    </named-query>
+
+    <named-query name="orderby">
+        <query>
+            select u from User u order by u.activated desc, u.username asc
+        </query>
+    </named-query>
+
+</entity-mappings>

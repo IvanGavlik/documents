@@ -1,0 +1,22 @@
+<entity-mappings
+        version="2.1"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+    <named-query name="findItems">
+        <query><![CDATA[
+        select i from Item i
+        ]]></query>
+    </named-query>
+
+    <named-query name="findItemsWithHints">
+        <query>select i from Item i</query>
+        <hint name="org.hibernate.comment" value="My Comment"/>
+        <hint name="org.hibernate.fetchSize" value="50"/>
+        <hint name="org.hibernate.readOnly" value="true"/>
+        <hint name="org.hibernate.timeout" value="60"/>
+    </named-query>
+
+</entity-mappings>

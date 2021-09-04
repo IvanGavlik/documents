@@ -1,0 +1,65 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset238 Calibri;}{\f1\fnil\fcharset0 Calibri;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.18362}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang1050 Tako\'f0er pogledaj\line {{\field{\*\fldinst{HYPERLINK https://angular.io/guide/file-structure }}{\fldrslt{https://angular.io/guide/file-structure\ul0\cf0}}}}\f0\fs22  i ljevo \b workspace configuration \b0\par
+\f1\line\f0 see Static bootstrapping. Strart application with small amout of code\line {{\field{\*\fldinst{HYPERLINK https://blog.angular-university.io/angular2-ngmodule/ }}{\fldrslt{https://blog.angular-university.io/angular2-ngmodule/\ul0\cf0}}}}\f1\fs22\par
+\par
+\b\f0 NgModule types and guid for creating modules\line {\b0\f1{\field{\*\fldinst{HYPERLINK https://angular.io/guide/module-types }}{\fldrslt{https://angular.io/guide/module-types\ul0\cf0}}}}\b0\f1\fs22\par
+\par
+\b\f0 Types of Angular modules \b0 (form {{\field{\*\fldinst{HYPERLINK https://medium.com/@cyrilletuzi/architecture-in-angular-projects-242606567e40 }}{\fldrslt{https://medium.com/@cyrilletuzi/architecture-in-angular-projects-242606567e40\ul0\cf0}}}}\f0\fs22 )\b\line\b0 modules of pages\line modules of global services\line modules of reusable components\f1\par
+\par
+\b\f0 Example of angular modules also see rooting for modules\par
+{\b0\f1{\field{\*\fldinst{HYPERLINK https://stackblitz.com/angular/klejyjnynjj?file=src%2Fapp%2Fapp-routing.module.ts }}{\fldrslt{https://stackblitz.com/angular/klejyjnynjj?file=src%2Fapp%2Fapp-routing.module.ts\ul0\cf0}}}}\b0\f0\fs22\line Remember, components, directives, and pipes belong to one module only. You only need to declare them once in your app because you share them by importing the necessary modules. This saves you time and helps keep your app lean.\par
+\par
+Providing dependencide in modules\line - {{\field{\*\fldinst{HYPERLINK https://angular.io/guide/providers }}{\fldrslt{https://angular.io/guide/providers\ul0\cf0}}}}\f0\fs22\par
+@Injectable(\{\line\tab\b providedIn\b0 : UserModule, (ince root)\line\})\line It's also possible to specify that a service should be provided in a particular @NgModule. For example, if you don't want UserService to be available to applications unless they import a UserModule you've created, you can specify that the service should be provided in the module. From ({{\field{\*\fldinst{HYPERLINK https://angular.io/guide/providers }}{\fldrslt{https://angular.io/guide/providers\ul0\cf0}}}}\f0\fs22 )\line Also see proveider scope ny lazy loading modules\par
+\par
+\b Importing modules\line\b0 Difference of scope between components and services :\line\tab if the module is imported for components, you\rquote ll need to import it in each module needing them,\line\tab if the module is imported for services, you\rquote ll need to import it only once, in the first app module.\line If you fail to understand this, you\rquote ll have errors on components not being available, because you forgot to import their module again.\line From: {{\field{\*\fldinst{HYPERLINK https://medium.com/@cyrilletuzi/understanding-angular-modules-ngmodule-and-their-scopes-81e4ed6f7407 }}{\fldrslt{https://medium.com/@cyrilletuzi/understanding-angular-modules-ngmodule-and-their-scopes-81e4ed6f7407\ul0\cf0}}}}\f0\fs22\par
+\par
+Summary of ngModule\line {{\field{\*\fldinst{HYPERLINK https://angular.io/guide/module-types }}{\fldrslt{https://angular.io/guide/module-types\ul0\cf0}}}}\f0\fs22\par
+\par
+Now you could use your ItemDirective in a component. This example uses AppModule, but you'd do it the same \b way for a feature module\b0 . For more about directives, see Attribute Directives and Structural Directives. You'd also use the same technique for pipes and components.\line From: {{\field{\*\fldinst{HYPERLINK https://angular.io/guide/bootstrappin }}{\fldrslt{https://angular.io/guide/bootstrappin\ul0\cf0}}}}\f0\fs22\par
+\par
+\par
+\b Lazy-loading feature modules\line\b0 basic\b : {\b0{\field{\*\fldinst{HYPERLINK https://angular.io/guide/lazy-loading-ngmodules }}{\fldrslt{https://angular.io/guide/lazy-loading-ngmodules\ul0\cf0}}}}\b0\f0\fs22  (see sample app)\par
+also see {{\field{\*\fldinst{HYPERLINK https://angular.io/guide/lazy-loading-ngmodules#preloading-modules }}{\fldrslt{https://angular.io/guide/lazy-loading-ngmodules#preloading-modules\ul0\cf0}}}}\f0\fs22\line Preloading modules\line do: {{\field{\*\fldinst{HYPERLINK https://web.dev/route-preloading-in-angular/ }}{\fldrslt{https://web.dev/route-preloading-in-angular/\ul0\cf0}}}}\f0\fs22\line entry components\line {{\field{\*\fldinst{HYPERLINK https://angular.io/guide/entry-components }}{\fldrslt{https://angular.io/guide/entry-components\ul0\cf0}}}}\f0\fs22\par
+route level code \line {{\field{\*\fldinst{HYPERLINK https://web.dev/route-level-code-splitting-in-angular/ }}{\fldrslt{https://web.dev/route-level-code-splitting-in-angular/\ul0\cf0}}}}\f0\fs22\par
+NgModule or servie loading\line -> {{\field{\*\fldinst{HYPERLINK https://angular.io/guide/ngmodule-faq }}{\fldrslt{https://angular.io/guide/ngmodule-faq\ul0\cf0}}}}\f0\fs22\par
+\i constructor(@Optional() @SkipSelf() parentModule?: GreetingModule) \{\line if (parentModule) \{\line\tab throw new Error(\b  'GreetingModule is already loaded. Import it in the AppModule only');\line\tab\b0\}\}\par
+\par
+\i0 see: \b A lazy-loaded module \b0 has its own injector which is typically a child of the application root injector.\line from: {{\field{\*\fldinst{HYPERLINK https://angular.io/guide/ngmodule-api }}{\fldrslt{https://angular.io/guide/ngmodule-api\ul0\cf0}}}}\f0\fs22  (local instance of the service)\line also see: {{\field{\*\fldinst{HYPERLINK https://angular.io/guide/lazy-loading-ngmodules }}{\fldrslt{https://angular.io/guide/lazy-loading-ngmodules\ul0\cf0}}}}\f0\fs22\par
+Also: {{\field{\*\fldinst{HYPERLINK https://blog.angular-university.io/angular2-ngmodule/ }}{\fldrslt{https://blog.angular-university.io/angular2-ngmodule/\ul0\cf0}}}}\f0\fs22\line App component no longer imports HomeModule\par
+\par
+\b Dynamic component loading \b0 is not common in most apps beyond the router. If you need to dynamically load components, you must add these components to the entryComponents list yourself.\par
+For more information, see ({{\field{\*\fldinst{HYPERLINK https://angular.io/guide/entry-components }}{\fldrslt{https://angular.io/guide/entry-components\ul0\cf0}}}}\f0\fs22 ).\par
+\par
+Not mandatroy but good to read: DI and injectros\line {{\field{\*\fldinst{HYPERLINK https://angular.io/guide/dependency-injection }}{\fldrslt{https://angular.io/guide/dependency-injection\ul0\cf0}}}}\f0\fs22\line {\b{\field{\*\fldinst{HYPERLINK https://angular.io/guide/hierarchical-dependency-injection }}{\fldrslt{https://angular.io/guide/hierarchical-dependency-injection\ul0\cf0}}}}\b\f0\fs22\line\b0\par
+\b basic of directives:\line {\b0{\field{\*\fldinst{HYPERLINK https://angular.io/guide/attribute-directives }}{\fldrslt{https://angular.io/guide/attribute-directives\ul0\cf0}}}}\b0\f0\fs22\par
+\par
+Singleton service\line {{\field{\*\fldinst{HYPERLINK https://angular.io/guide/singleton-services }}{\fldrslt{https://angular.io/guide/singleton-services\ul0\cf0}}}}\f0\fs22\par
+If a module defines both providers and declarations (components, directives, pipes), then loading the module in multiple feature modules would duplicate the registration of the service. This could result in multiple service instances and the service would no longer behave as a singleton.\line There are multiple ways to prevent this:\line\tab Use the providedIn syntax instead of registering the service in the module.\line\tab Separate your services into their own module.\line\tab Define forRoot() and forChild() methods in the module.\par
+\b see examples! and read this one more time: {{\field{\*\fldinst{HYPERLINK https://angular.io/guide/singleton-services }}{\fldrslt{https://angular.io/guide/singleton-services\ul0\cf0}}}}\f0\fs22\par
+\b0 todo: {{\field{\*\fldinst{HYPERLINK https://indepth.dev/here-is-what-you-need-to-know-about-dynamic-components-in-angular/ }}{\fldrslt{https://indepth.dev/here-is-what-you-need-to-know-about-dynamic-components-in-angular/\ul0\cf0}}}}\f0\fs22\par
+\par
+\par
+\par
+\b Nx\par
+\b0 see example project: {{\field{\*\fldinst{HYPERLINK https://nx.dev/latest/angular/examples/nx-examples }}{\fldrslt{https://nx.dev/latest/angular/examples/nx-examples\ul0\cf0}}}}\f0\fs22\par
+\line The \b Nx CLI uses builders \b0 to perform tasks, such as building and bundling your application, running unit tests, or running E2E tests against a specific target, whether that be an application or workspace.\line A builder is a function that uses the Architect API to perform a complex process such as "build", "test", or "lint".\line You can configure the builders in angular.json From( {{\field{\*\fldinst{HYPERLINK https://nx.dev/latest/angular/cli/overview }}{\fldrslt{https://nx.dev/latest/angular/cli/overview\ul0\cf0}}}}\f0\fs22 )\par
+How to \b run target (TASK)\b0\line -> nx run appName:targetName\line Declared in angular.json. Targets are inside json file and they have seted builders\line see also configuraition. Example from( {{\field{\*\fldinst{HYPERLINK https://nx.dev/latest/angular/cli/overview }}{\fldrslt{https://nx.dev/latest/angular/cli/overview\ul0\cf0}}}}\f0\fs22 )\par
+Common targets:\line\tab build, lint, serve, e2e, test\par
+\line\b run target task on multiple projects\b0\line nx run-many --target=build --all\line\b Run the same target for selected projects and their deps\line\b0 nx run-many --target=build --projects=app1,app2 --with-deps\line\b Run the same target for all the projects by the current code change (e.g., current Git branch).\line\b0 nx affected --target=build\par
+\b By default, the current code change is defined as a diff between master and HEAD. You can change it as follows:\line\b0 nx affected --target=build --parallel --base=origin/development --head=$CI_BRANCH_NAME\par
+\b Affected\b0\line nx affected:build\line nx affected:test\line nx affected:lint\line nx affected:e2e\par
+see: {{\field{\*\fldinst{HYPERLINK https://nx.dev/latest/angular/cli/overview#other-commands }}{\fldrslt{https://nx.dev/latest/angular/cli/overview#other-commands\ul0\cf0}}}}\f0\fs22\par
+Steps\line 1. Create workspace \line 2. Create libs\line 3. see afected must select branch, or on master\line 3.1 test -> nx affected:test \line 4. see graph -> ynpm run dep-graph\line 5. build applicarion run npx nx build [application]:\line 6. generate component, lib, application...\line\tab nx generate [plugin]:[schematic-name] [options]\par
+7. Loading enviroment variables\line\tab {{\field{\*\fldinst{HYPERLINK https://nx.dev/latest/angular/cli/overview#loading-environment-variables }}{\fldrslt{https://nx.dev/latest/angular/cli/overview#loading-environment-variables\ul0\cf0}}}}\f0\fs22\line see: We recommend nesting....\par
+8. install {{\field{\*\fldinst{HYPERLINK https://nx.dev/latest/angular/cli/console }}{\fldrslt{https://nx.dev/latest/angular/cli/console\ul0\cf0}}}}\f0\fs22  plugin for VSCode\par
+9. code orranizations & naming conventions see: {{\field{\*\fldinst{HYPERLINK https://nx.dev/latest/angular/guides/monorepo-nx-enterprise#code-organization-amp-naming-conventions }}{\fldrslt{https://nx.dev/latest/angular/guides/monorepo-nx-enterprise#code-organization-amp-naming-conventions\ul0\cf0}}}}\f0\fs22\par
+10. Nx provides a feature called tags that can be used to codify and statically-enforce these rules (managing dependencies and code organization)\par
+11. workflow (For enterprise)\b\line\b0  {{\field{\*\fldinst{HYPERLINK https://nx.dev/latest/angular/guides/monorepo-nx-enterprise#developer-workflow }}{\fldrslt{https://nx.dev/latest/angular/guides/monorepo-nx-enterprise#developer-workflow\ul0\cf0}}}}\f0\fs22\line We should utilize affected:* commands to build and test projects\par
+12. add lerna\line 12.1 set allowed branch\line 12.2 set  --conventional-commits flag (changelog.file) (on version form: {{\field{\*\fldinst{HYPERLINK https://github.com/lerna/lerna/tree/master/commands/version#readme }}{\fldrslt{https://github.com/lerna/lerna/tree/master/commands/version#readme\ul0\cf0}}}}\f0\fs22 )\line 12.3 create an offical github relase based on the changed packages\line --create-release <type>\line Lifyclyle version\line see (on bottom): {{\field{\*\fldinst{HYPERLINK https://github.com/lerna/lerna/tree/master/commands/version#readme }}{\fldrslt{https://github.com/lerna/lerna/tree/master/commands/version#readme\ul0\cf0}}}}\f0\fs22\par
+13. lerna bootstrap\par
+14. lerna commit msg, and publis msg\line\par
+}
+ 

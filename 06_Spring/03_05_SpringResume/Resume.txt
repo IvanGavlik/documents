@@ -1,0 +1,57 @@
+Šta bi trebao znati nakon čitanja dokumentacije i knjige 
+
+TODO Pogledaj API classe
+
+1. ApplicationContext interface (and impl) represents the Spring IoC container 
+2. Bean Overview (name, scope, autowiring, lazy initialization mode, Initialization and Destruction, postback metods)
+3. Instantiation: constructor, setter factory method
+	Constructor Argument Resolution
+	Constructor argument index
+4. Dependencies Straight Values (Primitives, Strings, and so on), 
+	References to Other Beans
+	Inner Beans
+	Collections
+	depends-on
+5. Lazy-initialized Beans Bean Scopes
+6. Autowiring Collaborators (Autowiring modes Mode, Autowiring modes Mode 	 )
+7. Method Injection
+8. Lookup Method Injection
+9. Arbitrary Method Replacement, 
+10. Lifecycle Callbacks Default Initialization and Destroy Methods Aware interface,  BeanPostProcessor
+11. Customizing Instantiation Logic with a FactoryBean
+12. Annotations
+	@Required
+	@Autowired
+	@Primary and @Qualifier, Using Generics as Autowiring Qualifiers
+	@Resource
+	@Value
+	@PostConstruct and @PreDestroy
+	@Component, @Repository, @Service, @Controller
+	@Configuration  @Scope("prototype") @Qualifier("Action") @Genre("Action")
+	@Inject and @Name
+	@Import
+	@EnableLoadTimeWeaving
+13. Customizing Bean Naming and Bean Aliasing
+14. Environment interface
+15. Bean Definition Profiles Activating a Profile Default Profile
+16. PropertySource Abstraction (Using)
+17. Internationalization using MessageSource
+18. Standard and Custom Events (ApplicationContext) Asynchronous Listeners
+19. Resource Interface and impl. ResourceLoaderAware interface
+	Application Contexts and Resource Paths FileSystemResource Caveats
+20. Spring’s Validator Interface
+21. PropertyEditor
+22. Spring Type Conversion
+23. Spring Field Formatting
+24. Bean Validation
+25. Spring Expression Language (SpEL)
+	The EvaluationContext interface  Annotation Configuration
+	
+book  additional 
+1. Spring Modules
+2. Setter Injection vs. Constructor Injection
+3. Bean Life-Cycle Management
+4. Profiles
+
+on 01.03.2020. next aop
+

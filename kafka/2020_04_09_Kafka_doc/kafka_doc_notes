@@ -1,0 +1,18 @@
+TODO: https://kafka.apache.org/documentation/streams/
+TODO: https://docs.confluent.io/current/getting-started.html
+
+https://kafka.apache.org/intro
+
+Topics
+A topic is a category or feed name to which records are published
+For each topic, the Kafka cluster maintains a partitioned log
+
+Each partition is an ordered, immutable sequence of records that is continually
+appended to—a structured commit log. The records in the partitions are each
+assigned a sequential id number called the offset that uniquely identifies
+each record within the partition. Every consumer have his offset
+
+Consumers
+Consumers label themselves with a consumer group name, 
+and each record published to a topic is delivered to one consumer instance 
+within each subscribing consumer group.

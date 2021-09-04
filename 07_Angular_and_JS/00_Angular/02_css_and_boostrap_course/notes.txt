@@ -1,0 +1,55 @@
+https://app.pluralsight.com/course-player?clipId=f36809d6-959a-4b5d-b727-8e0bacc84afd
+
+container
+out on body or div 
+-> .container (center)
+-> .container-flud (full)
+
+.row (for rows)
+-> .col-sm-4 (size 4) sum in onw row = 12
+
+visual breakponts
+xs < 768 
+sm >= 768 ox
+md >= 992 px
+lg >= 1200 px
+
+ex: .col-sm-8
+-> if is greateh it will take full size
+ex: .col-xs-4
+-> all wil have
+wx: .col-sm-4 .col-lg-2 (
+-> applay both 
+
+col-sm-push-2
+-> whean reach the site push 2 colums down
+col-sm-pull-8
+-> whean reach the site pull 8 colums up 
+
+col-sm-push-2, col-sm-pull-8 
+must be used together to work
+Ex: 
+<section class="col-sm-8 col-sm-push-2" />
+<article class="col-sm-2 col-sm-pull-8" />
+Rez: section and article will replace places
+
+@media  (media query)
+-> css proprety 
+-> changing float of content from block to inline and vice versa 
+it will do 
+
+patterns for adjustiung web page to schreen size
+mostly fluid
+colum drop pattern
+layout shifter pattern 
+content reflow patter
+same size columns without java script 
+
+responsive navigation
+- use boostrap navbar classes
+-> .navbar-header (small size)
+-> .navbat-nav full size 
+-> .navbar-brand logo
+-> .navbar-left (left side= .navbar-right
+-> .navbar-form (search, login ..itd)
+-> .navbar-toggle (button to see links on small size)

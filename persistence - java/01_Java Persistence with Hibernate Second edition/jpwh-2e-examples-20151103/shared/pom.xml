@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!--
+
+    This module contains shared code, used by all other modules.
+
+    -->
+
+    <!-- ##################################################################################################### -->
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jpwh</groupId>
+        <artifactId>jpwh</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <!-- ##################################################################################################### -->
+
+    <artifactId>shared</artifactId>
+    <packaging>jar</packaging>
+
+    <!-- ##################################################################################################### -->
+
+    <name>Shared</name>
+
+    <!-- ##################################################################################################### -->
+
+    <reporting>
+        <excludeDefaults>true</excludeDefaults>
+    </reporting>
+
+    <!-- ##################################################################################################### -->
+
+    <build>
+        <plugins>
+            <!-- No tests in this module-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <!-- ##################################################################################################### -->
+
+    <dependencies>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
+        <!-- API, java.xml.bind module -->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
+        <!-- Runtime, com.sun.xml.bind module -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
+        <!-- Some H2 code in this module requires this, but it's an optional transitive dependency -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- We extend Hibernate with code in this module, so this is required to compile but optional transitive -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Customizing TestNG -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <optional>true</optional>
+            <exclusions>
+                <!-- No thank you -->
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+    </dependencies>
+
+</project>

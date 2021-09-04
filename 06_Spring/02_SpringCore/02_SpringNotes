@@ -1,0 +1,31 @@
+Spring need to know
+-> Bean, BeanFactory and Application Context
+-> @Configuration, @Bean, @Component, @Value, @Autowired (types, @Qualifier )
+-> expression language
+-> lookUp Method Injection and Method Replacement
+-> Bean Naming 
+	-> alises @Bean(name="...) @AliasFor
+-> Bean lifeccle (instatiation mode (singleton, prototype... and scope)
+		-> DependsOn
+-> Bean Inheritance
+-> Making Your Beans “Spring Aware”
+-> JavaBeans PropertyEditors 
+
+ApplicationConttext Configuration
+-> intenationalization
+-> event publication
+-> resoure management and access (Resource interface)
+-> life cycle interfaces
+
+Environment (profiles and properties)
+	-> Profiles 
+
+Validation, Data Binding, and Type Conversion
+
+Spring Expression Language (SpEL)
+
+Spring AOP
+
+Null-safety
+
+Logging

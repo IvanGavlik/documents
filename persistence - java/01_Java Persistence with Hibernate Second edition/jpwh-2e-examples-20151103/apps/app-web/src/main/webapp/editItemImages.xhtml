@@ -1,0 +1,52 @@
+<ui:composition
+        template="/WEB-INF/templates/master.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="title">
+        Edit Images
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="imageForm"
+                enctype="multipart/form-data">
+
+            <h:panelGrid styleClass="formFields"
+                         columnClasses="label, field"
+                         columns="2">
+
+                <h:outputText value="Add Image:"/>
+                <h:panelGroup layout="block">
+                    <h:panelGrid columns="2"
+                                 columnClasses="horizontalFormField"
+                                 cellpadding="0" cellspacing="0" border="0">
+
+                        <h:inputFile value="#{editItemService.imageUploadPart}"/>
+                        <h:commandButton value="Upload" action="#{editItemService.uploadImage}"/>
+                    </h:panelGrid>
+                </h:panelGroup>
+
+            </h:panelGrid>
+
+            <h:panelGroup layout="block"
+                          styleClass="itemImages">
+                <!-- This abuses the list index of the image as the image identifier, see the image lookup code -->
+                <ui:repeat value="#{editItemService.item.imagesSorted}" var="image" varStatus="status">
+                    <img src="#{request.contextPath}/v1/image/#{status.index}?cid=#{editItemService.conversation.id}"
+                         alt="#{image.name}"
+                         width="120" height="120"/>
+                </ui:repeat>
+            </h:panelGroup>
+
+            <h:panelGrid styleClass="formControls"
+                         columns="2">
+                <h:commandButton value="Cancel" immediate="true" action="#{editItemService.cancel}"/>
+                <h:commandButton value="Submit Item" immediate="true" action="#{editItemService.submitItem}"/>
+            </h:panelGrid>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,27 @@
+1. plan core java i junit and mocquto
+- https://www.amazon.com/Practical-Unit-Testing-JUnit-Mockito/dp/8393489393
+
+2. spring 
+- see anotations
+https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/testing.html#spring-testing-annotation-sql
+
+also: 
+https://reflectoring.io/unit-testing-spring-boot/
+
+3. koji sve još tipovi test postoje 
+
+https://junit.org/junit5/docs/current/user-guide/
+
+https://stackoverflow.com/questions/tagged/junit5?tab=newest&page=2&pagesize=15
+
+https://junit.org/junit5/docs/current/api/org.junit.jupiter.api/org/junit/jupiter/api/package-summary.html
+
+https://www.google.com/search?q=java+junit+5+books&rlz=1C1CHBD_enHR889HR889&oq=java+junit+5+books&aqs=chrome..69i57.4783j0j7&sourceid=chrome&ie=UTF-8
+
+https://www.amazon.com/Test-Driven-Acceptance-Java-Developers/dp/1932394850?creativeASIN=1932394850&linkCode=w61&imprToken=9S7hrI2u.o7k2R18GjEaAg&slotNum=2&tag=javamysqlanta-20
+
+https://www.udemy.com/course/practical-test-driven-development-for-java-programmers/?LSNPUBID=JVFxdTr9V80&ranEAID=JVFxdTr9V80&ranMID=39197&ranSiteID=JVFxdTr9V80-Vhl719MdebpWsJXPh6Ppcw&utm_medium=udemyads&utm_source=aff-campaign
+
+https://www.amazon.com/JUnit-Action-Second-Edition-Tahchiev/dp/1935182021?creativeASIN=1935182021&linkCode=w61&imprToken=9S7hrI2u.o7k2R18GjEaAg&slotNum=3&tag=javamysqlanta-20
+
+spring

@@ -1,0 +1,166 @@
+On:
+https://www.youtube.com/watch?v=dq-ZACSt_gA&list=PLkz1SCf5iB4enAR00Z46JwY9GGkaS2NON&index=3
+
+Msg system
+-> Producer/Poblisher
+	- appliatons that sends msg
+-> Broker
+-> Kafka Cluster
+	- colection of brokers
+	- take msg from producer and store it in kafa msg log
+-> Consumer
+	- app that read msg from cluster
+-> Stream Processor
+	- continues stream proccesing app 
+-> Connectors
+	- like to Database (import/export data)
+	
+Data pipline ? 
+
+Kafka
+-> msg system
+-> stream prcessing
+-> connectors to import/export data
+
+Terminology
+-> Producer/Poblisher
+	app that sends msg/data to Kafka
+	for Kafka array of bytes
+-> Consumer
+	app that reads data from Kafka
+	need to make request for messgae
+-> Broker
+	Kafka server
+-> Cluster
+	groups of computers working for one prpuse
+-> Topic
+	uniqe name for Kafka stream (data id)
+-> Partitions
+	break data (topic) and distribut it into multiple computers 
+	progmer set number of partitions
+-> Offset
+	sequence id given to the msg in the partition (msg id in the partition)
+	no global ofset
+	form msg must know topic name -> partition number -> offset
+-> Consumer groups
+	group of consumer acting as a single logical unit
+	members of the same grup to some task
+-> Fault Tolerance
+	copies of data on komps
+	reolicattion factor (how many copes of parttions)
+	for evry partion one is leader other are followers
+	consumer/producer alvas connect to leader follower copy data
+
+Send msg
+-> fire and forget
+-> synchronus sends
+	get resonse succes or faliuer
+	slow 
+-> asynhrous send 
+	-> producer have callback class,set on send method
+	-> no order in msg
+
+Custom Partition
+-> if no key send data to default
+-> if key send data do partion=key
+-> make custom partition (for key get same partiotn)
+	implement Parttioner interface (3 methods)
+	do not relley on key for patriotner 
+	(https://www.youtube.com/watch?v=pMDAcNRkWkE&list=PLkz1SCf5iB4enAR00Z46JwY9GGkaS2NON&index=13)
+
+Custom Serializer
+-> msg as java object so need custom serializer/deserilazer
+-> use generics serializer (avro) //TODO
+
+ConsumerGroup
+-> one application reading data in paralel
+	-create group and add cosumer to group
+	-one consumer take one partition or one cusumer take two or more 
+	partition (no duplicate data on consumer)
+-> Coordinator 
+	- manage list of group mebers (on broker side)
+	- rebalance partition=consumer
+-> Leader 
+	- executed the rebalance activitiy and send resutl to cordinator
+	then cordinator javi cumstomeru
+
+Kafka Offset
+-> Current Offest
+	-current position of consumer so that he do not get same data (update on customer pull)
+-> Committed Ofset
+	-last msg that customer is ready to broker let to delete
+	-Auto Commit or Manual Commit
+	-Auto Commit defulat true intertval can be set default is 5 secodns
+	-Manual Commit can be sync or async
+
+Rebalance Listener
+-> when cordinator do rebalance comit offest
+	. call addOffser
+-> when cordnitor assign partion to consumer
+
+Kafka Producer API
+-> set configuration
+	set client ID (source of msg)
+	set bootstrap server list of kafa cluster (servers)
+	set producer
+	set key and value sereliazire
+
+msg have key value pair, seirialized before sending on network
+producer.send(Producer Record(kafakaTopicName, msgKey, msgValue)
+	-> can set optional parmater: target partition, timestamp
+	-> partitoner if not kafa will do it by
+		a) hashKey if increase number of partitoners be careful
+		b) roundRobin in loop (krug)	
+	-> timestamp can be 
+		a) crete time (in config use 0), producer time
+		b) log append time (kafak overide timestamp) 
+		msg allways have
+	-> msg go to serializer -> partioner -> stays in buffer and then is send
+	-> if broker succes (write msg) it return succes notification or error
+		-> if broker save msg can not on time send notif succed msg producer 
+		can send same msg once again (data duplication) so you have
+			1. at least one 
+			2. at most one
+			3. one msg (implement idenpotene, set to true in proper)
+				producer init hansake get id for msg, send msg 
+producer must be closed after sending data
+-> transaction producer: garante that msg is save to all partitions 
+(then is marked as commited)
+propery set replication factor al least 3
+propery set mimic.insyny.repplicas at least 2 (idmpontece functionality)
+on producer set transaction ID (uniqe for producer)
+msg must be commited or rolbacked (based on tranasctio ID)
+
+Section 5
+Three solutions for impl kafka client
+1. Consumer API - only very simple cases
+2. Streams API - for real time in production
+3. KSQL
+
+to create stream procesing application (client - customer)
+1. set properties
+2. create toplogy (actions on stream)
+3. initi Kafka stream object and start 
+4. add shutdown hook
+
+stream topology
+- set by set computationl logic of a stream
+- KStream class is abstraction of a Kafka stream it has:
+	filter(), map(), flatMap(), foreach(), to()
+	
+stream arhitecture
+-with params you can configure number of threas
+- one partition one task 
+
+
+section 6
+JSON shema for pojo
+AVRO shema for pojo 
+
+1. serializer
+2. deserilazer
+3. SerDer
+	3.1 impl interface Serde
+	3.2 extend lass Serdes
+
+

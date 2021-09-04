@@ -1,0 +1,152 @@
+# Data Structures in Java
+
+Welcome to our live course.
+Hope you are ready for 4 hours of fun fun fun (and learning).
+
+You can get the sources to what we code at
+
+```
+git clone https://www.javaspecialists.eu/git/safari/data-structures-in-java-4724.git
+username: safari4724
+password: SET2ZBvA
+```
+
+(Note: The sources will be available for two weeks after the course ends.
+Please let us know if you need them after that.)
+
+Please feel free to send emails to Heinz Kabutz <heinz@javaspecialists.eu> (I
+respond to all emails, but it might take a few days).
+
+## Schedule
+
+The timeframes are only estimates and may vary according to how the class is progressing
+
+### 0 - Welcome
+
+* Everything is in the recording
+** Heinz and his IDE
+* Quizzes
+** Answer in chat
+* Questions
+
+### 1 - Introduction to Collections in Java
+
+* Computational Time and Space Complexity
+** O(1), O(n), O(n^2^), O(log n), O(n * log n)
+* Arrays
+** Primitive vs object arrays
+** Memory usage and layout
+** Multi-dimensional arrays
+
+### 2 - Lists
+
+* Lists
+** Arrays.asList()
+** Quick look at the List methods
+** Optional methods
+*** asList() vs List.of()
+** RandomAccess
+* ArrayList
+** Adding four seasons
+** indexOf() and contains()
+** size() vs elementData.length in debugger
+** removeIf()
+* Iteration
+** Enumeration bugs
+** Fail fast collection
+** forEach()
+* CopyOnWriteArrayList
+** Safe iteration
+* LinkedList
+** Node memory usage
+** Accessing middle of list
+
+### 3 - Sorting
+
+* Sorting lists
+** Sorting list of Strings
+** Sorting custom classes like Student
+*** Comparing ints and longs
+** Writing Comparators as anonymous classes
+** Comparators with extractor functions
+*** Type witnesses
+*** Declared lambda parameters
+*** Method references
+** Sorting performance ArrayList vs LinkedList
+*** Parallel sorting of ArrayList
+
+### 4 - Sets
+
+* Sets
+** Set.of()
+** union with addAll()
+** intersection with retainAll() or stream/filter
+* TreeSet
+** Sorted by natural order
+** Red-black tree
+*** Unbalanced tree O(n) vs O(log n)
+*** Counting maximum tree depth
+* ConcurrentSkipListSet
+** Thread-safe sorted set
+* CopyOnWriteArraySet
+** For very small sets
+
+### 5 - Hashing
+
+* Hashing
+** Writing very basic hashtable
+** Clashes and distribution
+** % vs &
+* HashSet
+** hashCode() vs identityHashCode()
+** Pixel and good hash code
+** Bucket collisions
+** Making keys implement Comparable
+* ConcurrentHashMap.newKeySet()
+
+### 6 - Maps
+
+* Maps
+** one-to-one dictionary
+* HashMap
+** History of hashing 1.2, 1.4, 1.8+
+** Building a hash code with bit shifting Person(name,day,month,year)
+** Cached hash code in Strings
+** https://www.javaspecialists.eu/archive/Issue235.html[MapClashInspector]
+** Creating maps of numbers
+*** computeIfAbsent() for List of values
+* ConcurrentHashMap
+** Always use
+** Compound operations review
+* TreeMap
+** hashCode(), equals() and compareTo()
+** Own Comparator
+* ConcurrentSkipListMap
+** Parallel put into TreeMap vs ConcurrentSkipListMap
+* LinkedHashMap and LinkedHashSet
+* Highly Specialized Collections: EnumSet, EnumMap, IdentityHashMap, Properties, WeakHashMap
+
+### 7 - Queues and Deques
+
+* Queues and Deques
+** Not always FIFO
+* ConcurrentLinkedQueue and ConcurrentLinkedDeque
+** General purpose MPMC queues
+** size() is O(n)
+* ArrayDeque
+** Grows, does not shrink
+* BlockingQueues
+* LinkedBlockingQueue and LinkedBlockingDeque
+** Lock splitting
+* ArrayBlockingQueue
+** Compact array structure
+* Highly specialized queues: DelayQueue, SynchronousQueue, LinkedTransferQueue, PriorityQueue and PriorityBlockingQueue
+
+### 8 - Collection Facades
+
+* java.util.Collections
+* java.util.Arrays
+
+### 9 - Wrap-up
+
+Further questions

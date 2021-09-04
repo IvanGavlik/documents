@@ -1,0 +1,61 @@
+https://app.pluralsight.com/course-player?clipId=ab89ffc4-e586-40da-ac9f-15f7c4350ebc
+
+Locate code quickly
+identify code at a glance
+Flatest structure possible
+be DRY
+
+Use Angular CLI
+
+Respect the project style
+
+File Naming - same stile
+name.filetype.filepostfix
+Ex: catalog.component.ts in the file CatlogComponent
+	catalog.component.css (styles for catalog)
+	catalog.comonent.html (html for catalog)
+	catalog.service.ts (for service)
+
+- one file one item no more 
+
+Folder Structure
+- all for one component in one dir (html, css, component)
+Ex: dir catalog will have
+	catalog.component.ts in the file CatlogComponent
+	catalog.component.css (styles for catalog)
+	catalog.comonent.html (html for catalog)
+- service in service dir
+
+Utili compoent (used in more then one compomnet, like Loading compomnet)
+
+Single responosilitiy principle
+- single class, module single responsility
+
+Prefer immutability 
+- use object assign pattern  
+
+Use small functions
+
+Module Organization
+- app is group of compomnet (stablo)
+- group components in module based on feautcher
+- every angulr app have app module
+- good to have: core module, shared module, and feature modules
+Core module
+- shared singleton services
+- laizy loaded
+- top level components (used by application, navigation)
+Shared Module
+- shared components, directives and pipes
+Feature Modules
+- group together compomnets to have one functionality
+
+Prefix selector html tag 
+- like for user module use us-selector-dsflajlf...
+Prefix never genneric if is not have good reason to be wihout prefix 
+
+Bussines loginc in serice not in components
+
+public methods first 
+
+TODO https://app.pluralsight.com/course-player?clipId=622b83be-05ea-4c37-9b30-bab4a3b9bad6

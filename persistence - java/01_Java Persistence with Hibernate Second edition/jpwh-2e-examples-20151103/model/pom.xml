@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!--
+
+    This module contains (persistent) and mapped domain model classes.
+
+    They are sorted in packages, to show the different functions of JPA such as inheritance,
+    associations, collections, fetching, querying, and so on. Usually each package has a
+    matching set of unit tests in the examples module.
+
+    The src/main/resources/META-INF/persistence.xml file defines the persistence unit for
+    the tests.
+
+    -->
+
+    <!-- ##################################################################################################### -->
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jpwh</groupId>
+        <artifactId>jpwh</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <!-- ##################################################################################################### -->
+
+    <artifactId>model</artifactId>
+    <packaging>jar</packaging>
+
+    <!-- ##################################################################################################### -->
+
+    <name>Model</name>
+
+    <!-- ##################################################################################################### -->
+
+    <reporting>
+        <excludeDefaults>true</excludeDefaults>
+    </reporting>
+
+    <!-- ##################################################################################################### -->
+
+    <build>
+        <plugins>
+
+            <!-- No tests in this module-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+
+            <!-- Bytecode enhancement for lazy-loading without proxies and performance optimizations -->
+            <plugin>
+                <groupId>org.hibernate.orm.tooling</groupId>
+                <artifactId>hibernate-enhance-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jpwh</groupId>
+                        <artifactId>model</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <failOnError>true</failOnError>
+                            <!-- TODO: All false, the new enhancer breaks a lot of other things, eg. orphan-removal -->
+                            <enableLazyInitialization>false</enableLazyInitialization>
+                            <enableDirtyTracking>false</enableDirtyTracking>
+                            <enableAssociationManagement>false</enableAssociationManagement>
+                            <enableFieldAccessEnhancement>false</enableFieldAccessEnhancement>
+                        </configuration>
+                        <goals>
+                            <goal>enhance</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <!-- API, java.xml.bind module -->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
+        <!-- Runtime, com.sun.xml.bind module -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
+        <!-- The standard annotations we use in the model, JPA and Bean Validation -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>${hibernate.jpa21.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${validation.api.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- We also use some proprietary Hibernate annotations -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-envers</artifactId>
+            <version>${hibernate.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Hibernate Metamodel annotation processor will be detected by the Java compiler -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <version>${hibernate.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+    </dependencies>
+
+</project>

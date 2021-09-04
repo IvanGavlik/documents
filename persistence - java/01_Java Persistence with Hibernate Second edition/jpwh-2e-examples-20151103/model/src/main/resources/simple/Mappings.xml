@@ -1,0 +1,39 @@
+<entity-mappings
+        version="2.1"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+    <!-- First, global metadata -->
+    <persistence-unit-metadata>
+
+        <!-- Ignore all annotations, all mapping metadata in XML files -->
+        <xml-mapping-metadata-complete/>
+
+        <!-- Some default settings -->
+        <persistence-unit-defaults>
+            <!--
+                Escape all SQL column/table/etc. names, e.g. if your SQL
+                names are actually keywords (a "USER" table for example)
+              -->
+            <delimited-identifiers/>
+        </persistence-unit-defaults>
+
+    </persistence-unit-metadata>
+
+    <entity class="org.jpwh.model.simple.Item" access="FIELD">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="AUTO"/>
+            </id>
+            <basic name="name"/>
+            <basic name="auctionEnd">
+                <temporal>TIMESTAMP</temporal>
+            </basic>
+            <transient name="bids"/>
+            <transient name="category"/>
+        </attributes>
+    </entity>
+
+</entity-mappings>

@@ -1,0 +1,13 @@
+select
+    BD.ID, BD.OWNER,
+    CC.EXPMONTH, CC.EXPYEAR, CC.CARDNUMBER,
+    BA.ACCOUNT, BA.BANKNAME, BA.SWIFT,
+    case
+        when CC.CREDITCARD_ID is not null then 1
+        when BA.ID is not null then 2
+        when BD.ID is not null then 0
+    end
+from
+    BILLINGDETAILS BD
+    left outer join CREDITCARD CC on BD.ID=CC.CREDITCARD_ID
+    left outer join BANKACCOUNT BA on BD.ID=BA.ID

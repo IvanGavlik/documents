@@ -1,0 +1,26 @@
+<ui:component
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:cc="http://java.sun.com/jsf/composite">
+
+    <cc:interface>
+        <cc:attribute name="page" required="true"
+                      shortDescription="The Page component."/>
+        <cc:attribute name="attribute" required="true"
+                      shortDescription="The qualified name of the attribute."/>
+        <cc:attribute name="lastValue" required="true"
+                      shortDescription="The last value of the given attribute."/>
+        <cc:attribute name="lastUniqueValue" required="true"
+                      shortDescription="The last value of the unique attribute."/>
+    </cc:interface>
+
+    <cc:implementation>
+        <c:if test="#{persistentAttributeConverter.equals(cc.attrs.page.sortAttribute, cc.attrs.attribute)}">
+            #{cc.attrs.page.setLastValue(cc.attrs.lastValue)}
+            #{cc.attrs.page.setLastUniqueValue(cc.attrs.lastUniqueValue)}
+        </c:if>
+    </cc:implementation>
+</ui:component>

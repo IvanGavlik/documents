@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/orm/hbm">
+
+    <database-object>
+        <create>
+            CREATE ...
+        </create>
+        <drop>
+            DROP ...
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.H2Dialect"/>
+        <dialect-scope name="org.hibernate.dialect.PostgreSQL82Dialect"/>
+    </database-object>
+
+    <database-object>
+        <definition class="org.jpwh.model.complexschemas.CustomSchema"/>
+        <dialect-scope name="org.hibernate.dialect.H2Dialect"/>
+        <dialect-scope name="org.hibernate.dialect.PostgreSQL82Dialect"/>
+    </database-object>
+
+</hibernate-mapping>

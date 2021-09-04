@@ -1,0 +1,192 @@
+{\rtf1\ansi\ansicpg1250\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset238 Calibri;}{\f1\fnil\fcharset0 Calibri;}{\f2\fnil\fcharset0 Bookman-Light~6e;}{\f3\fnil\fcharset0 Bookman-Demi~115;}{\f4\fnil\fcharset0 Bookman-DemiItalic~206;}{\f5\fnil\fcharset0 Bookman-Demi~71;}{\f6\fnil\fcharset0 Bookman-LightItalic;}{\f7\fnil\fcharset0 Bookman-Light~106;}{\f8\fnil\fcharset0 LucidaTypewriterBold;}{\f9\fnil\fcharset0 LucidaTypewriter;}{\f10\fnil\fcharset0 AvantGarde-Book;}{\f11\fnil\fcharset0 CMSY8;}{\f12\froman\fcharset0 LucidaTypewriterOblique;}{\f13\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red0\green0\blue0;\red102\green25\blue51;\red0\green0\blue154;\red25\green102\blue51;\red51\green51\blue51;\red102\green102\blue102;}
+{\*\generator Riched20 10.0.18362}\viewkind4\uc1 
+\pard\f0\fs22\lang1050 CH 1\par
+\f1\par
+In order to gain the kind of code con\f0 fi\f1 dence ,\f0  \f1 you'll need to ask the code itself what it is doing,\f0  \f1 and check\f0  \f1 that the result is what you expect it to be\f0 .\par
+\par
+\f1 Fundamentally, you want to answer the question.Is the code\f0  \f1 ful\f0 fil\f1 lling my intent\f0  \f1 ?\par
+\par
+\f0 B\f1 eyond ensuring that the code does what you\f0  \f1 want, you need to ensure that the code does what you want\f0  \i\f1 all of the time\i0 , even when the winds are high, the parameters\f0  \f1 are suspect\par
+\par
+We want to be able to depend on the code we write, and know\f0  \f1 for certain both its strengths and its limitations.\par
+\par
+One nice side-effect of unit testing is that it helps you communicate\f0  \f1 the code's intended use\par
+\par
+\cf1 So if you think you don't have time to write tests in addition to\f0  \f1 the code you're already writing, consider the following questions:\par
+\par
+
+\pard{\pntext\f13\'B7\tab}{\*\pn\pnlvlblt\pnf13\pnindent0{\pntxtb\'B7}}\fi-360\li720 1. How much time do you spend debugging code that you\f0  \f1 or others have written?\par
+{\pntext\f13\'B7\tab}2. How much time do you spend reworking code that you\f0  \f1 thought was working, but turned out to have major, crippling\f0  \f1 bugs?\par
+{\pntext\f13\'B7\tab}3. How much time do you spend isolating a reported bug to\f0  \f1 it's source?\cf0\par
+
+\pard\par
+\f0 CH 2\par
+ \f1\par
+To check if code is behaving as you expect, you use an \i assertion\i0 ,\f0  \f1 a simple method call that veri\f0 FI\f1 es that something is true.\par
+\par
+\f0 Need to know domain of your problem, and take example set.\par
+\f1\par
+\f0 method name -.> test method name\f1\par
+createAccount\f0  -> test\f1 createAccount\f0  \par
+\par
+\f1 The test code must be written to do a few things:\par
+
+\pard{\pntext\f13\'B7\tab}{\*\pn\pnlvlblt\pnf13\pnindent0{\pntxtb\'B7}}\fi-360\li720  Setup all conditions needed for testing (create any required\f0  \f1 objects, allocate any needed resources, etc.)\par
+{\pntext\f13\'B7\tab}Call the method to be tested\par
+{\pntext\f13\'B7\tab}Verify that the method to be tested functioned as expected\par
+{\pntext\f13\'B7\tab}Clean up after itself\par
+
+\pard\par
+But a test\f0  \f1 class can also invoke other test classes: individual classes,\f0  \f1 packages, or even the whole system\f0 . Use \cf2\b\f1 public static \cf3\b0 Test suite();\par
+\cf2\b\par
+public static \cf3\b0 Test suite() \f0\{\line\tab\f1  TestSuite suite = \cf2\b new \cf3\b0 TestSuite();\par
+\cf4\i //\f0\tab\f1  Only include short tests\par
+\cf3\i0\f0\tab\f1 suite.addTest(\cf2\b new \cf3\b0 TestClassTwo(\i "testShortTest"\i0 ));\line\f0\tab\f1 suite.addTestSuite(TestClassOne.\cf2\b class\cf3\b0 );\line\f0\tab\f1 suite.addTest(TestClassTwo.suite());\line\f0\tab\f1 suite.addTest(\cf2\b new \cf3\b0 TestClassTwo(\i "testAnotherShortTest"\i0 ));\par
+\cf2\b\f0\tab\f1 return \cf3\b0 suite;\par
+\f0\}\par
+\par
+\cf0\f1 Each test should run independently of every other test; this\f0  \f1 allows you to run any individual test at any time, in any order.\line\cf2\b protected void \cf3\b0 setUp();\par
+\cf2\b protected void \cf3\b0 tearDown();\par
+\cf0 The method setUp() will be called before each one of the\f0  \f1 test. . . methods is executed, and the method tearDown()\f0  \f1 will be called after each test method is executed\par
+\par
+Don't copy and paste common code in the tests; tests should\f0  \f1 be written to the same high standards as regular code, which\f0  \f1 means honoring good coding practices such as the DRY principle,\f0  \f1 1 orthogonality, and so on. Factor out common bits of\f0  \f1 test harness into real methods, and use those methods in\f0  \f1 your test cases.\par
+\par
+If you have custom asserts or common code that needs to\f0  \f1 be shared throughout the project, you may want to consider\f0  \f1 subclassing TestCase and using the subclass for all testing\par
+\cf2\b\par
+public void \cf3\b0 testData1() \cf2\b throws \cf3\b0 FileNotFoundException\cf0\f0\line\par
+CH4 WHAT TO TEST\par
+\par
+\f1 Let's take a look at six speci\f0 f\f1 c areas to test\f0 , \f1 using your RIGHT -BICEP\par
+
+\pard{\pntext\f13\'B7\tab}{\*\pn\pnlvlblt\pnf13\pnindent0{\pntxtb\'B7}}\fi-360\li720 Right . Are the results right?\par
+{\pntext\f13\'B7\tab} B . Are all the boundary conditions CORRECT?\par
+{\pntext\f13\'B7\tab} I . Can you check inverse relationships?\par
+{\pntext\f13\'B7\tab} C . Can you cross-check results using other means?\par
+{\pntext\f13\'B7\tab}E . force error conditions to happen?\par
+{\pntext\f13\'B7\tab}P . Are performance characteristics within bounds?\par
+
+\pard\par
+\cf5 Are the Results Right?\line\f0\tab i\cf0\f1  the code ran correctly, how would I know?\par
+\par
+\f2\fs20 For sets of tests with large amounts of test data, you might\f0  \f2 ant to consider putting the test values and/or results in a\f0  se\f2 arate data \f0 file that the unit test reads. \par
+Need to have corect test data.\par
+\par
+\cf5\f3\fs24 Boundary Conditions\par
+
+\pard{\pntext\f13\'B7\tab}{\*\pn\pnlvlblt\pnf13\pnindent0{\pntxtb\'B7}}\fi-360\li720\cf0\f2\fs20 inconsistent input values,\cf5\f1\fs22\par
+{\pntext\f13\'B7\tab}\cf0\f2\fs20 Badly formatted data\par
+{\pntext\f13\'B7\tab}Values far in excess of reasonable expectations, such as\f0  \f2  person's age of 10,000 years\cf5\f1\fs22\par
+{\pntext\f13\'B7\tab}\cf0\f0\fs20 duplicate in list, where shouldn't be\cf5\f1\fs22\par
+{\pntext\f13\'B7\tab}\cf0\f0\fs20 order list \cf5\f1\fs22\par
+{\pntext\f13\'B7\tab}\cf0\f0\fs20 is it value within reasonable minimu and maximum values\cf5\f1\fs22\par
+{\pntext\f13\'B7\tab}\cf0\f0\fs20 does the code reference external that isn't under direct controle of code itself\cf5\f1\fs22\par
+{\pntext\f13\'B7\tab}\cf0\f0\fs20 does the value exist\cf5\f1\fs22\par
+{\pntext\f13\'B7\tab}\cf0\f0\fs20 cardinality\cf5\f1\fs22\par
+
+\pard\par
+\f3\fs24 Inverse Relationships\par
+\f0 some methods can be checked by appliny their logical inverse\par
+\par
+CH5 BOUNDARY CONDITIONS\par
+\par
+\cf0\f2\fs20 Remember that for\f0  \f2 ach of these areas, you want to consider data that is passed\par
+in as arguments to your method as well as internal data that\f0  \f2 ou maintain inside your method and class\par
+\i\f4\par
+What \i0\f5 else \i\f4 can go wrong?\f0 , also \i0\f2 What if\f0  ? \par
+\par
+\f2 For example, a method in a web application to display a customer's\f0  \f2 ccount history might require that the customer is\'02\f0 first\f2  logged on. \par
+If you have to make assumptions about the state of the class\f0  \f2 and the state of other objects or the global application, then\f0  \f2 you need to test your code to make sure that it is well-behaved\par
+if those conditions are not met\par
+\par
+\par
+The \i\f6 preconditions \i0\f2 for a given method specify what state the\f0  \f2 world must be in for this method to run.\line At the end of the method, \i\f6 postconditions \i0\f2 are those things that\f0  \f2 you guarantee your method will make happen. Direct results\f0  \f2 returned by the method are one obvious thing to check, but if\par
+the method has any side-effects then you need to check those\f0  \f2 as well.\cf5\f1\fs22\par
+\cf0\par
+\cf5\f3\fs24 Existence\par
+
+\pard{\pntext\f13\'B7\tab}{\*\pn\pnlvlblt\pnf13\pnindent0{\pntxtb\'B7}}\fi-360\li720\cf0\f2\fs20 does some given thing exist?\par
+{\pntext\f13\'B7\tab}what would happen to the method if the value didn't exist.if\f0  \f2 it were null, or blank, or zero\par
+{\pntext\f13\'B7\tab}So you need to think about ways to test how\f0  \f2 well your method counts, and check to see just how many of\f0  \f2 a thing you may have.\cf5\f3\fs24\par
+
+\pard\par
+\cf0\f0\fs22 CH 6 Mock Objects \par
+\par
+\f2\fs20 A mock object is simply a debug replacement for a realworld\f0  \f2 object.\par
+\par
+The three key steps to using mock objects for testing are:\par
+1. Use an interface to describe the object\par
+2. Implement the interface for production code\par
+3. Implement the interface in a mock object for testing\par
+\par
+Easy-Mock,\f7\fs14 3 \f2\fs20 a\f0  \f2 convenient Java API for creating mock objects dynamically\par
+\f0 -> \cf2\b\f8\fs14 import \cf3\b0\f9 org.easymock.MockControl;\par
+\par
+\cf6\f10\fs12 1 \cf2\b\f8\fs14 import \cf3\b0\f9 junit.framework.*;\par
+\cf6\f10\fs12 - \cf2\b\f8\fs14 import \cf3\b0\f9 org.easymock.MockControl;\par
+\cf6\f10\fs12 -\par
+- \cf2\b\f8\fs14 public class \cf3\b0\f9 TestJukebox \cf2\b\f8 extends \cf3\b0\f9 TestCase \f11\fs16 f \cf6\f10\fs12 5\par
+- \cf2\b\f8\fs14 private \cf3\b0\f9 Jukebox mockJukebox;\par
+\cf6\f10\fs12 - \cf2\b\f8\fs14 private \cf3\b0\f9 MockControl mockJukebox_control;\par
+\cf6\f10\fs12 -\par
+- \cf2\b\f8\fs14 protected void \cf3\b0\f9 setUp() \f11\fs16 f \cf6\f10\fs12 10 \cf4\i\f12\fs14 // Create a control handle to the Mock object\par
+\cf6\i0\f10\fs12 - \cf3\f9\fs14 mockJukebox_control =\par
+\cf6\f10\fs12 - \cf3\f9\fs14 MockControl.createControl(Jukebox.\cf2\b\f8 class\cf3\b0\f9 );\par
+\cf6\f10\fs12 -\par
+- \cf4\i\f12\fs14 // And create the Mock object itself\par
+\cf6\i0\f10\fs12 15 \cf3\f9\fs14 mockJukebox =\par
+\cf6\f10\fs12 - \cf3\f9\fs14 (Jukebox) mockJukebox_control.getMock();\par
+\cf6\f10\fs12 - \cf3\f11\fs16 g \cf6\f10\fs12 -\par
+- \cf2\b\f8\fs14 public void \cf3\b0\f9 testEasyMockDemo() \f11\fs16 f \cf6\f10\fs12 20\par
+- \cf4\i\f12\fs14 // Set up the mock object by calling\par
+\cf6\i0\f10\fs12 - \cf4\i\f12\fs14 // methods you want to exist\par
+\cf6\i0\f10\fs12 - \cf3\f9\fs14 mockJukebox.getCurrentSong();\par
+\cf6\f10\fs12 - \cf3\f9\fs14 mockJukebox_control.setReturnValue(\par
+\cf6\f10\fs12 25 \cf3\i\f12\fs14 "King Crimson -- Epitaph"\i0\f9 );\par
+\cf6\f10\fs12 -\par
+- \cf4\i\f12\fs14 // You don\rquote t have to worry about the other dozen\par
+\cf6\i0\f10\fs12 - \cf4\i\f12\fs14 // methods defined in Jukebox...\par
+\cf6\i0\f10\fs12 -\par
+30 \cf4\i\f12\fs14 // Switch from record to playback\par
+\cf6\i0\f10\fs12 - \cf3\f9\fs14 mockJukebox_control.replay();\par
+\cf6\f10\fs12 -\par
+- \cf4\i\f12\fs14 // Now it\rquote s ready to use:\par
+\cf6\i0\f10\fs12 - \cf3\f9\fs14 assertEquals(\i\f12 "King Crimson -- Epitaph"\i0\f9 ,\par
+\cf6\f10\fs12 35 \cf3\f9\fs14 mockJukebox.getCurrentSong());\par
+\cf6\f10\fs12 - \cf3\f11\fs16 g \cf6\f10\fs12 -\par
+- \cf3\f11\fs16 g\par
+\par
+\par
+\cf0\f0\fs22 CH 7 Good test\par
+must be:\par
+-> automatic\line -> thorought\par
+-> repetable\par
+-> independent\par
+\par
+Thorough\par
+-> test everything that's likely to break \par
+-> invest in code coverage tools \par
+\par
+test one thing at a time\par
+\f2\fs20 when a test fails, it should be obvious where in the code the\f0  \f2 underlying bug exists\par
+\par
+Test code must be thorough in that it must test everything\f0  \f2 interesting about a method that is likely to contain\f0  \f2 a bug. If it's not likely to contain a bug, don't bother testing\f0  \f2 it. That means that usually you shouldn't waste time testing\f0  \f2 things like simple accessors:\highlight1\f0\fs22\par
+\cf3\highlight0\par
+\cf0\fs20 how to fix a bug:\line 1. identify the bug\par
+2. write a test that fails, prove that bug eist\line 3. fix the code such that the test now passes\line 4. vertify that all tests still pass\par
+\par
+\fs22 CH 8 TESTING ON A PROJECT\f1\par
+\f2\fs20\par
+In general, you don't want to break any encapsulation for the\f0  \f2 sake of testing\f0 . \f2 ou should be able to test a class\f0  \f2 by exercising its public methods\f0 . \f2 When push comes to shove, however,\par
+it's probably better to break encapsulation with working,\f0  \f2 tested code than it is to have good encapsulation of untested,\f0  \f2 non-working code\par
+\f0\fs22\par
+CH Design issues\par
+\par
+\f2\fs20 you really need to do is remember this one fundamental question\f0  \f2 when writing code:\par
+\i\f4 How am I going to test this?\i0\f0\fs22\par
+\cf5\f3\fs24\par
+\cf0\f2\fs20 That is, by writing the tests \'02rst, you have now placed yourself\f0  \f2 in the role of a \i\f6 user \i0\f2 of your code, instead of the \i\f6 implementor \i0\f2 of\f0  \f2 your code.\cf5\f3\fs24\par
+\cf0\f1\fs22\par
+\par
+}
+ 

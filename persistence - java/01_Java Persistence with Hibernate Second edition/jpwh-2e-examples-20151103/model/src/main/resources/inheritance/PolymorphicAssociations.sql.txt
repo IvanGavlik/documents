@@ -1,0 +1,21 @@
+select
+    BD.*
+from
+    ( select
+        ID, USER_ID, OWNER,
+        CARDNUMBER, EXPMONTH, EXPYEAR,
+        null as ACCOUNT, null as BANKNAME, null as SWIFT,
+        1 as CLAZZ
+    from
+        CREDITCARD
+
+    union
+
+    select
+        ID, USER_ID, OWNER,
+        null as CARDNUMBER, null as EXPMONTH, null as EXPYEAR
+        ACCOUNT, BANKNAME, SWIFT,
+        2 as CLAZZ from BANKACCOUNT
+    ) BD
+where
+    BD.USER_ID ?

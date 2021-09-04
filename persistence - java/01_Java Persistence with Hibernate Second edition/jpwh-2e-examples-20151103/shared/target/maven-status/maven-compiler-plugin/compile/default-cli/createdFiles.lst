@@ -1,0 +1,11 @@
+org\jpwh\shared\ImprovedH2Dialect.class
+org\jpwh\shared\util\OneLineLogFormatter.class
+org\jpwh\shared\util\TestData.class
+org\jpwh\shared\util\Exceptions.class
+org\jpwh\shared\CENamingStrategy.class
+org\jpwh\shared\storedprocedures\Procedures.class
+org\jpwh\shared\util\CalendarUtil.class
+org\jpwh\shared\FetchTestLoadEventListener.class
+org\jpwh\shared\util\DatabaseTestMethodSelector.class
+org\jpwh\shared\util\Serialization.class
+org\jpwh\shared\trigger\UpdateLastModifiedTrigger.class

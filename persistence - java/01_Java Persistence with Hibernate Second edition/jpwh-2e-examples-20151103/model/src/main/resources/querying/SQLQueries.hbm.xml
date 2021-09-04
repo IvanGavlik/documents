@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/orm/hbm">
+
+    <sql-query name="findAllCategoriesHibernate">
+        <return class="org.jpwh.model.querying.Category">
+            <return-property name="id" column="ID"/>
+            <return-property name="name" column="CAT_NAME"/>
+            <return-property name="parent" column="PARENT_ID"/>
+        </return>
+        <return-scalar column="PATH"/>
+        <return-scalar column="LEVEL" type="integer"/>
+        with CATEGORY_LINK(ID, NAME, PARENT_ID, PATH, LEVEL) as (
+            select
+                ID,
+                NAME,
+                PARENT_ID,
+                '/' || NAME,
+                0
+            from CATEGORY where PARENT_ID is null
+            union all
+            select
+                c.ID,
+                c.NAME,
+                c.PARENT_ID,
+                cl.PATH || '/' || c.NAME,
+                cl.LEVEL + 1
+            from CATEGORY_LINK cl
+            join CATEGORY c on cl.ID = c.PARENT_ID
+        )
+        select
+            ID,
+            NAME as CAT_NAME,
+            PARENT_ID,
+            PATH,
+            LEVEL
+        from CATEGORY_LINK
+        order by ID
+    </sql-query>
+
+</hibernate-mapping>

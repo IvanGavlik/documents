@@ -1,0 +1,19 @@
+Do sada treba znati
+	SpEL
+	lookup method injection method replacment
+	lifecycle
+	javaBeanspropery editor
+	internationalization
+	app events
+	accessing resources
+	profiles
+	envronment and propery source abstraction
+done on 2020 03 15 see: C:\Users\ivan.gavlik\sts-workspace\2020_03_14_springHowTo
+
+Do sada treba znati 
+	Data acces
+		- simple jdbc
+		- hibernated basic
+		- Spring JPA
+	embeded DB
+done on 2020 04 13 see: 

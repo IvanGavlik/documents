@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <title>CaveatEmptor</title>
+
+    <link href="#{request.contextPath}/resources/style.css" type="text/css" rel="stylesheet"/>
+
+    <!--
+    This is how you do it properly with JSF (2.2 even lets you move the resources directory...)
+    but of course, the IntelliJ LiveEdit plugin doesn't work anymore if your browser requests
+    'style.css.xhtml' and that doesn't match any file in your IDE. Wake up, experts, it's 2014.
+
+    <link href="#{resource['style.css']}" type="text/css" rel="stylesheet"/>
+    -->
+
+</h:head>
+
+<h:body>
+    <f:view>
+        <ui:insert name="metadata"/>
+
+        <h:panelGroup id="navigation" styleClass="navigation" layout="block">
+            <h:panelGroup layout="block" styleClass="dontJustRemoveMeBecauseYouThinkYouAreSmartDearJSFExpertGroupMember">
+                <h:outputText value="Browse Catalog:"/>
+                <h:link value="Offset" outcome="catalog"/>
+                <h:link value="Seek" outcome="catalogSeek"/>
+            </h:panelGroup>
+            <h:link value="Sell Item" outcome="editItem"/>
+            <ui:insert name="navigation"/>
+        </h:panelGroup>
+
+        <h:messages styleClass="messages" layout="table"/>
+
+        <h1 class="title">
+            <ui:insert name="title"/>
+        </h1>
+
+        <h:panelGroup styleClass="content" layout="block">
+            <ui:insert name="content"/>
+        </h:panelGroup>
+
+    </f:view>
+
+    <!-- Press CTRL+SHIFT+D to get Debug Popup -->
+    <ui:debug rendered="#{initParam['javax.faces.PROJECT_STAGE'] == 'Development'}" hotkey="D"/>
+
+</h:body>
+</html>

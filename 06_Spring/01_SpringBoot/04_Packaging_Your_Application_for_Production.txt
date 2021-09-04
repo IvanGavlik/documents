@@ -1,0 +1,12 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2019-10-26T11:02:16+02:00
+
+====== 04 Packaging Your Application for Production ======
+Created subota 26 listopada 2019
+
+https://docs.spring.io/spring-boot/docs/current/reference/html/using-spring-boot.html#using-boot-packaging-for-production item 9 
+
+and 
+
+https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready

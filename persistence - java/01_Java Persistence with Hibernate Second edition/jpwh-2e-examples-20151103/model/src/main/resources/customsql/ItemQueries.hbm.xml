@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/orm/hbm"
+                   package="org.jpwh.model.customsql"
+                   default-access="field">
+
+    <sql-query name="loadImagesForItem">
+        <load-collection alias="img" role="Item.images"/>
+        select
+            ITEM_ID, FILENAME, WIDTH, HEIGHT
+        from
+            ITEM_IMAGES
+        where
+            ITEM_ID = ?
+    </sql-query>
+
+    <sql-query name="findItemByIdFetchBids">
+        <return alias="i" class="Item"/>
+        <return-join alias="b" property="i.bids"/>
+        select
+            {i.*}, {b.*}
+        from
+            ITEM i
+        left outer join BID b
+            on i.ID = b.ITEM_ID
+        where
+            i.ID = ?
+    </sql-query>
+
+</hibernate-mapping>

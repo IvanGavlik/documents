@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!-- 
+  Metadata is declared inside a <code>&lt;hibernate-mapping&gt;</code> root element. Attributes such as
+  <code>package</code> name and <code>default-access</code> apply to all mappings in this file. You may include as many
+  entity class mappings as you like.
+  -->
+<hibernate-mapping
+        xmlns="http://www.hibernate.org/xsd/orm/hbm"
+        package="org.jpwh.model.simple"
+        default-access="field">
+
+    <!-- An entity class mapping -->
+    <class name="Item">
+        <id name="id">
+            <generator class="native"/>
+        </id>
+        <property name="name"/>
+        <property name="auctionEnd" type="timestamp"/>
+    </class>
+
+    <!-- Externalized queries -->
+    <query name="findItemsHibernate">select i from Item i</query>
+
+    <!-- Auxiliary schema DDL -->
+    <database-object>
+        <create>create index ITEM_NAME_IDX on ITEM(NAME)</create>
+        <drop>drop index if exists ITEM_NAME_IDX</drop>
+    </database-object>
+
+</hibernate-mapping>

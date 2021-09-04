@@ -1,0 +1,32 @@
+<ui:component
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:cc="http://java.sun.com/jsf/composite">
+
+    <cc:interface>
+        <cc:attribute name="page" required="true"
+                      shortDescription="The Page component."/>
+        <cc:attribute name="attribute" required="true"
+                      shortDescription="The qualified name of the attribute."/>
+        <cc:attribute name="label" required="true"
+                      shortDescription="The rendered label."/>
+    </cc:interface>
+
+    <cc:implementation>
+
+        <h:link>
+            <h:outputText value="#{cc.attrs.label}"
+                          style="#{persistentAttributeConverter.equals(cc.attrs.page.sortAttribute, cc.attrs.attribute) ? 'border-bottom: 0.1em solid;' : ''}"/>
+            <h:panelGroup rendered="#{persistentAttributeConverter.equals(cc.attrs.page.sortAttribute, cc.attrs.attribute)}"
+                    style="display: inline-block; padding: 0 0.5em; font-size: 80%; font-weight: bold;">
+                <h:outputText value="&#x2191;" rendered="#{cc.attrs.page.sortedAscending}"/>
+                <h:outputText value="&#x2193;" rendered="#{not cc.attrs.page.sortedAscending}"/>
+            </h:panelGroup>
+            <f:param name="sortBy" value="#{cc.attrs.attribute}"/>
+            <f:param name="sortDirection" value="#{cc.attrs.page.sortedAscending ? 'DESC' : 'ASC'}"/>
+        </h:link>
+
+    </cc:implementation>
+</ui:component>

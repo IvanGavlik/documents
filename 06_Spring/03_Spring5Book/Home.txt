@@ -1,0 +1,1180 @@
+CHAPTER 1. Intro
+1.1 What is Spring
+
+CHAPTER 2. GETTING STARTED
+2.1 Spring packaging
+2.2 Hello World Application
+
+CHAPTER 3 IOC and DI in Spring
+
+3.1 IOC and DI
+IOC two subtypes: dependency injeciton and dependency lookup
+
+	depedency lookup
+		-> component must acquire a reference to dependency
+		-> can be dependsny pull or dependency lookup (CDL)
+		Dependency pull, dependencies are pulled from registry as required (EJB 2.1)
+		CDL lookup is performed in container not from central registry (componet implem an interface)
+
+	depedency injection
+		-> dependenci is injected into component by ioc container
+		-> construcor and setter DI	
+	
+3.2 DI Setter Injection vs Construcotr Injetion vs Filed Injection
+Constructor injection is particularly useful when you absolutely must have 
+an instance of the dependency class before your component is used
+
+Setter injection is useful
+	1. If the component is exposing its dependencies to the container whant to provide its own defaults, 
+	2. Allows you to swap dependencies for a different implementation on the fly without 
+	creating a new instance of the parent component
+
+Field Injection
+	dependency is injected directly in the field, with no constructor or setter needed. 
+	This is done by annotating the class member with the Autowired annotation. 
+	This might seem practical, because when the dependency is not needed outside of the object it is part of, 
+	it relieves the developer of writing some code that is no longer used after the initial creation of
+	the bean	
+	can not be done with xml
+	Field injection cannot be used for final fields. This type of fields can only be initialized using constructor injection
+	Field injection introduces difficulties when writing tests as the dependencies have to be injected manually.
+
+3.3 Beans and Bean Factory
+In Spring, the term bean is used to refer to any component manaFged by the container
+BeanFactory is responsible for managing components, including their dependencies as well 
+as their life cycles. In Spring, the term bean is used to refer to any component managed by the container
+
+
+3.4 Application Context
+ApplicationContext interface is an extension to BeanFactory. In addition to DI services,
+ApplicationContext provides other services, such as transaction and AOP service, message source for
+internationalization (i18n), and application event handling...
+
+3.5 Configuraton options
+Defining beans can be done in XML file or in code with annotations 
+Java Configuration
+-class must be annotated with @Configuration
+-contains methods annotated with @Bean that are called directly by the Spring IoC container 
+	to instantiate the beans. The bean name will be the same as the name of the method used to create it.
+
+3.6 Injecting simple values
+	For annotation-style simple value injection, we can apply the @Value annotation to the bean properties.
+	EX:
+	@Value("John Mayer")
+	private String name; --> 	name have value John Mayer
+
+	
+3.7 Spring Expression Language
+enables you to evaluate an expression dynamically and then use it in Spring’s ApplicationContext
+
+	@Component("injectSimpleConfig")
+	public class InjectSimpleConfig {
+		private String name  "John Mayer"; ....
+
+	@Service("injectSimpleSpel")
+	public class InjectSimpleSpel {
+		@Value("#{injectSimpleConfig.name}")
+		private String name; ....	
+	
+	injectSimpleConfig is class with property name
+	@Component("injectSimpleConfig")
+	public class InjectSimpleConfig {
+		private String name = "John Mayer";
+		...geters and seters
+
+also can be used in xml
+
+TODO Injecting Collections page 101
+
+Method Injection -> Lookup Method Injection or Method Replacement
+
+Lookup Method Injection
+- when a singleton depends on a nonsingleton
+- your singleton declare a method, the lookup method, which returns an instance of 
+the nonsingleton bean
+- Avoid the temptation to use Lookup Method Injection when the beans share the same life cycle, especially
+ if they are singletons
+
+public abstract class AbstractLookupDemoBean {
+	
+	public abstract Singer getMySinger();
+	
+	@Override
+	public void doSomething() {
+		getMySinger().sing();
+	}
+}
+
+	
+3.8 Method replacement 
+allows you to replace the implementation of any method on a bean arbitrarily, without having to change 
+the original source code
+
+
+3.9 Bean naming 
+Spring follows a simple resolution process to determine what name is used for the bean.
+	1. id attribute, 
+	2. name attribute 
+	3. class name as the name (downcasing the first letter)
+
+To declare aliases, we make use of the name attribute of the @Bean
+	@Bean(name={"johnMayer","john","jonathan","johnny"})
+     public Singer singer(){ return new Singer(); }
+see @AliasFor annotation
+
+3.10 Bean instantation model and bean scopes
+By default, all beans in Spring are singletons. This means Spring maintains a single instance of the bean, all
+dependent objects use the same instance, and all calls to ApplicationContext.getBean() return the same
+instance.
+If you start off with an object that is a singleton but then discover it is not really suited t
+you can change it to a nonsingleton (prototype) without affecting any of your application code.
+@Scope("prototype") in xml is  scope="prototype"
+
+prototype tells speing to instantiate a new instance of the bean every time a bean instance is requested by the application
+
+other scopes:
+	Request: For web application use. When using Spring MVC for web applications,
+	beans with request scope will be instantiated for every HTTP request and then
+	destroyed when the request is completed.
+	Session: For web application use. When using Spring MVC for web applications,
+	beans with session scope will be instantiated for every HTTP session and then
+	destroyed when the session is over.
+	Global session: For portlet-based web applications. The global session scope beans can 
+	be shared among all portlets within the same Spring MVC–powered portal application.
+	
+Choosing an Instantiation Mode 
+	Use singleton when:
+		1. Shared object with no state
+		2. Shared object with read-only state
+		3. Shared object with shared state: If you have a bean that has state that must be shared, 
+		singleton is the ideal choice. In this case, ensure that your synchronization for state 
+		writes is as granular as possible. 
+		4. High-throughput objects with writable state: If you have a bean that is used a great
+		deal in your application, you may find that keeping a singleton and synchronizing 
+		all write access to the bean state allows for better performance than constantly 
+		creating hundreds of instances of the bean. When using this approach, try to 
+		keep the synchronization as granular as possible without sacrificing consistency.
+		You will find that this approach is particularly useful when your application creates
+		a large number of instances over a long period of time, when your shared object 
+		has only a small amount of writable state, or when the instantiation of a new instance 
+		is expensive.
+	Use prototype when:
+		1. Objects with writable state: If you have a bean that has a lot of writable state, you 
+		may find that the cost of synchronization is greater than the cost of creating a new
+		instance to handle each request from a dependent object
+		2. Objects with private state: Some dependent objects need a bean that has private 
+		state so that they can conduct their processing separately from other objects that 
+		depend on that bean
+
+see: @DependsOn("")  		
+
+3.11 Autowiring 
+Spring supports
+	byName: wire each property to a bean of the same name.
+	byType: automatically using a bean of the same type 
+	constructor: like byType wiring, except that it uses constructors 
+	rather than setters to perform the injection. 
+	default: If your bean has a default (no-arguments) constructor, Spring uses
+
+When autowiring by type, things gets complicated when bean types are related, and exceptions are
+thrown when you have more classes that implement the same interface and the property requiring to be
+autowired specifies the interface as the type, because Spring does not know which bean to inject
+
+When there are bean-related types, it is useful to be able to specify that autowiring should be done
+by name. This is done using the @Qualifier annotation, together with the @Autowired annotation
+	@Autowired
+	@Qualifier("fooImplOne")
+You can do it without @Qualifier name of the filed must be name o the bean 
+	private GreestingService greestingServiceImplOne // by name he will use class  GreestingServiceImplOne
+
+
+Instead of @Autowired , you can use @Resource(name"messageProvider") to achieve the same result.
+Spring supports use of the @Inject annotation introduced as part of JSR-299 
+(Contexts and Dependency Injection for the Java EE Platform). 
+@Inject is equivalent in behavior to Spring’s @Autowired annotatio
+
+@Lazy annotation is used at the class level to declare beans that will be instantiated the first 
+time they are accessed.
+
+When to Use Autowiring
+	In most cases, the answer to the question of whether you should use autowiring is definitely no! Autowiring
+	can save you time in small applications, but in many cases, it leads to bad practices and is inflexible in
+	large applications. Using byName seems like a good idea, but it may lead you to give your classes artificial
+	property names so that you can take advantage of the autowiring functionality. The whole idea behind
+	Spring is that you can create your classes as you like and have Spring work for you, not the other way around.
+	You may be tempted to use byType until you realize that you can have only one bean for each type in your
+	ApplicationContext—a restriction that is problematic when you need to maintain beans with different
+	configurations of the same type. The same argument applies to the use of constructor autowiring.
+	In some cases, autowiring can save you time, but it does not really take that much extra effort to define
+	your wiring explicitly, and you benefit from explicit semantics and full flexibility on property naming and on
+	how many instances of the same type you manage. For any nontrivial application, steer clear of autowiring at
+	all costs.
+
+3.12 Bean Inheritance STAO PAGE 122 (126 of 866)
+- need multiple definitions of beans that are the same type or implement a shared interface. 
+Spring allows you to provide a <bean>
+- definition that inherits its property settings from another 
+bean in the same ApplicationContext instance
+- you can add the attribute abstract="true" in the <bean> tag when declaring the parent bean.
+- Spring Bean definition inheritance has nothing to do with Java class inheritance but the inheritance concept is same. 
+You can define a parent bean definition as a template and other child beans can inherit the required configuration from the parent bean.
+
+Injecting Beans
+TODO Resolving Dependencies
+
+
+Autowiring Your Bean
+five modes for autowiring.
+	byName: When using byName autowiring, Spring attempts to wire each property to a
+	bean of the same name. So, if the target bean has a property named foo and a foo
+	bean is defined in ApplicationContext, the foo bean is assigned to the foo property
+	of the target.
+	byType: When using byType autowiring, Spring attempts to wire each of the
+	properties on the target bean by automatically using a bean of the same type in
+	ApplicationContext.
+	constructor: This functions just like byType wiring, except that it uses constructors
+	rather than setters to perform the injection. Spring attempts to match the
+	greatest numbers of arguments it can in the constructor. So, if your bean has two
+	constructors, one that accepts a String and one that accepts String and an Integer,
+	and you have both a String and an Integer bean in your ApplicationContext,
+	Spring uses the two-argument constructor.
+	default: Spring will choose between the constructor and byType modes
+	automatically. If your bean has a default (no-arguments) constructor, Spring uses
+	byType; otherwise, it uses constructor.
+	no: This is the default.
+	
+lazy-init attribute is set to true to inform Spring to instantiate the bean only when it is first requested, rather than at startup (@Lazy annotation)
+
+When autowiring by type, things gets complicated when bean types are related, and exceptions are
+thrown when you have more classes that implement the same interface and the property requiring to be autowired specifies the interface as the type, because Spring does not know which bean to inject
+This is done using the @Qualifier annotation, together with the @Autowired annotation, and
+providing the name of the bean being injected as an argument for it.
+	...
+		@Autowired
+		@Qualifier("fooImplOne")
+		public void setFoo(Foo foo) { ...
+
+In most cases, the answer to the question of whether you should use autowiring is definitely no! Autowiring can save you time in small applications, but in many cases, it leads to bad practices and is inflexible in large applications.
+
+Setting Bean Inheritance
+Spring allows you to provide a <bean> definition that inherits its property  from another bean in the same ApplicationContext instance.
+You can override the values of any properties on the child bean as required, which allows you to have full control, but the parent bean can provide each of your beans with a base configuration
+
+extra attribute, parent, which indicates that Spring should consider the parent bean the parent of the bean and inherit its configuration.
+In case you don’t want a parent bean definition to become available for lookup from ApplicationContext,  you can add the attribute abstract"true" in the <bean> tag when declaring the parent bean.
+
+When you are using inheritance, remember that bean inheritance does not have to match a Java
+inheritance hierarchy. It is perfectly acceptable to use bean inheritance on five beans of the same type.
+Think of bean inheritance as more like a templating feature than an inheritance feature. Be aware, however, that if you are changing the type of the child bean, that type must extend the parent bean type.
+
+
+TODO STAO 18.02.2020. 
+CHAPTER 4 Spring Configuration in Detail and Spring Boot 
+
+Bean Life-Cycle Management
+beans can be constructed in such a way that
+they receive notifications at certain points in their life cycle. This enables your beans to perform relevant processing at certain points throughout their life. In general, two life-cycle events are particularly relevant to a bean: post-initialization and pre-destruction.
+post-initialization event is raised as soon as Spring finishes setting all the
+property values on the bean and finishes any dependency checks that you configured it to perform. The predestruction event is fired just before Spring destroys the bean instance. However, for beans with prototype scope, the predestruction event will not be fired. The design of Spring is that the initialization life-cycle callback methods will be called on objects regardless of bean scope, while for beans with prototype scope, the destruction life-cycle callback methods will not be called.
+Spring provides three mechanisms a bean can use to hook into each of these events and perform some additional processing: interface-based, method-based, and annotation-based mechanisms.
+
+Using the interface-based mechanism, your bean implements an interface specific to the type of
+notification it wants to receive
+For the method-based mechanism, Spring allows you to specify, in your ApplicationContext configuration,
+For the annotation mechanism, you can use JSR-250 annotations to specify the method that
+Spring should call after construction or before destruction.
+
+Hooking into Bean Creation
+
+Understanding Order of Resolution
+1. constructor is called first to create the bean
+2. Dependencies are injected (setter are called)
+3. BeanPostProcesor and @PostConstuct
+4. InitializingBean interface -> afterPropertiesSet is executed
+5. init metod
+
+Hooking into Bean Destruction
+in xml -> inside bean tag set atribute destroy-method
+impement DisposableBean Interface
+use: @PreDestroy Annotation
+in @Bean annotation (inside config. class) 
+	 @Lazy
+         @Bean(initMethod = "afterPropertiesSet", destroyMethod = "destroy")
+
+
+Making Your Beans “Spring Aware”
+
+The BeanNameAware interface, which can be implemented by a bean that wants to obtain its own name, In most cases, the implementation of the setBeanName() interface is just a single line that
+stores the value passed in by the container in a field for use later
+Using the BeanNameAware interface is really quite simple, and it is put to good use when you are
+improving the quality of your log messages.
+
+Using the ApplicationContextAware Interface
+it is possible for your beans to get a reference to the ApplicationContext instance that configured them
+
+
+Use of FactoryBeans
+FactoryBean interface that acts as an adapter for objects that cannot be created and managed using the
+standard Spring semantics.
+Typically, you use FactoryBeans to create beans that you cannot create by using
+the new operator.
+It is a factory for other beans.
+It is interface that need to be implements, have getObject() metod gives a bean
+
+Sometimes you need to instantiate JavaBeans that were provided by a non-Spring-powered third-party
+application. You don’t know how to instantiate that class, but you know that the third-party application
+provides a class that can be used to get an instance of the JavaBean that your Spring application needs.
+In this case, Spring bean’s factory-bean and factory-method attributes in the <bean> tag can be used.
+
+JavaBeans PropertyEditors - see example: https://howtodoinjava.com/spring-boot/custom-property-editor-example/
+spring uses when needs to be done when parsing a Spring beans definition file(xml) in order to create beans in the factory
+interface that converts a property’s value to and from its native type representation into a String. 
+The following configuration snippet adds a date property editor so that dates can easily be configured in beans definitions files.
+
+<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+  <property name="customEditors">
+    <map>
+      <entry key="java.util.Date">
+        <bean class="org.springframework.beans.propertyeditors.CustomDateEditor">
+          <constructor-arg index="0">
+            <bean class="java.text.SimpleDateFormat">
+              <constructor-arg  value="dd.MM.yyyy" />
+            </bean>
+          </constructor-arg>
+          <constructor-arg index="1" value="false" />
+        </bean>
+      </entry>
+    </map>
+  </property>
+</bean>
+
+
+Internationalization with the MessageSource
+Using the MessageSource interface, your application can access String resources, called messages, stored in a variety of languages
+TODO STAO 2020_20_26 -> page 168 
+
+Aside from ApplicationContext, Spring provides three MessageSource implementations.
+	ResourceBundleMessageSource
+	should not be used in a production application because you can’t configure it externally
+	ReloadableResourceBundleMessageSource
+	StaticMessageSource
+
+To take advantage of ApplicationContext’s support for MessageSource, you must define a bean in your
+configuration of type MessageSource and with the name messageSource. ApplicationContext takes this
+MessageSource and nests it within itself, allowing you to access the messages by using ApplicationContext.
+
+When looking for a message for a particular Locale, the ResourceBundle looks for a file that is named as a combination of the base name and the locale name. For instance, if the base name is foo and we are looking for a message in the en-GB (British English) locale, ResourceBundle looks for a file called foo_en_GB.properties.
+
+When accesing use ApplicationContext.getMessage() rather than access the ResourceBundleMessageSource bean directly. For web applications
+When you are using MessageSource in stand-alone applications, where Spring offers no additional
+support other than to nest the MessageSource bean automatically in ApplicationContext, it is best
+to make the MessageSource available by using dependency injection.
+
+The MessageSource interface defines three overloads for the getMessage() method
+getMessage(String,  Object[], Locale)
+getMessage(String, Object[], String,Locale)
+getMessage(MessageSourceResolvable,Locale)
+
+TODO Using MessageSource in Stand-Alone Applications
+
+Using Application Events
+An event is a class derived from ApplicationEvent, which itself derives from java.util.EventObject. Any
+bean can listen for events by implementing the ApplicationListener<T> interface
+Events are published using the ApplicationEventPublisher.publishEvent() method (publishing class must
+have knowledge of ApplicationContext)
+the only point of note is that ApplicationEvent has a single constructor that  accepts a reference to the source of the event
+the only point of note is that ApplicationEvent has a single constructor that accepts a reference to the source of the event
+Typically, we use events for reactionary logic that executes quickly and is not part of the main
+application logic.
+
+Accessing Resources
+At the core of Spring’s resource support is the org.springframework.core.io.Resource interface.
+in most cases, you use one of the built-in implementations for accessing a file (the FileSystemResource class),
+a classpath (the ClassPathResource class), or URL resources (the UrlResource class).
+Internally, Spring uses another interface, ResourceLoader, and the default implementation, DefaultResourceLoader, to locate and create Resource instances. However, you generally won’t interact with DefaultResourceLoader, instead using another ResourceLoader implementation, called ApplicationContext
+
+TODO Configuration Using Java Classes
+TODO Spring Mixed Configuration
+
+TODO Profiles
+in bean put which profile he belongs 
+@Profile("eng")
+class X {
+}
+in propertie file set wich profile to use
+spring.profiles.actove=eng
+
+TODO Environment and PropertySource Abstraction (193 Page)
+
+Bean Life Cycle
+Inatante (construcors) -> populate propertoes -> call setBeanName of BeanNameAware ->
+Call setBeanFactroy of BeanFactroyAware -> Call setAppContes of AppContexAware ->
+Pre init bean (Bean post processors) -> afterPropertiesSet of init beans -> custom init method
+-> Post ini (Bean post processors) -> Bean ready to use
+
+you can implement callback interfaces
+InitializingBean.afterPropertiesSet() called after properties are set
+DisposableBean.destroy() called during bean destruction in shoud down containter
+
+Life cycle annotatoons
+@PostConstruct 
+annotated methods will be called after bean has been construcred, but before its returned to the req object
+@PreDestroy
+just before bean is destoyed by contanier
+
+14 "Aware interfaces" -> used to acces the Spring infrastructure, rarely used by developers
+Use: ApplicationEventPublisherAware, BeanFactroyAware 
+be aware of others and what they can do 
+
+CHAPTER 5 SPRING AOP
+OP is often referred to as a tool for implementing crosscutting concerns.
+The term crosscutting concerns refers to logic in an application that cannot be decomposed from the rest of the
+application and may result in code duplication and tight coupling.
+Logging and security are typical examples of crosscutting concerns that are
+present in many applications
+
+There are two distinct types of AOP: static and dynamic
+static 
+-> AspectJ -> compile time 
+dynamic
+-> Spring AOP -> runtime
+
+AOP Concepts
+Joinpoints: A joinpoint is a well-defined point during the execution of your
+application.
+Advice: The code that is executed at a particular joinpoint
+Pointcuts: A pointcut is a collection of joinpoints that you use to define when advice
+should be executed
+Aspects: An aspect is the combination of advice and pointcuts encapsulated in a
+class.
+Weaving: This is the process of inserting aspects into the application code at the
+appropriate point.
+Target: An object whose execution flow is modified by an AOP process
+Introduction: This is the process by which you can modify the structure of an object
+by introducing additional methods or fields to it.
+
+Spring’s AOP implementation
+The core architecture of Spring AOP is based on proxies. When you want to create an advised instance of
+a class, you must use ProxyFactory to create a proxy instance of that class, first providing ProxyFactory
+with all the aspects that you want to be woven into the proxy.
+
+At runtime, Spring analyzes the crosscutting concerns defined for the beans in ApplicationContext
+and generates proxy beans (which wrap the underlying target bean) dynamically. Instead of calling the target
+bean directly, callers are injected with the proxied bean. The proxy bean then analyzes the running condition
+(that is, joinpoint, pointcut, or advice) and weaves in the appropriate advice accordingly
+
+it supports only one joinpoint type: method invocation.
+
+aspect is represented by an instance of a class that implements the Advisor interface
+implementations: Advisor: PointcutAdvisor and IntroductionAdvisor
+
+The ProxyFactory class controls the weaving and proxy creation process in Spring AOP. Before you can
+create a proxy, you must specify the advised or target object.
+
+Types of Advice
+Before (org.springframework.aop.MethodBefore.Advice)
+	can modify the arguments passed to a method
+	can prevent the method from executing by raising an exception
+After-Returning (org.springframework.aop.AfterReturningAdvice)
+	can read arguments passed to a method
+	you can’t change the execution path 
+	you can’t prevent the method from executing.
+	cannot modify the return value of a method invocation
+	it can throw an exception that can be sent up the stack instead of the return value
+Around (org.aopalliance.intercept.MethodInterceptor)
+	combination of before and after advice
+	can modify the return value
+	can prevent the method from executing
+	many features of Spring are created by using method interceptors, such as the remote proxy support and the transaction management features.
+After(finally) (org.springframework.aop.AfterAdvice)
+Throws (org.springframework.aop.ThrowsAdvice)
+	advice executes only if the method throws an exception.
+	an make to the program flow is to change the type of exception that is
+	thrown.
+Introduction (org.springframework.aop.IntroductionInterceptor)
+
+you should choose the most specific advice type for your need
+
+Pointcuts in Spring are created by implementing the Pointcut interface
+implementations 
+	-> org.springframework.aop.support.annotation.AnnotationMatchingPointcut
+	-> org.springframework.aop.aspectj.AspectJExpressionPointcut
+		add jar files
+		aspect suport // pc.setExpression("execution(* sing*(..))");
+	-> org.springframework.aop.support.ComposablePointcut
+		to compose two or more pointcuts together to achieve the desired goal
+	-> org.springframework.aop.support.ControlFlowPointcut
+		a control flow pointcut in Spring applies to all method calls 
+		below a given method or below all methods in a class.
+	-> org.springframework.aop.support.DynamicMethodMatcherPointcut
+	-> org.springframework.aop.support.JdkRegexpMethodPointcut
+	-> org.springframework.aop.support.NameMatchMethodPointcut
+	-> org.springframework.aop.support.StaticMethodMatcherPointcut
+
+Spring defaults to using AspectJ’s pointcut language. Moreover, when using
+Spring’s @AspectJ annotation-style AOP support, you need to use AspectJ’s pointcut language
+To use AspectJ pointcut expressions with Spring, you need to include two AspectJ library files,
+aspectjrt.jar and aspectjweaver.jar, in your project’s classpath
+
+
+Advisor
+For many of the Pointcut implementations, Spring also provides a convenience Advisor
+implementation that acts as the pointcut. For instance, instead of using 
+NameMatchMethodPointcut coupled with DefaultPointcutAdvisor in the previous 
+example, we could simply have used NameMatchMethodPointcutAdvisor
+ Ex:
+	Advisor advisor = new NameMatchMethodPointcutAdvisor(new SimpleAdvice());
+	ProxyFactory pf = new ProxyFactory();
+	pf.setTarget(johnMayer);
+	pf.addAdvisor(advisor);
+
+Understanding Proxies
+The core goal of a proxy is to intercept method invocations and, where necessary, execute chains
+of advice that apply to a particular method
+JDK proxies are the most basic type of proxy can generate proxies only of interfaces
+GLIB dynamically generates the bytecode
+for a new class on the fly for each proxy, reusing already generated classes wherever possible
+
+Creating Annotation Matching Pointcuts 
+you may want to use your own specified annotations for defining
+pointcuts, that is, apply the advice logic to all methods or types with specific annotations
+Ex: 
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target({ElementType.TYPE, ElementType.METHOD})
+	public @interface AdviceRequired {
+	
+
+Pointcut Summary
+You can use two patterns to combine pointcuts and advisors. The first pattern,
+involves having the pointcut implementation decoupled from the advisor
+The second option,encapsulate the Pointcut inside your own Advisor implementation
+
+
+Introductions
+By using introductions, you can introduce new functionality to an existing object dynamically. In Spring, you can introduce an
+implementation of any interface to an existing object
+special type of around advice
+you cannot use pointcuts with introductions because An introduction adds new interface implementations
+to a class, and a pointcut defines which methods the advice applies to
+
+
+ObjectModification Detection with Introductions
+Object modification detection is a useful technique for many reasons. Typically, you apply modification
+detection to prevent unnecessary database access when you are persisting object data.
+
+Introductions allow you not only to extend the functionality of existing 
+methods but to extend the set of interfaces and object implementations
+dynamically.
+Using introductions is the perfect way to implement crosscutting logic 
+that your application interacts with through well-defined interfaces. 
+In general, this is the kind of logic that you want to apply
+declaratively rather than programmatically.
+
+Configuring AOP Declaratively in Spring
+-> Using ProxyFactoryBean
+-> Using the Spring aop namespace
+-> Using @AspectJ-style annotations (syntax it uses is based on AspectJ and you need to include some
+	AspectJ libraries)
+
+Using ProxyFactoryBean
+The ProxyFactoryBean class is an implementation of FactoryBean that allows you to specify
+a bean to target, and it provides a set of advice and advisors for that bean
+that are eventually merged into an AOP proxy
+-> examples in xml, so is it for xml only it said that is declarative
+
+Using the aop Namespace
+-> examples in xml 
+
+Using @AspectJ-style annotations
+The @Aspect annotation is used to declare that it’s an aspect class.
+The pointcuts were defined as methods that return void. In the class, we defined two
+pointcuts; both are annotated with @Pointcut
+The before-advice method was annotated with @Before
+around advice method was annotated with @Around
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+->enables support for handling components marked with AspectJ’s @Aspect annotation and is
+designed to be used on classes annotated with @Configuration
+-> request Spring to generate CGLIB, class-based proxies
+-> in spring boot The attribute does not have to be set anywhere either because Spring Boot automatically detects
+what type of proxies you need
+
+CHAPTER 6 Spring JDBC Support
+You can use Spring to manage the database connection for you by providing a bean that implements javax.
+sql.DataSource. The difference between a DataSource and a Connection is that a DataSource provides and
+manages Connections
+
+Starting from version 3.0, Spring also offers embedded database support, which automatically starts an
+embedded database and exposes it as a DataSource for the application
+
+Exception Handling
+Because Spring advocates using runtime exceptions rather than checked 
+exceptions, you need a mechanism to translate the checked SQLException 
+into a runtime Spring JDBC exception
+Spring provides a default implementation of the SQLExceptionTranslator 
+interface, which takes care of translating the generic SQL error codes into
+ Spring JDBC exceptions.
+ 
+The JdbcTemplate Class
+most of the time you just need to construct the class by 
+passing in the data source object
+Once configured, JdbcTemplate is thread-safe
+That means you can also choose to initialize a single
+instance of JdbcTemplate in Spring’s configuration and have it injected into all DAO beans
+in sql parameters are passed by ?
+
+NamedParameterJdbcTemplate
+to use named parameters to ensure that each parameter is being bound exactly
+as intended
+You will see that instead of the ? placeholder, the named parameter 
+(prefixed by a semicolon) is used instead: :singerId.
+The initialization of NamedParameterJdbcTemplate is the same as JdbcTemplate
+
+RowMapper<T>
+perform mapping from a JDBC result set to POJOs
+only for row mapping to a single POJOs
+
+Retrieving Nested Domain Objects with ResultSetExtractor
+-used when sql joins two or more tables to extract data into two POJOs
+
+Spring Classes That Model JDBC Operations
+Built on top of JdbcTemplate Spring also provides a number of useful
+classes some of them:
+
+- MappingSqlQuery<T>: The MappingSqlQuery<T> class allows you to wrap the query
+	string together with the mapRow() method into a single class.
+- SqlUpdate: The SqlUpdate class allows you to wrap any SQL update statement into
+	it. It also provides a lot of useful functions for you to bind SQL parameters, retrieve
+	the RDBMS-generated key after a new record is inserted, and so on.
+- BatchSqlUpdate: As its name indicates, this class allows you to perform 
+	batch update operations. 
+	For example, you can loop through a Java List object and have the
+	BatchSqlUpdate queue up the records and submit the update statements for you in a
+	batch. You can set the batch size and flush the operation at any time.
+- SqlFunction<T>: The SqlFunction<T> class allows you to call stored functions in
+	the database with argument and return types. Another class, StoredProcedure, also
+	exists that helps you invoke stored procedures.
+- Setting up JDBC DAO by using annotations
+
+DAO implementation class by using annotations
+-use @Repository on class that implements Dao interfaces
+-add @Resource for data source
+	Ex:
+	@Resource(name = "dataSource")
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+MappingSqlQuery
+for modeling query operations
+construct a
+MappingSqlQuery<T> class by using the data source and the query string.
+then implement the mapRow() method to map each ResultSet record into 
+the corresponding domain object.
+ex:
+	public class SelectAllSingers extends MappingSqlQuery<Singer> {
+		private static final String SQL_SELECT_ALL_SINGER =
+			"select id, first_name, last_name, birth_date from singer";
+		
+		public SelectAllSingers(DataSource dataSource) {
+			super(dataSource, SQL_SELECT_ALL_SINGER);
+		}
+		
+		protected Singer mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Singer singer = new Singer();
+			singer.setId(rs.getLong("id"));
+			singer.setFirstName(rs.getString("first_name"));
+			return singer;
+		}
+	}
+use in dao impl this class
+
+SqlUpdate
+- neededs to be extend
+- for update and insering data
+Ex:
+	public class UpdateSinger extends SqlUpdate {...
+primary key (id genrated)	
+- to setGeneratedKeysColumnNames
+	super.setGeneratedKeysColumnNames(new String {"id"});
+	super.setReturnGeneratedKeys(true);
+This value is available only after the insert statement has
+completed
+- in insert method
+	KeyHolder keyHolder = new GeneratedKeyHolder();
+	insertSinger.updateByNamedParam(paramMap, keyHolder);
+	singer.setId(keyHolder.getKey().longValue());
+	
+BatchSqlUpdate
+-For batch operations
+-class extends BatchSqlUpdate
+-BatchSqlUpdate class will queue up the insert operations and submit 
+them to the database in batch. 
+Every time the number of records equals the batch size, Spring will
+execute a bulk insert operation to the database for the pending records. On the other hand, upon completion, we call
+the BatchSqlUpdate.flush() method to instruct Spring to flush
+all pending operations (that is, the insert operations being queued 
+that still haven’t reached the batch size yet)
+
+SqlFunction -call procedures in db
+
+iBATIS is a popular DataMapper framework that is also based on SQL mapping
+ORM frameworks that focus on the object model, rather than the query.
+Popular ones include Hibernate, EclipseLink (also known as TopLink), and OpenJP
+
+spring-boot-starter-jdbc
+Spring Boot looks for embedded database initialization files under src/main/
+resources. It expects to find a file named schema.sql that contains SQL DDL
+statements (for example, CREATE TABLE statements) and a file named data.sql
+that contains DML statements (for example, INSERT statements). It uses this file to
+initialize a database at boot time
+
+
+CHAPTER 7.Hibernate in Spring
+The core concept of Hibernate revolves
+around the Session interface, which is obtained and managed by SessionFactory
+
+Configuration
+- dataSource bean standard
+- transactionManagerBean
+- sessionFactoyBean
+	-> need dataSource
+	-> scans pojo objecrts (mapings)
+
+Mapping
+two approaches
+- design the object model and then generate the database scripts
+- design DB and then programmatically map entities (prefere, more control)
+
+@Entity
+- mark class orm entity 
+@Table
+- table name in DB
+@Column
+- aributes in table@
+@Id
+- primary key 
+@GeneratedValue
+- how generate id value
+@Version
+- for optimsitic locking mechanisam
+
+one to many mapping
+	Singer class
+	@OneToMany(mappedBy = "singer", cascade=CascadeType.ALL,
+		orphanRemoval=true)
+	public Set<Album> getAlbums() {
+		return albums;
+	}
+	Album class  
+	@ManyToOne
+	@JoinColumn(name = "SINGER_ID")
+	public Singer getSinger() {
+		return this.singer;
+	}
+	
+
+mappedByattribute indicates the property in the Album class 
+that provides the association
+cascade attribute means that the update operation 
+should “cascade” to the child.
+orphanRemoval attribute means that after the albums have been
+updated, those entries that no longer exist in the set 
+should be deleted from the database
+@JoinColumn annotation is used for the underlying foreign-key
+column name
+
+Many-to-Many
+	Singer class
+	@ManyToMany
+	@JoinTable(name = "singer_instrument",
+	joinColumns = @JoinColumn(name = "SINGER_ID"),
+	inverseJoinColumns = @JoinColumn(name = "INSTRUMENT_ID"))
+	public Set<Instrument> getInstruments() {
+		return instruments;
+	}
+	Instrument class
+	@ManyToMany
+	@JoinTable(name = "singer_instrument",
+	joinColumns = @JoinColumn(name = "INSTRUMENT_ID"),
+	inverseJoinColumns = @JoinColumn(name = "SINGER_ID"))
+	public Set<Singer> getSingers() {
+		return this.singers;
+	}
+JoinTable to indicate the underlying join table
+joinColumns defines the column that is the foreign key to the SINGER
+inverseJoinColumns defines the column that is the foreign k
+ey to the other side of the association
+
+Session Interface
+-for interacting with DB (from SessionFactory)
+
+use the Hibernate Query Language (HQL) to define our queries
+Ex:
+	public List<Singer> findAll() {
+		return sessionFactory.getCurrentSession()
+			.createQuery("from Singer s").list();
+	}
+by default, Hibernate will fetch the associations lazily, which means that Hibernate
+will not join the association tables
+-can define the association with the fetch mode EAGER, 
+	for example, @ManyToMany(fetch=FetchType.EAGER).
+-call the function Criteria.setFetchMode()
+
+hibernate.hbm2ddl
+- write entity and then generate DB
+
+
+CHAPTER 8 Spring JPA (Springov ORM)
+- can change betewn JPA underlying persistence provider 
+(Hibernate, EclipseLink, Oracle TopLink..)
+- spring has own impementations (Spring Data JPA)
+
+Configuration
+- set EntityManagerFactory one off
+	-> LocalEntityManagerFactoryBean
+	-> JEE-compliant container
+	-> LocalContainerEntityManagerFactoryBean (prefered)
+
+@Configuration
+@EnableTransactionManagement
+class Configuratio {
+	@Bean
+	public DataSource dataSource() ...
+	
+	@Bean	
+	public PlatformTransactionManager transactionManager() {
+		return new JpaTransactionManager(entityManagerFactory());
+	}
+	@Bean
+	public JpaVendorAdapter jpaVendorAdapter() {
+		return new HibernateJpaVendorAdapter();
+	}
+	@Bean
+	public EntityManagerFactory entityManagerFactory() {
+		
+		LocalContainerEntityManagerFactoryBean factoryBean =
+			new LocalContainerEntityManagerFactoryBean();
+		factoryBean.setPackagesToScan("com.apress.prospring5.ch8.entities");
+		factoryBean.setDataSource(dataSource());
+		factoryBean.setJpaProperties(hibernateProperties()); // properties
+		factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
+		factoryBean.afterPropertiesSet();
+		return factoryBean.getNativeEntityManagerFactory();
+		
+	}
+}
+
+JpaTransactionManager
+- transaction manager for transactional data access
+EntityManagerFactory (LocalContainerEntityManagerFactoryBean)
+- inject dataSource bean
+- jpaVendorAdapter, addapter for Hibernate
+
+JPA Annotations
+- same as gor hibernate (see hibenate)
+
+@Repository annotation indicates that the class contains data access
+logic and instructs Spring to translate the vendor-specific exceptions to Spring’s DataAccessException
+hierarchy
+@Transactional annotation is used for defining transaction
+requirements
+To inject EntityManager, we use the @PersistenceContext annotation, which is the standard JPA
+annotation for entity manager injection
+in dao sloj 
+	@PersistenceContext
+	private EntityManager em;
+
+Java Persistence Query Language (JPQL) sam as hiberate query language
+
+Querying with Untyped Results
+	
+	List<Object[]> result = em.createQuery(...)
+		..getResultList();
+	result.iterator();
+
+Querying for a Custom Result Type with a Constructor Expression
+1. create pojo rezult class 
+2. 
+	List<SSummary> res = em.createQuery(.., SSummary.class).getResultList();
+
+save and update
+
+	public Singer save(Singer singer) {
+		if (singer.getId() == null) {
+			em.persist(singer);
+		} else {
+			em.merge(singer);
+		}
+	}
+
+When the merge() method is called, the EntityManager merges the state of the entity into the current
+persistence context.
+
+delete - EntityManager.remove()
+
+Native Query
+- maping will not be checked, resul can be converted 
+into object
+	em.createNativeQuery(ALL_SINGER_NATIVE_QUERY,
+		Singer.class).getResultList();
+
+JPA 2 Criteria API
+- strongly typed Criteria API query
+- meta-model class is annotated with @StaticMetamodel (abstrac class)
+- meta-model classes can be generated
+
+	@Transactional(readOnly=true)
+	@Override
+	public List<Singer> findByCriteriaQuery(String firstName, String lastName) {
+		
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Singer> criteriaQuery = cb.createQuery(Singer.class);
+		Root<Singer> singerRoot = criteriaQuery.from(Singer.class);
+		singerRoot.fetch(Singer_.albums, JoinType.LEFT);
+		singerRoot.fetch(Singer_.instruments, JoinType.LEFT);
+		criteriaQuery.select(singerRoot).distinct(true);
+
+	}
+	
+Spring Data JPA
+- simplfy Spring JPA
+- central interface org.springframework.data.repository.Repository<T,ID
+ extends Serializable> 
+- extensions of the Repository interface like CrudRepository
+
+	public interface SingerRepository extends CrudRepository<Singer, Long> {	}
+
+- when you use the common naming convention you don’t need to provide Spring Data JPA with the named query
+Spring Data JPA will “infer” and construct the query for you based on the method name
+	
+To use the Repository abstraction, you have to define it in Spring’s configuration
+see:  @EnableJpaRepositories annotation	
+
+Repositoryes	
+- CrudRepository
+- JpaRepository (provides batch, paging, and sorting)
+
+Spring Data JPA with Custom Queries
+query must be defined explicitly using the @Query annotation
+	@Query("select a from Album a where a.title like %:title%")
+	List<Album> findByTitle(@Param("title") String t);
+
+Keeping Track of Changes on the Entity Class
+- JPA entity listener, which helps you keep track of the audit information automatically
+- entity class needed to implement the Auditable<U, ID extends Serializable, T extends TemporalAccessor> extends
+	Persistable<ID> interface
+- Starting with Spring 5, implementing Auditable<U,ID extends Serializable> is no longer necessary
+because everything can be replaced by annotations	
+	-> put @EntityListeners(AuditingEntityListener.class)
+	-> use @CreatedBy, @CreatedDate, @LastModifiedBy, and @LastModifiedDate
+
+the auditing functionality is isolated into an abstract class annotated with @
+MappedSuperclass, and this will be the class also annotated with @EntityListeners(AuditingEntityListe
+ner.class).
+	@MappedSuperclass
+	@EntityListeners(AuditingEntityListener.class)
+	public abstract class AuditableEntity<U> implements Serializable {}
+	class SingerAudit extends AuditableEntity<SingerAudit>
+- in configuration class: @EnableJpaAuditing(auditorAwareRef = "auditorAwareBean")
+	
+Keeping Entity Versions by Using Hibernate Envers
+- The first one is to create database triggers that will
+clone the pre-update record into the history table before any update operations	
+- develop
+the logic in the data access layer (for example, by using AOP).
+ -Hibernate Envers (short for “entity versioning system”) is a Hibernate module specifically designed
+to automate the versioning of entities.
+- must set hibernate properties
+
+Enabling Entity Versioning and History Retrieval
+- annotate the entity class with @Audited
+- If you want to escape certain fields from auditing, @NotAudited
+- To retrieve the history records, Envers provides the org.hibernate.envers.AuditReader
+interface	
+- pass the pass in the entity’s ID and the revision number
+
+Spring Boot JPA (Spring Boot starter JPA)
+so it comes with preconfigured embedded database; all it’s needed is for the dependency to be on the
+classpath. It also comes with Hibernate to abstract the persistence layer. Spring Repository interfaces are
+automatically detected. So, all that is left for the developer to do is to provide entities, repository extensions,
+and an Application class to use them all together
+
+
+CHAPTER 9 Transaction Management
+- transaction = db operaion
+- when developing application yu have to make a choice to use global
+or local transaction
+Local - specific to a single transacion resource (JDBC connection for ex)
+Global - managed by the container and can span multiple transactional 
+resources
+
+PlatformTransactionManager interface uses the TransactionDefinition and
+TransactionStatus interfaces to create and manage transactions
+- implemetations:
+	-> CciLocalTransactionManager	
+	-> DataSourceTransactionManager
+	-> JpaTransactionManager (orm)
+	-> HibernateTransactionManager
+	-> JmsTransactionManager
+
+Tran properties atomicity, consistency, isolation, spring manage them
+in TransactionDefinition interface.
+You can set tran propagination, isolation level and timeout
+- isolation level types:
+1. ISOLATION_DEFAULT (level of the underlying data store.)
+2. ISOLATION_READ_UNCOMMITTED (see data modified by other uncommitted transactions)
+3. ISOLATION_READ_COMMITTED (other transactions are not able
+	to read data that has not been committed by other transactions)
+4. ISOLATION_REPEATABLE_READ (t ensures that once you
+	select data, you can still select the newly inserted data)
+5. ISOLATION_SERIALIZABLE (transactions are treated
+	as if they were executed one after another)
+- propafation types:
+1. PROPAGATION_REQUIRED (if there is no transaction, it starts a new one)
+2. PROPAGATION_SUPPORTS (if there is no transaction, it executes nontransactionally)
+3. PROPAGATION_MANDATORY (throws an exception if there is no active transaction.)
+4. PROPAGATION_REQUIRES_NEW (Always starts a new transaction, actice suspend)
+5. PROPAGATION_NOT_SUPPORTED (Always executes nontransactionally and suspends any existing transaction
+6. PROPAGATION_NEVER (Always executes nontransactionally even if an active transaction exists.
+	Throws an exception if an active transaction exists.)
+7. Runs in a nested transaction if an active transaction exists. 
+	If there is no active transaction, the execution is executed as if PROPAGATION_REQUIRED
+
+TransactionStatus Interface
+- allows a transactional manager to control the transaction
+execution. The code can check whether the transaction is a new one or whether it is a read-only transaction,
+and it can initiate a rollback
+
+Using annotations is best way to define transaction requirements
+In professional environments, it is a common practice to separate the persistence configuration (DAO)
+from the transactional configuration (service)
+
+@Transactiona
+- on class level transaction is present before the execution of
+each method within the class
+- attributes than can be set propagation, isolation, timeout, readOnly, 
+rollbackFor, rollbackForClassName, noRollbackFor, noRollbackForClassName, value
+
+@Transactional annotation without any attribute means that
+the transaction propagation is required, the isolation is the default, the timeout is the default, and the
+mode is read-write
+logger name="org.springframework.orm.jpa" level="debug"/>, 
+- you will be able to see in the log messages related to transaction handling
+
+for select set ost persistence read-only becaues providers will 
+perform a certain level of optimization 
+
+AOP Configuration for Transaction Management
+- deprecated becaues of anotations
+
+Using Programmatic Transactions
+- you can controle transacion programmatically two options:
+	-> PlatformTransactionManager into bean 
+	-> use TransactionTemplate (prefere)
+	
+Global (distributed) Transactions
+- situacione: one data must be update on variety of distibuted systems (database, mq, crm, erp)
+So it span throught multiple back-end resources you must have guarantee of atomicity
+see : Atomikos what is it do we need it 
+
+Spring Boot JTA
+- set of preconfigured beans designed to help you
+focus on the business functionality of the code and not on the environment setup
+
+
+
+CHAPTER 13 Testing
+Test categories
+- logic unit test (test single object -metod)
+- integration test (testing interrcftion between componenst)
+- front end test (test UI)
+- code quality test
+- system integration test (test verifies the accuracy of communication
+among all programs in the new system
+- system quality test (ensure nonfunctional requirements)
+- user acceptance test
+
+Spring Test Annotations
+- @ContextConfiguration
+	Class-level annotation used to determine how to load and configure an
+	ApplicationContext
+- @WebAppConfiguration
+	Class-level annotation used to indicate the ApplicationContext loaded
+- @ContextHierarchy
+	Class-level annotation indicating which bean profile should be active
+- @DirtiesContext
+	Class and method-level annotation
+	used to indicate that the context has been modified or corrupted
+	in some wyay
+@TestExecutionListeners
+	Class-level annotation 
+	for configuring TestExecutionListeners that should be registered with 
+	the TestContextManager.
+@TransactionConfiguration
+	Class-level annotation
+	to indicate transaction configuration
+@Rollback
+	Class and method-level annotation	
+	whether the transaction should be rolled back for the annotated test method
+@BeforeTransaction @AfterTransaction
+	Method-level annotation
+	method should be called before/after a transaction is started for the test
+	methods markeed with @Transactional
+@IfProfileValue
+	Class-and method-level annotation
+	method should be enabled for a specific set of environmental conditions
+@ProfileValueSourceConfiguration
+	Class-level annotation
+	specify the ProfileValueSource used by @IfProfileValue
+@Timed
+	Method-level annotation
+	test must finish in the specified time period
+@Repeat
+	Method-level annotation
+	test methos repeated the specidied number of times
+
+Implementing Logic Unit Tests
+The objective is to verify the behavior of an individual class, with 
+all the class’s dependencies being “mocked” with expected behavior
+The Spring Framework provides first-class support for integration testing in 
+the spring-test module
+
+@Before
+indicates to JUnit that the method should be run before running each
+test case
+
+@BeforeClass
+run some logic before the entire test class
+
+@Test
+it’s a test case that JUnit should run
+
+org.mockito.stubbing.Answer<T> interface, which mocks the method
+with the expected logic and returns a value
+Ex: 
+	List<Singer> singers = new ArrayList<>();
+	SingerService singerService = mock(SingerService.class);
+	
+	when(singerService.save(newSinger)).thenAnswer(new Answer<Singer>() {
+		public Singer answer(InvocationOnMock invocation) throws Throwable {
+			singers.add(newSinger);
+			return newSinger;
+		}
+	});
+see http://jmock.org/ for mocking data
+
+
+Implementing an Integration Test
+to support the preparation of test data in Excel format use 
+	1. Apache POI (http://poi.apache.org)  to help parse the test data  from excel
+	2. DbUnit (http://dbunit.sourceforge.net) for impl DB-related testing
+
+org.springframework.test.context.TestExecutionListener interface
+defines a listener API that can intercept the events (before and after the class under test,
+	before and after the method under test, and so on)
+	
+@Sql
+to configure SQL scripts and statements to be executed
+
+Implementing a Front-End Unit Test
+Selenium

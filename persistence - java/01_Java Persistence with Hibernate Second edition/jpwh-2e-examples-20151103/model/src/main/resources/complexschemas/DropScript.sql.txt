@@ -1,0 +1,1 @@
+drop domain if exists EMAIL_ADDRESS;

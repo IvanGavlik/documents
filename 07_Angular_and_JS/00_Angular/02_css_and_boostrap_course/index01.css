@@ -1,0 +1,81 @@
+img {
+	border: 1px solid black;
+}
+
+body {
+	font-family: sans-serif;
+}
+
+header, footer {
+	background-color: #333;
+	color: #ddd;
+	padding: 20px;
+	text-align: center;
+}
+
+aside {
+	background-color: #f7f7f7;
+	text-align: center;
+	padding-top: 40px;
+}
+
+.range-list {
+	padding-bottom: 40px;
+	padding-top: 40px;
+}
+
+.range-list h4 {
+	margin-bottom: 40px;
+	color: darkorange;
+	font-weight: bold;
+}
+
+
+.range-list img {
+	width: 100%;
+	height: 100%;
+	max-width: 140px;
+	min-width: 140px;
+	
+}
+
+.range-title {
+	color: darkblue;
+}
+
+.sports-icon-list {
+	background-color: #333;
+	padding-bottom: 40px;
+}
+
+.sports-icon-list a {
+	color: white;
+}
+
+.sports-icon-list a h6 {
+	margin-top: 20px;
+	margin-bottom: 14px;
+}
+
+.sports-icon-list img {
+	width: 700px;
+	height: 700px;
+}
+
+artice {
+	padding: 40px;
+}
+
+artice img {
+	width: 100%;
+	height: 100%;
+	max-width: 600px;
+	min-width: 600px;
+	text-align: center;
+	box-shadow: 6px 6px 8px #777;
+	margin-bottom: 20px;
+}
+
+article p {
+	font-size: 16px;
+}

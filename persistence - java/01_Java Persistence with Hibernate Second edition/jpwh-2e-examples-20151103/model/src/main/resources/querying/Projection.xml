@@ -1,0 +1,100 @@
+<entity-mappings
+        version="2.1"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+    <!-- The following are all examples of "multiselect" or special projections -->
+
+    <named-query name="product">
+        <query>
+            select i, b from Item i, Bid b
+        </query>
+    </named-query>
+
+    <named-query name="scalarProduct">
+        <query>
+            select i.id, i.name, i.buyNowPrice
+                from Item i where i.auctionEnd > current_date()
+        </query>
+    </named-query>
+
+    <named-query name="transient">
+        <query>
+            select u.id, u.username, u.homeAddress from User u
+        </query>
+    </named-query>
+
+    <named-query name="indistinct">
+        <query>
+            select i.name from Item i
+        </query>
+    </named-query>
+
+    <named-query name="distinct">
+        <query>
+            select distinct i.name from Item i
+        </query>
+    </named-query>
+
+    <named-query name="dynamicInstance">
+        <query>
+            select new org.jpwh.model.querying.ItemSummary(
+                i.id, i.name, i.auctionEnd
+            ) from Item i
+        </query>
+    </named-query>
+
+    <!-- The following are all function call examples -->
+
+    <named-query name="concat">
+        <query>
+            select concat(concat(i.name, ': '), i.auctionEnd) from Item i
+        </query>
+    </named-query>
+
+    <named-query name="coalesce">
+        <query>
+            select i.name, coalesce(i.buyNowPrice, 0) from Item i
+        </query>
+    </named-query>
+
+    <named-query name="caseWhen">
+        <query>
+            select
+                u.username,
+                case when length(u.homeAddress.zipcode) = 5 then 'Germany'
+                     when length(u.homeAddress.zipcode) = 4 then 'Switzerland'
+                     else 'Other'
+                end
+            from User u
+        </query>
+    </named-query>
+
+    <named-query name="count">
+        <query>
+            select count(i) from Item i
+        </query>
+    </named-query>
+
+    <named-query name="countDistinct">
+        <query>
+            select count(distinct i.name) from Item i
+        </query>
+    </named-query>
+
+    <named-query name="sum">
+        <query>
+            select sum(b.amount) from Bid b
+        </query>
+    </named-query>
+
+    <named-query name="minMax">
+        <query>
+            select min(b.amount), max(b.amount) from Bid b
+                where b.item.id = :itemId
+        </query>
+    </named-query>
+
+</entity-mappings>
