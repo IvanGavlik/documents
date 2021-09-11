@@ -1,0 +1,28 @@
+ Would you like to share some useful resources about micro-frontends?
+
+    Luca’s resources: https://medium.com/@lucamezzalira/micro-frontends-resources-53b1ec7d512a,
+
+    Ara’s articles https://ara-framework.github.io/website/blog/
+
+    My articles: https://medium.com/js-dojo/micro-frontends-using-vue-js-react-js-and-hypernova-af606a774602; https://medium.com/js-dojo/serverless-micro-frontends-using-vue-js-aws-lambda-and-hypernova-835d6f2b3bc9; and https://itnext.io/strangling-a-monolith-to-micro-frontends-decoupling-presentation-layer-18a33ddf591b
+
+    This curated list of resources: https://github.com/rajasegar/awesome-micro-frontends
+
+
+See https://github.com/joeldenning/import-map-overrides. You do `npm install` and `npm start`. Then you go to a deployed environment and set up an override so that it uses your local version of the micro-frontend instead of the deployed version.
+
+
+For shared dependencies, see https://single-spa.js.org/docs/recommended-setup#shared-dependencies
+
+For design consistency, create a shared style guide module and/or choose a design system such as bootstrap. See https://single-spa.js.org/docs/microfrontends-concept#types-of-microfrontends and https://github.com/react-microfrontends/shared-dependencies.
+
+
+This YouTube playlist is great: https://www.youtube.com/playlist?list=PLLUD8RtHvsAOhtHnyGx57EYXoaNsxGrTU.
+
+
+
+Webpack 5 Module Federation is a massive unlock, single-spa provides a strong orchestration layer, Next.js with a custom AppShell, and yarn workspaces that serve as sub-apps is a robust design pattern, which can enable scale and can integrate with Module Federation if or when needed. Micro is another fantastic tool for creating an ingress to route a user to the correct micro-frontend as well. Leveraging monorepos keeps code organized but will still have the pitfall of having only one master branch, bottlenecking deployments. Semantic-release is vital for micro-frontend architecture, where semver plays an important role in the scalability and reliable code distribution.
+
+
+
+https://medium.com/@ScriptedAlchemy/webpack-5-module-federation-a-game-changer-to-javascript-architecture-bcdd30e02669?source=friends_link&sk=c779636999c8644a7fc0df3aaa96223e
