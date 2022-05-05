@@ -1,0 +1,3 @@
+https://course.fast.ai/videos/?lesson=1
+
+book: Deep Learning for coders with fastai and PyTorch
