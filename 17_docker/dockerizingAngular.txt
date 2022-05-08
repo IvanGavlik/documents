@@ -1,0 +1,3 @@
+https://dev.to/laibazahoor1/deploying-angular-app-with-multi-stage-docker-file-plus-tips-tricks-on-image-optimization-87m
+https://dev.to/ollita7/dockerizing-an-angular-app-3nef
+https://mherman.org/blog/dockerizing-an-angular-app/

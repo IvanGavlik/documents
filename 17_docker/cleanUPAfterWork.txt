@@ -1,0 +1,8 @@
+Docker doesn’t automatically clean up containers or application packages for you.
+When you quit Docker Desktop (or stop the Docker service), all your containers stop
+and they don’t use any CPU or memory, but if you want to, you can clean up at the
+end of every chapter by running this command:
+docker container rm -f $(docker container ls -aq)
+And if you want to reclaim disk space after following the exercises, you can run this
+command:
+docker image rm -f $(docker image ls)

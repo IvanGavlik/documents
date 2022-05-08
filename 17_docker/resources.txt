@@ -1,0 +1,4 @@
+https://docs.docker.com/reference/
+https://www.manning.com/books/learn-docker-in-a-month-of-lunches
+https://www.manning.com/books/docker-in-action-second-edition
+https://www.amazon.com/Docker-Deep-Dive-Nigel-Poulton/dp/1521822808/ref=sr_1_1?ie=UTF8&qid=1509660871&sr=8-1&keywords=nigel+poulton
