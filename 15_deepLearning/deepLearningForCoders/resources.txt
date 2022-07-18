@@ -1,3 +1,9 @@
 https://course.fast.ai/videos/?lesson=1
 
 book: Deep Learning for coders with fastai and PyTorch
+
+
+data sets
+https://analyticsindiamag.com/10-open-datasets-you-can-use-for-computer-vision-projects/
+
+http://www.cs.toronto.edu/~kriz/cifar.html
