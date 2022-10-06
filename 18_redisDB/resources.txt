@@ -1,0 +1,15 @@
+https://redis.com/ebook/part-1-getting-started/chapter-2-anatomy-of-a-redis-web-application/2-2-shopping-carts-in-redis/
+
+https://spring.io/projects/spring-data-redis
+
+https://university.redis.com/
+
+https://redis.com/datasheets/
+
+https://redis.com/whitepapers/
+
+https://ubaydah.hashnode.dev/building-a-blog-service-with-fastapi-and-redis-oms
+
+https://architecturenotes.co/redis/
+
+https://redis.com/blog/nosql-data-modeling/
