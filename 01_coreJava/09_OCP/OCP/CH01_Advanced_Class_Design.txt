@@ -1,0 +1,172 @@
+Advanced Class Design 
+Created utorak 24 rujna 2019
+
+Reviewing OCA Concepts 
+
+Access Modifiers 
+private, default (package), protected, public 
+if the code is being accessed via the variable rather than by inheritance, it does not
+benefi t from protected
+
+Overloading and Overriding 
+override because it has the same method signature (inhertance)
+	method name and the parameter list
+	The access modifier must be the same or more accessible.
+	The return type must be the same or a more restrictive type, also known as covariant return types.
+	If any checked exceptions are thrown, only the same exceptions or subclasses of those exceptions are allowed to be thrown.
+	The methods must not be static . (If they are, the method is hidden and not overridden.)
+overloaded same method name but a different parameter list
+	Exact match by type
+	Matching a superclass type
+	Converting to a larger primitive type
+	Converting to an autoboxed type
+	Varargs
+	
+Overried and exceptions
+An overriding method can only throw either the checked exceptions (and their subclasses) listed in the throws clause of the overridden method or decide not to throw any exception at all.
+Note that unchecked exceptions (i.e. RuntimeExceptions and Errors) are not required to be listed in a throws clause. Thus, any method can declare any unchecked exception in its throws clause. 
+The compiler does not check for their compatibility with the exceptions listed in the throws clause of the overridden method.
+
+When interfaces are involved, more than one method declaration may be overridden by a single overriding declaration. In this case, 
+the overriding declaration must have a throws clause that is compatible with ALL the overridden declarations.
+
+Abstract Classes 
+An abstract class is not required to have any methods in it methods can be abstract or concrete
+The first concrete subclass of an abstract class is required to implement all abstract methods that were not implemented by a superclass
+
+instanceof 
+A instanceof B , the expression returns true if the 
+	reference to which A points is an instance of class B , 
+	A subclass of B (directly or indirectly), 
+	A class that implements the B interface (directly or indirectly)
+	
+x instanceof Object is usually true , except  if the literal null or a variable reference pointing to null is x
+
+x doesn’t extend Y directly or indirectly when calling x instance of y  y 
+	if y is interface it will compile and return false
+	if y is class it will not compile
+
+
+Annotating Overridden Methods 
+when you see @ Override show up on the exam, you must check carefully that the method is doing one of three things
+	Implementing a method from an interface	
+	 Overriding a superclass method of a class shown in the example
+	 Overriding a method declared in Object , such as hashCode , equals , or toString
+
+Pay attention to the signatures of these methods
+
+equals, hashCode, and toString 
+ArrayList provided an implementation of toString()
+String class ->  Ljava.lang.String;@65cc892e
+
+Java uses to compare primitives and for checking if two variables refer to the same object. Checking if two objects are equivalent uses the equals()
+
+public boolean equals(Object obj)
+StringBuilder uses the implementation of equals() provided by Object, which simply checks if the two objects being referred to are the same.
+
+public int hashCode() { }
+Whenever you override equals(), you are also expected to override hashCode()
+all of the instance variables don’t need to be used in a hashCode()
+	Within the same program, the result of hashCode() must not change
+	If equals() returns true when called with two objects, calling hashCode() on each of those objects must return the same result.
+	If equals() returns false when called with two objects, calling hashCode() on each of
+	those objects does not have to return a different result.
+
+
+Enums 
+Behind the scenes, an enum is a type of class that mainly contains static members. It also includes some helper methods like name()
+They are also comparable using  because they are like static final constants
+EnumClass.values()
+	get an array of all of the values
+
+You can’t compare an int and enum value directly anyway. Remember that an enum is a type and not an int .
+
+EnumClass.valueOf("x"); // can throw IllegarArgumentEx checked
+Extend an enum is not possible.
+
+Enums in Switch 
+in case only type value Ex: case SUMMER: ....
+can not use int in case 
+
+Constructors, Fields, and Methods 
+semicolon is required if there is anything in the enum besides the values
+
+The constructor is private because it can only be called from within the enum.
+The code will not compile with a public constructor.
+The first time that we ask for any of the enum values, Java constructs all of the enum values. After that, Java just returns the already‐constructed enum values.
+
+can have abstract method. This means that each and every enum value is required to implement this method. If we forget one, we get a compiler error. EX: 
+	WINTER {
+		public void printHours() { System. out .println("9am-3pm");
+	},...
+	public abstract void printHours();
+
+We can have no abstract metod and override it in the value block.
+
+Nested Classes 
+A nested class is a class that is defined within another class.
+A nested class that is not static is called an inner class. There are three of types of nested classes:
+	member inner class is a class defined at the same level as instance variables
+	local inner class is defined within a method
+	An anonymous inner class is a special case of a local inner class
+A nested class that is static is called static nested class and it defined at the sam level as static variable
+
+Can encapsulate helper classes by restricting them to the containing class. They can make it easy to create a class that will be used in only one place.
+
+Member Inner Classes 
+same level as the methods,instance variables, and constructors
+access modficators private, default, protected or public 
+extend and implement  yes
+abstract yes
+final yes
+can have static no
+acces to outer class members: yes (include private)
+
+create the inner class
+	it has to be used with an instance of the outer class (We need an instance of Outer in order to create Inner)
+	Outer outer  new Outer();
+	Inner inner  outer.new Inner();
+
+Inner classes can have the same variable names as outer classes.
+variableName or this.varibalbeName // to acces varible in the same class
+OuterClassName.this.variableName // to acces variavle in the outer claas
+
+Be cafeful interface can be private but still must have all methods public and class that implemets interfacese same
+
+Local Inner Classes 
+Defined within a method. 
+Does not exist until method is invoked and it goes out of scope when the methods returns.
+access modficators private, default, protected, public
+extend and implement  yes
+abstract yes
+final yes
+can have static no
+acces to static members: no
+acces to outer class members: yes (include private)
+acces to method members: only if variable is final of effective final
+
+Anonymous Inner Classes 
+Defined and instantiated in one statement using the new keyword. Must extend or implement another class/interface. Must put ; at the end because it is statement.
+access modficators  no
+extend and implement  yes, must ( can not have bouth at sime time)
+abstract no
+final no
+can have static no, can not be static
+acces to static members: ?
+acces to outer class members: yes (include private),
+acces to method members: only if variable is final of effective final
+
+Static Nested Classes 
+Defined at the member level (field, method, constructor).
+access modficators yes
+extend and implement  yes
+abstract yes
+final yes
+can have static yes, 
+acces to static members: yes
+acces to outer class members: no
+
+Outer class can refer to the fields and methods of the static nested class.
+
+It can be instatntied without anobject of the outer class Ex:
+	new OuterClass().var
