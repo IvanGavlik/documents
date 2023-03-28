@@ -1,0 +1,3 @@
+library(vcd)
+help(Arthritis)
+
