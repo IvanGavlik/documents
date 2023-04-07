@@ -1,0 +1,76 @@
+Most important AI Paper´s this year so far in my opinion + Proto AGI speculation at the end
+Github links with code added if available.
+JEPA – Yann LeCun!
+Paper: https://openreview.net/pdf?id=BZ5a1r-kVsf
+YouTube: https://www.youtube.com/watch?v=DokLw1tILlw&t and https://www.youtube.com/watch?v=jSdHmImyUjk ( 1.Yann LeCun and 2.Yannic Kilcher )
+An Evolutionary Approach to Dynamic Introduction of Tasks in Large-scale Multitask Learning Systems - Google 2022 – Pathways - Jeff Dean! - Network grows with amount of tasks and data!
+Paper: https://arxiv.org/abs/2205.12755
+Github: https://github.com/goog.../google-research/tree/master/muNet
+A generalist agent – Gato Deepmind!
+Paper: https://arxiv.org/abs/2205.06175
+https://www.deepmind.com/publications/a-generalist-agent
+Mastering Atari Games with Limited Data – EfficientZero ( Human sample -efficiency! )
+Paper: https://arxiv.org/abs/2111.00210
+Lesswrong article about the paper: https://www.lesswrong.com/.../efficientzero-how-it-works
+Github: https://github.com/YeWR/EfficientZero
+Masked Siamese Networks for Label-Efficient Learning similar to EfficientZero in structure
+Paper: https://arxiv.org/abs/2204.07141
+Github: https://github.com/facebookresearch/msn
+Joint Abductive and Inductive Neural Logical Reasoning!
+Paper: https://arxiv.org/abs/2205.14591
+Socratic Models: Composing Zero-Shot Multimodal Reasoning with Language
+Paper: https://arxiv.org/abs/2204.00598
+GitHub: https://socraticmodels.github.io/
+FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness
+Paper: https://arxiv.org/abs/2205.14135
+Github: https://github.com/HazyResearch/flash-attention and https://github.com/lucidrains/flash-attention-jax
+Memorizing Transformers
+Paper: https://arxiv.org/abs/2203.08913
+Youtube Video from the author: https://www.youtube.com/watch?v=5AoOpFFjW28
+Github: https://github.com/lucidrains/memorizing-transformers-pytorch
+DeepSpeed Inference: Enabling Efficient Inference of Transformer Models at Unprecedented Scale - Microsoft 2022
+Paper: https://arxiv.org/pdf/2207.00032.pdf
+Github: https://github.com/microsoft/DeepSpeed
+General-purpose, long-context autoregressive modeling with Perceiver AR - Deepmind 2022
+Paper: https://arxiv.org/abs/2202.07765
+Deepmind: https://www.deepmind.com/.../perceiver-ar-general-purpose...
+Code: https://github.com/google-research/perceiver-ar
+Training Compute-Optimal Large Language Models ( Chinchilla ) - DeepMind Mar 2022
+Paper: https://arxiv.org/abs/2203.15556
+Beyond neural scaling laws: beating power law scaling via data pruning – Exponential Data efficiency scaling by keeping hard samples when data is abundant and easy when data is scarce
+Paper: https://arxiv.org/abs/2206.14486
+Twitter explanation of the author: https://twitter.com/SuryaGanguli/status/1542599453659451392
+RHO-LOSS - Prioritized Training on Points that are Learnable, Worth Learning, and Not Yet Learnt - Trains Models 18x faster with higher accuracy
+Paper: https://arxiv.org/abs/2206.07137
+Github: https://github.com/OATML/RHO-Loss
+Scratchpads and everything that is build on that idea ( multiple Paper )
+https://arxiv.org/abs/2112.00114 ( Scratchpads ) , https://arxiv.org/pdf/2201.11903.pdf ( Chain of thought Prompting ) , https://arxiv.org/abs/2205.10625 ( Least-to-Most Prompting ) , https://arxiv.org/abs/2205.09712 ( Selection- Inference ) and https://arxiv.org/abs/2206.02336 ( Making Language Models better reasoners )
+Inner Monologue: Embodied Reasoning through Planning with Language Models - Google 2022
+Paper: https://arxiv.org/abs/2207.05608
+https://innermonologue.github.io/
+Deep Hierarchical Planning from Pixels ( Director ) - Google 2022
+Paper: https://arxiv.org/pdf/2206.04114.pdf
+https://ai.googleblog.com/.../deep-hierarchical-planning...
+CodeRL: Mastering Code Generation through Pretrained Models and Deep Reinforcement Learning
+Paper: https://arxiv.org/pdf/2207.01780.pdf
+Github: https://github.com/salesforce/CodeRL
+XMem: Long-Term Video Object Segmentation with an Atkinson-Shiffrin Memory Model ( Added because of the Atkinson-Shiffrin Memory Model )
+Paper: https://arxiv.org/abs/2207.07115
+Github: https://github.com/hkchengrex/XMem
+Proto-AGI speculation
+First I think that Gato and Pathways should be combined. This way you get a multimodular growing system. Then u combine it with EfficientZero and JEPA where the Projektor 1 and 2 of EfficientZero become Actor 1 and 2 of JEPA the rest of the similarity gets filled by Director for long time planning and further efficiency. But to get really long term Planning it needs the Atkinson-Shiffrin Memory Model build into it. Then you put Inner Monologue and Scratchpads etc. into it to give it the ability to think about itself and others and it´s surroundings ( would be good to drive that concept to the max and make the thought length of the inner monologue infinite ) . Then you train all with Chinchilla and Beyond neural scaling laws. Also give it the ability with Socratic Models to assimilate other neural networks for faster learning of specific Patterns or tasks or to combine it with other instances of itself.
+This way you get a model that:
+1. Is Sparsely activated and this way fast because not the whole network needs to be activated at all times.
+2. Multimodular like GATO
+3. Has long term memory and long term planning.
+4. Highly efficient in sample efficiency
+5. Grows depending on needed tasks and data and trains forever while doing that. This way it can run on the big production servers that can also be done because the model could at least potentially directly become useful as a sell able tool.
+6. Continuous learning that could directly interact with it´s software and hardware surroundings ( GATO 2.0 like ) this includes embodied robots!
+Now to the way the transformer needs to be reconfigured.
+Here you combine FlashAttention, Perceiver AR and Memorizing Transformers ( if possible because I am not sure how that could even be accomplished .
+FlashAttention alone gives you 3x faster training time while allowing for a context window of 64k instead of the 2k that gpt3 had. Perceiver AR and Memorizing Transformers would be able to increase this even further and could in the case of the Memorizing Transformer even be combined with the long term Memory of the Atkinson-Shiffrin Memory Model and or Socratic Models.
+Inspiration for this post were these post´s here:
+https://www.futuretimeline.net/forum/viewtopic.php?f=3...
+https://www.reddit.com/.../we_are_very_close_to_protoagi.../
+Please keep alignment risks in your thinking while building it I don´t want a scenario like this become reality:
+https://www.gwern.net/fiction/Clippy !!!!!

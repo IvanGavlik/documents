@@ -1,6 +1,7 @@
 Java Tutorials
 https://docs.oracle.com/javase/tutorial/
 
+
 Learning the Java Language
 https://docs.oracle.com/javase/tutorial/java/index.html
 
@@ -15,7 +16,7 @@ Note: A static nested class interacts with the instance members of its outer cla
 
 cannot refer directly to instance variables or methods defined in its enclosing class: it can use them only through an object reference.
 
-accessed: 
+accessed: OuterClass.StaticNestedClass
 	OuterClass.StaticNestedClass nestedObject = new OuterClass.StaticNestedClass();
 
 Inner Classes
@@ -171,9 +172,9 @@ interface
 Inheritance
 -classes can be derived from other classes, thereby inheriting fields and methods from those classes
 -in a subclass
-		->the inherited fields and methods can be used directly, just like any other fields.
-		->can declare a field in the subclass with the same name as the one in the superclass, thus hiding it (not recommended).
-		->new fields in the subclass that are not in the superclass.
+		->The inherited fields and methods can be used directly, just like any other fields.
+		->You can declare a field in the subclass with the same name as the one in the superclass, thus hiding it (not recommended).
+		-> new fields in the subclass that are not in the superclass.
 		->can write a new instance method in the subclass that has the same signature as the one in the superclass, thus overriding
 		->can write a new static method in the subclass that has the same signature as the one in the superclass, thus hiding
 		->subclass constructor that invokes the constructor of the superclass, either implicitly or by using the keyword super
@@ -264,135 +265,5 @@ System.out.format("The value of i is: %d%n", i); %d -> integer %n -> new line
 You can use the java.text.DecimalFormat class to control the display of leading and trailing zeros, prefixes and suffixes, 
 grouping (thousands) separators, and the decimal separator. DecimalFormat offers a great deal of flexibility in the formatting of numbers, but it can make your code more complex.
 
-Strings
--creating String
-String greeting = "Hello world!";
-String helloString = new String("Hello world!"); 
-String's static format() method allows you to create a formatted string 
--immutable, what these methods really do is create and return a new string that contains the result of the operation
--some of the methods: length,charAt
-
--string to number
-The Number subclasses that wrap primitive numeric types ( Byte, Integer, Double, Float, Long, and Short) each provide a class method named valueOf that converts a string to an object of that type
-float a = (Float.valueOf("12.4")).floatValue(); 
-Each of the Number subclasses that wrap primitive numeric types also provides a parseXXXX() method (for example, parseFloat()) that can be used to convert strings to primitive numbers
-float a = Float.parseFloat("12.4");
-
--convert a number to a string
-String s1 = "" + 12;
-String s2 = String.valueOf(i);
-String s3 = Integer.toString(12);
-
-You can get the character at a particular index within a string by invoking the charAt() accessor method. The index of the first character is 0, while the index of the last character is length()-1 
-
-substring(int beginIndex, int endIndex)	Returns a new string that is a substring of this string. The substring begins at the specified beginIndex and extends to the character at index endIndex - 1.
-or substring(int beginIndex)
-
-String[] split(String regex)
-String[] split(String regex, int limit)
-Searches for a match as specified by the string argument (which contains a regular expression) and splits this string into an array of strings accordingly. The optional integer argument specifies the maximum size of the returned array.
-
-have replace method 
-//TODO DIFF NEW AND ==
-
-StringBuilder 
--objects are like String objects, except that they can be modified.
--every string builder also has a capacity, the number of character spaces that have been allocated. The capacity, which is returned by the capacity() method, is always greater than or equal to the length 
-//TODO DIFF STRING AND STRINGBULDER METHODS
-
-Autoboxing
--automatic conversion that the Java compiler makes between the primitive types and their corresponding object wrapper classes
-
-Generics
--generics add stability to your code by making more of your bugs detectable at compile tim 
--enable types (classes and interfaces) to be parameters when defining classes, interfaces and methods.
-Much like the more familiar formal parameters used in method declarations, type parameters provide a way for you to re-use the same code with different inputs. The difference is that the inputs to formal parameters are values, while the inputs to type parameters are types.
--benefits: Stronger type checks at compile time, Elimination of casts, generic algorithms, 
-A generic type is a generic class or interface that is parameterized over types
-
-generic class and interfaces
-class name<T1, T2, ..., Tn> { /* ... */ }
-The type parameter section, delimited by angle brackets (<>), follows the class name. It specifies the type parameters (also called type variables) T1, T2, ...,
-This introduces the type variable, T, that can be used anywhere inside the class.
-he most commonly used type parameter names are:E - Element (used extensively by the Java Collections Framework)
-K (Key), V (Value) ,N (Number), T (Type), S,U,V(2nd, 3rd, 4th types)
-To reference the generic Box class from within your code, you must perform a generic type invocation, which replaces T with some concrete value, such as Integer:
-	Box<Integer> integerBo
-
-A raw type is when you use generic class like he is not 
-	class Box<T> {}
-	Book b; //raw type
-	Book<String> b2;
-You get warnning from compiler (and when you calling the method), to disable  @SuppressWarnings("unchecked")	
-
-generic methods and constructor
--introduce their own type parameters
--parameter's scope is limited to the method where it is declared
--syntax for a generic method includes a list of type parameters, inside angle brackets, which appears before the method's return type
--public static <K, V> boolean compare(Pair<K, V> p1, Pair<K, V> p2) {}
-	syntax for invoking this method would be: ClassName.<Integer, String>compare(p1, p2); 
-	if the type has been explicitly provided ClassName.compare(p1, p2) -> it is type inference;
-
-Bounded Type Parameters
--restrict the types that can be used as type arguments in a parameterized type
--list the type parameter's name, followed by the extends keyword -> upper bound 
--allow you to invoke methods defined in the bounds
-but a type parameter can have multiple bounds: <T extends B1 & B2 & B3>
-
--public void boxTest(Box<Number> n) { /* ... */ }
-Are you allowed to pass in Box<Integer> or Box<Double>, as you might expect? The answer is "no", because Box<Integer> and Box<Double> are not subtypes of Box<Number>
-Box<Integer> is not a subtype of Box<Number> even though Integer is a subtype of Number.
-ArayList<E> implements List<E>, and List<E> extends Collection<E>. So ArrayList<String> is a subtype of List<String>, which is a subtype of Collection<String>
-
-Type inference is a Java compiler's ability to look at each method invocation and corresponding declaration to determine the type argument (or arguments) that make the invocation applicable. The inference algorithm determines the types of the arguments and, if available, the type that the result is being assigned, or returned. Finally, the inference algorithm tries to find the most specific type that works with all of the arguments.
-
-Wildcard (Upper bounded)
--represents an unknown type
--used as the type of a parameter, field, or local variable; sometimes as a return type 
--is never used as a type argument for a generic method invocation, a generic class instance creation, or a supertype.	
--character ('?'), followed by the extends keyword, followed by its upper bound. Note that, in this context, extends is used in a general sense to mean either "extends" (as in classes) or "implements" (as in interfaces).
-	Ex: To write the method that works on lists of Number and the subtypes of Number, such as Integer, Double, and Float, you would specify List<? extends Number>. The term List<Number> is more restrictive than List<? extends Number> because the former matches a list of type Number only, whereas the latter matches a list of type Number or any of its subclasses.
-
-Unbounded Wildcards
--using the wildcard character (?)
--use:
-	-If you are writing a method that can be implemented using functionality provided in the Object class.
-	-When the code is using methods in the generic class that don't depend on the type parameter. For example, List.size or List.clear. In fact, Class<?> is so often used because most of the methods in Class<T> do not depend on T.
-
--Usage case
-Consider the following method, printList:
-
-public static void printList(List<Object> list) {
-    for (Object elem : list)
-        System.out.println(elem + " ");
-    System.out.println();
-}
-The goal of printList is to print a list of any type, but it fails to achieve that goal — it prints only a list of Object instances; it cannot print List<Integer>, List<String>, List<Double>, and so on, because they are not subtypes of List<Object>. To write a generic printList method, use List<?>:
-
-public static void printList(List<?> list) {
-    for (Object elem: list)
-        System.out.print(elem + " ");
-    System.out.println();
-}
-
-It's important to note that List<Object> and List<?> are not the same. You can insert an Object, or any subtype of Object, into a List<Object>. But you can only insert null into a List<?>
-
-Lower Bounded Wildcards
--restricts the unknown type to be a specific type or a super type of that type.
--character ('?'), following by the super keyword, followed by its lower bound: <? super A>.
-
--inheritance of regular classes follows this rule of subtyping: class B is a subtype of class A if B extends A. This rule does not apply to generic types:
-	List<B> lb = new ArrayList<>();
-	List<A> la = lb;   // compile-time error
-	Given that Integer is a subtype of Number, what is the relationship between List<Integer> and List<Number>?	
-	The common parent of List<Number> and List<Integer> is List<?>
-Solutuion:
-		In order to create a relationship between these classes so that the code can access Number's methods through List<Integer>'s elements, use an upper bounded wildcard:
-		List<? extends Integer> intList = new ArrayList<>();
-		List<? extends Number>  numList = intList; // OK. List<? extends Integer> is a subtype of 	List<? extends Number>
-stao: https://docs.oracle.com/javase/tutorial/java/generics/capture.html
-
-
-and this https://docs.oracle.com/javase/tutorial/extra/generics/index.html
-
-test
+Characters
+-stao: https://docs.oracle.com/javase/tutorial/java/data/characters.html 
