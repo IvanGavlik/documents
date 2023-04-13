@@ -1,0 +1,28 @@
+Here are some math concepts that can be useful for programming:
+
+    Algebra: Basic algebraic concepts like variables, equations, and systems of equations are commonly used in programming. It helps in understanding and manipulating mathematical formulas and expressions.
+
+    Calculus: Calculus is useful for modeling and analyzing changes in values over time or space. It includes derivatives, integrals, and limits.
+
+    Linear algebra: Linear algebra involves the study of vectors, matrices, and systems of linear equations. It is essential for solving problems in machine learning, computer graphics, and cryptography.
+
+    Discrete mathematics: Discrete mathematics deals with finite structures and provides the foundation for computer science. Topics include logic, set theory, graph theory, and combinatorics.
+
+    Probability and statistics: Probability and statistics are used in machine learning and data analysis to make predictions and draw conclusions based on data.
+
+    Number theory: Number theory is the study of the properties of numbers and their relationships. It is useful for cryptography and computer security.
+
+Here are some resources for learning math concepts useful for programming:
+
+    "Mathematics for Computer Science" by Eric Lehman, F. Thomson Leighton, and Albert R. Meyer: This book covers a wide range of math concepts relevant to computer science, including calculus, linear algebra, and discrete mathematics.
+
+    "Mathematics for Programmers" by Paul Orland: This book focuses specifically on math concepts that are useful for programming and includes exercises and examples in Python.
+
+    Khan Academy: Khan Academy provides free online courses in math, including algebra, calculus, and statistics.
+
+    MIT OpenCourseWare: MIT offers free access to course materials for math, computer science, and engineering.
+
+    Coursera: Coursera offers courses from top universities and organizations on math for programming topics like discrete mathematics, calculus, and probability.
+    
+    
+ also: Math for Programmers by Paul Orland
