@@ -1,0 +1,125 @@
+49 Engineering blogs worth reading to improve your system design:
+
+Engineering at Meta - https://lnkd.in/e8tiSkEv
+Google Research - https://ai.googleblog.com/
+Google Cloud Blog - https://lnkd.in/enNviCF8
+AWS Architecture Blog - https://lnkd.in/eEchKJif
+All Things Distributed - https://lnkd.in/emXaQDaS
+The Nextflix Tech Blog - https://lnkd.in/efPuR39b
+LinkedIn Engineering Blog - https://lnkd.in/ehaePQth
+Uber Engineering Blog - https://eng.uber.com/
+Engineering at Quora - https://lnkd.in/em-WkhJd
+Pinterest Engineering - https://lnkd.in/esBTntjq
+Lyft Engineering Blog - https://eng.lyft.com/
+Twitter Engineering Blog - https://lnkd.in/evMFNhEs
+Dropbox Engineering Blog - https://dropbox.tech/
+Spotify Engineering - https://lnkd.in/eJerVRQM
+Github Engineering - https://lnkd.in/eCADWt8x
+Instagram Engineering - https://lnkd.in/e7Gag8m5
+Databricks - https://lnkd.in/eXcBj37a
+Canva Engineering Blog - https://canvatechblog.com/
+Etsy Engineering - https://lnkd.in/eddzzKRt
+Booking.com Tech Blog - https://blog.booking.com/
+Expedia Technology - https://lnkd.in/ehjuBE5J
+The Airbnb Tech Blog - https://lnkd.in/emGrJbGM
+Stripe Engineering Blog - https://lnkd.in/em6Svgyx
+Ebay Tech Blog - https://tech.ebayinc.com/
+Flickr's Tech Blog - https://code.flickr.net/
+Hubspot Product and Engineering Blog - https://lnkd.in/eRGZkBd4
+Zynga Engineering - https://lnkd.in/eex5Ddry
+Yelp Engineering Blog - https://lnkd.in/epgBW_4J
+Heroku Engineering Blog - https://lnkd.in/evgctQjh
+Discord Engineering and Design - https://lnkd.in/evY4gpUA
+Zomato - https://lnkd.in/e9gf3APD
+Hotstar - https://blog.hotstar.com/
+Swiggy - https://bytes.swiggy.com/
+Acast Tech - https://lnkd.in/esuCEYZb
+ASOS Tech Blog - https://lnkd.in/esXfdv3G
+Shopify Engineering - https://lnkd.in/evvnqQTj
+Microsoft Tech Blogs - https://lnkd.in/etw_7_bN
+Engineering at Microsoft - https://lnkd.in/eEKz4ECi
+MongoDB Engineering Blog - https://lnkd.in/e9iaqcmZ
+Slack Engineering - https://slack.engineering/
+Engineering at Depop - https://lnkd.in/eGjRYcFd
+SourceDiving (Cookpad's Engineering Blog - https://sourcediving.com/
+Auto Trader Engineering Blog - https://lnkd.in/eGDKA_g3
+Indeed Engineering Blog - https://lnkd.in/ecFS87Dt
+Gusto Engineering Blog - https://lnkd.in/e7yVxDKs
+Engineering at Birdie - https://lnkd.in/eUqJTpje
+Forethough Engineering - https://lnkd.in/esCKvedJ
+Capital One - https://lnkd.in/ezsKUf_H
+Disney Streaming - https://lnkd.in/e4nmMdWd
+
+
+https://www.reddit.com/r/RedditEng/comments/myx22y/announcing_the_arrival_of_the_reddit_tech_blog/
+I guess they don’t… 
+
+You missed one: https://www.thingrex.com/
+
+Feel free to have a look at our Dunelm tech blog also 😁
+
+https://medium.com/dunelm-tech
+
+What are your thoughts on adding the high scalability blog to the list?
+http://highscalability.com/
+
+
+https://www.theguardian.com/info/series/engineering-blog
+
+
+How do you think about our engineering blog?https://engineering.ramp.com/
+
+
+I recently started reading pragmaticengineer.com and it's been great
+
+
+Yup, Alex Xu has written a good couple and a great newsletter: https://blog.bytebytego.com/ 
+
+
+
+How about https://eng.snap.com/blog
+
+
+
+DoorDash Engineering Blog:
+https://doordash.engineering/
+
+
+
+GiffGaff’s blog is good too…
+https://www.giffgaff.io/tech
+
+
+
+
+https://medium.com/bolt-labs from Bolt 🙏🏻
+Bolt Labs – Medium
+medium.com
+Behind the scenes look at the engineering and data science technology at Bolt.
+
+
+
+https://medium.com/bolt-labs from Bolt 🙏🏻
+Bolt Labs – Medium
+medium.com
+Behind the scenes look at the engineering and data science technology at Bolt.
+
+
+https://www.toptal.com/developers/blog
+https://www.toptal.com/blog
+
+
+Some more blogs for those looking to level up their product and project management skills:
+ Product Bytes by Rich Mironov https://www.mironov.com/
+Age of Product: https://age-of-product.com/
+Reforge: https://www.reforge.com/blog
+
+The best I've seen so far: 
+https://github.com/karanpratapsingh/system-design
+
+
+Kablamo engineering blog, jam packed with real and latest stuffs 
+
+https://engineering.kablamo.com.au
+
+
