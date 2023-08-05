@@ -1,0 +1,5 @@
+After reading pramgatic progammer consider
+https://pragprog.com/categories/architecture-design-and-testing/
+https://pragprog.com/categories/java-and-jvm-languages/
+https://pragprog.com/categories/management-people-and-teams/
+https://pragprog.com/categories/tools/
