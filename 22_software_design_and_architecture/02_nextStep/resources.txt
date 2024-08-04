@@ -2,3 +2,5 @@ https://www.codefiend.co.uk/mustapo-architecture-qualities-list/
 
 
 https://thepracticaldeveloper.com/practical-software-architecture/the-practical-architecture-process-overview/
+
+https://www.freecodecamp.org/news/design-patterns-for-distributed-systems/
