@@ -1,0 +1,158 @@
+How can I become an algorithm ninja?
+
+How can I become an algorithm ninja?
+
+Jake Peterson
+Jake Peterson, Software Engineer
+Written Nov 7, 2015
+This is what I did. I don't know if there is a better way. Ultimately, perseverance and a great learning resource was all that was needed.
+
+Read "The Algorithm Design Manual" cover to cover. Many topics will make hardly any sense at first; especially dynamic programming and advanced graph problems. They are the real prize, though. Knowing them both will allow you to tackle so many difficult problems! Anyway, you'll get them later...
+
+After you've read the hitchikers guide to designing algorithms (2nd half of book), you should be able to look at a problem and at least know which data structure(s) would work best to solve it. You might also know your Big-O analysis by then.
+
+Now practice, practice, practice. Find a competitive coding site (leetcode.com worked well for me) and pick a category - say arrays. Starting at the easy difficulty, work your way up to being able to solve medium and some hard problems, then cover the next topic - say trees. All the while you're doing this, you can reference the book when you get stuck. After you've figured out the proper data structure to use, finding the section of the chapter that covers the action you want to do is easy. So if you can't remember all the different possible post-deletion resolutions of nodes in a tree, you can find it quickly, read that section, and hopefully internalize your reading by then immediately applying it to a problem. You will find yourself "stumbling" across the really hairy stuff and learning it this way.
+
+Rinse & repeat until you can apply several techniques to each problem, but choose the fastest based on the specific needs. This is what memorizing all those tedious Big-O analysis are for.
+
+You will feel extremely confident in your algorithm  abilities by this point. The insight I personally gained from doing this was that this knowledge led me down the paths of the subjects of CS I wanted to learn next. Tackling Neural Networks became soooooo much easier. Understanding the divide and conquer nature of graphics renders made working with them soooo much easier. Simply getting it the first time someone explained concurrent GPU processing; knowing about lookup tables before learning AI development... You get the idea (I tried and failed to learn all these topics before I learned algorithms. I never see this mentioned about algos on Quora, but I really wish it was! ;)). You can now infer how methodologies/technologies tick because you know the fundamentals that brought them into existence in the first place. I believe this is that invaluable abstract thinking skill that programmers strive for.
+
+Good luck!
+
+Some of the important points:
+
+1. Realize that writing algorithms is fun, not work. This is better than doing crossword or number puzzles. Some people like doing word search puzzles. I wrote a program to solve these on a TRS-80 and was done with them, going on to more complex problems.
+
+2. Never consider a program finished until it's really done.
+
+I've written programs for chemical plant operators and maintenance people. Then ran them myself. A lot. Every time I've found problems with the usability of the user interfaces requiring anything from a minor fix to a complete rewrite. There's a lot of programming out there that doesn't require two minutes of use to see major problems.
+
+3. Consider everything that can go wrong. But, no matter how hard you try, you'll miss some.
+
+One monitoring  program I used (and made major revisions to) insisted that a machine weighing several tons was bouncing up and down twenty feet off the floor 1200 times per second. It turned out that a chemical technician was drawing samples from the process. This required the use of a solenoid valve, which generated a magnetic field interfering with the signal from the gauge being monitored.
+
+So the program had to be modified to ignore gross pathological data, something I should have done to begin with.
+
+
+I think this is a pretty stupid idea.
+Of course you can learn algorithms, but will you learn how to use them? It's like having a car, you have to learn to drive it.
+
+And it's a known fact that there's no algorithmic way to choose the right algorithm, given a problem.
+
+I'd suggest to learn math, to be familiar with the foundations. An learn some basic stuff. Say, if you know why a list of sets and a set of lists are two very different things, it will probably help you more than remembering all the implementations of priority queue.
+
+
+Practice : One word .
+
+The key is not to learn all algorithms .
+
+You need to know a few (around 50-60 found in any algorithms text book .
+
+And you should know how and where  to apply these algorithms appropriately .
+
+For example, you learn the shortest path algorithm and apply it when you are asked to find the  stretch of continuously increasing numbers in a list .
+
+
+
+You may join our course where we train students and professionals to crack the Coding Interviews. It does exactly the same..
+
+Big-O - Ritambhara Technologies - Coding Interview Preparations
+320 Views · View Upvotes
+Downvote
+Comment
+Share
+Chandan Trehan
+Chandan Trehan, Incentivization is the key to Motivation.
+Written Jan 29, 2016
+
+There is no one rule to achieve that I'll however share a small example that proves that no algorithm is a perfect algorithm:
+
+I was once asked to give a code for smallest three digit Armstrong number.
+
+An Armstrong number is a number the sum of the cube of the the digits of which equal the number itself.
+
+For example : 371 is an Armstrong number because: 3^3+7^3+1^3 equals 371.
+
+There can be multiple approaches for the same:
+
+Approach 1:
+
+Loop (i from 1 to 9)
+
+Loop (j from 0 to 9)
+
+Loop (k from 0 to 9)
+
+N=(100*i)+(10*j)+(1*k)
+
+if (((i^3)+(j^3)+(k^3))=N)
+
+Display N
+
+Break;
+
+end if
+
+return
+
+return
+
+return
+
+Approach 2:
+
+Loop(i from 100 to 999)
+
+integer a = i/100
+
+integer b= ((i/10)- (a*10))
+
+integer c= i - ((a*100)+(b*10))
+
+if (((a^3)+(b^3)+(c^3)) = i)
+
+Display i
+
+Break
+
+end if
+
+return
+
+Approach 3:
+
+Loop (i from 100 to 999)
+
+i = j
+
+integer sum= 0
+
+Loop (3 times)
+
+a= i mod 10
+
+sum =sum + (a^3)
+
+i=i mod 10
+
+return
+
+if (sum = j)
+
+Display sum
+
+Break;
+
+end if
+
+return
+
+And So on... there can be many more ways of solving the problem.
+
+Which among these is the best solution? Is not an easy question that we can answer by the available information, we need answers to many more questions like: How often do we modify the code segment? How many times is the code segment run? How much memory is available for the code to run? and so on...
+
+If the code is to be run ones with no restriction on memory and time the Approach 2 is the best (complexity is O(n)) among the other two, but tomorrow if we want to run the Approach 2 code for the largest 12 digit Armstrong number, It shall take too much time to calculate.
+
+Thus, I really doubt that speed of writing the code is very important. As long as you can complete writing error free codes in reasonable time, it all boils down to the quality of algorithm that you produce.
+
+Thanks!

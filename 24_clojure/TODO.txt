@@ -1,0 +1,94 @@
+# stao 18.08.2024
+-> http://pedestal.io/pedestal/0.7/guides/hello-world-content-types.html
+-> https://coldnew.github.io/talk-clojure-ecosystem/#46
+
+# stao 21.08.2024
+-> napravio pedestal get 
+-> trebam nauciti osnove pogotovo rad s mapama pa nasavljam sa pedestal put funkcionality 
+	-> /home/ivan/Downloads/Clojure - clojure.pdf
+	-> from https://clojure.org/community/books
+	
+	
+		
+# Learning
+https://clojure.org/guides/learn/clojure
+https://gist.github.com/yogthos/be323be0361c589570a6da4ccc85f58f
+https://gist.github.com/ssrihari/0bf159afb781eef7cc552a1a0b17786f
+https://clojure-doc.org/
+https://tryclojure.org/
+https://exercism.org/tracks/clojure
+
+## books
+https://www.oreilly.com/library/view/clojure-programming/9781449310387/
+
+distributed systems architecture
+https://www.freecodecamp.org/news/design-patterns-for-distributed-systems/
+
+
+https://clojure-doc.org/
+
+https://github.com/clojurebook/ClojureProgramming
+https://github.com/chinmay185/clojure-examples
+https://gist.github.com/jbswetnam/8eabd9878c0c3646ce72bf462366bbae
+https://github.com/tisnik/clojure-examples
+https://github.com/dfuenzalida/todo-cljs/blob/master/src/cljs/todo_cljs/todos.cljs
+https://github.com/borkdude/simple-cljs-examples/blob/master/README.md
+
+https://aphyr.com/tags/clojure-from-the-ground-up
+
+https://kimh.github.io/clojure-by-example/#defmacro
+
+https://github.com/adityaathalye/clojure-by-example/blob/master/src/clojure_by_example/ex02_domain_as_data.clj
+https://github.com/adityaathalye/clojure-by-example/tree/master/src/clojure_by_example
+https://clojure.org/guides/learn/functions
+https://4clojure.oxal.org/#/problem/20
+https://2023.clojure-conj.org/schedule/
+- look at schedule and make resarch on your own
+
+check from time to time
+https://clojureverse.org/
+
+# Examples
+
+# Other 
+
+https://www.youtube.com/watch?v=c5QF2HjHLSE&list=PLZdCLR02grLpIQQkyGLgIyt0eHE56aJqd
+
+https://clojureverse.org/t/make-a-web-or-webapp-in-2024-with-clojure-and-clojurescript/10529/2
+
+https://clojars.org/projects?page=6
+
+Why should i use Mount or Component
+https://clojureverse.org/t/why-should-i-use-mount-or-component/5826
+https://mccue.dev/pages/12-7-22-clojure-web-primer
+
+https://grishaev.me/en/clj-book-systems/
+https://github.com/razum2um/awesome-clojure
+
+	
+https://www.reddit.com/r/Clojure/comments/1exn06a/a_comprehensive_guide_to_creating_a_simple/
+https://www.linkedin.com/pulse/lets-write-simple-microservice-clojure-andrew-panfilov-2ghqe/
+
+# Other 2
+
+https://www.youtube.com/watch?v=2M-BjisewQI
+
+https://www.youtube.com/watch?v=7arTsCRnhYg
+
+https://www.youtube.com/watch?v=zCvGUlHw0ho
+
+https://www.youtube.com/watch?v=3ArPgWBnPAE
+
+https://www.youtube.com/watch?v=qM_QdtjgEsk
+
+https://www.youtube.com/watch?v=fc6_NtD9soI
+
+https://www.youtube.com/watch?v=KLYkvRbtCIk
+
+https://www.infoq.com/presentations/architect-lessons/?utm_source=substack&utm_medium=email
+
+https://www.infoq.com/presentations/organization-resilience-documentation/?utm_source=substack&utm_medium=email
+
+https://www.youtube.com/watch?v=WRDKVAFltr0
+
+https://www.youtube.com/watch?v=vW6dBakPmKk

@@ -1,0 +1,15 @@
+The reason to use NoSQL databases isn't performance, its scalability. So if you just replace 1 RDBMS with 1 NoSQL db, well it's still the same CPU doing the same work at the end of the day.
+
+To see a performance improvement you need to spread the DB across multiple servers and balance the load accordingly. NoSQL solutions can be better at this than relational DBs because you don't have the joins causing consistency problems.
+
+If however, you just duplicated your single read only table on to two, or more, postgres DBs, well you have achieved the same thing with no technology changes.
+
+The real question is how easy do the two solutions make the clustering/sharding/load balancing setup. If you use DynamoDB autoscaling you might find it solves everything out of the box with minimal config, compared to working out how to replicate and balance multiple postgres dbs.
+
+I imagine what you are looking for is peace of mind on those sale days. Which an autoscaling solution will give you. You don't want to be manually spinning up new DB instances and fiddling with connection strings while all the alarms are going off because your volumes hit the limit of the 3 DBs you thought would be enough.
+
+from 
+https://softwareengineering.stackexchange.com/questions/454456/is-it-worth-it-to-use-a-nosql-database-only-for-high-availability-and-fast-readi
+
+
+

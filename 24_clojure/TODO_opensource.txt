@@ -1,0 +1,26 @@
+Many thanks for the call today, it was a pleasure to meet you.
+Below I put some links you may find useful.
+
+Would you like to set our next call here?
+https://calendly.com/daslu
+
+Before our next call, I suggest mostly looking into Clay and Tablecloth.
+
+Best wishes,
+Daniel
+------------------
+
+Here are a few of the projects we discussed:
+https://scicloj.github.io/noj
+https://scicloj.github.io/clay
+https://scicloj.github.io/clay/#intellij-cursive
+https://www.youtube.com/watch?v=GsML75MtNXw
+https://scicloj.github.io/tablecloth
+https://scicloj.github.io/hanamicloth
+https://github.com/scicloj/scicloj.ml.tribuo
+
+Here is some information about our chat streams:
+https://scicloj.github.io/docs/community/chat/
+
+Here is some information and advice about the open-source program:
+https://github.com/scicloj/open-source-mentoring
