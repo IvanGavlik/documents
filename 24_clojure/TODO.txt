@@ -1,3 +1,24 @@
+# 29.09.2024.
+BUSS
+- anketa 
+- ui
+- opis proizvoda / bussins plan
+
+Milana
+- whatsap images 
+
+German 
+- continue learning & parcipating 
+
+Clojure 
+- dev to blog post (scjp book)
+- learning from book 
+- adveht of code 
+- meet up
+- trilo do someting 
+
+
+
 # stao 18.08.2024
 -> http://pedestal.io/pedestal/0.7/guides/hello-world-content-types.html
 -> https://coldnew.github.io/talk-clojure-ecosystem/#46

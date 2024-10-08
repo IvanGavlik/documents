@@ -1,3 +1,5 @@
+https://www.reddit.com/r/softwarearchitecture/comments/16usw23/megathread_software_architecture_books_resources/
+
 49 Engineering blogs worth reading to improve your system design:
 
 Engineering at Meta - https://lnkd.in/e8tiSkEv
@@ -122,4 +124,12 @@ Kablamo engineering blog, jam packed with real and latest stuffs
 
 https://engineering.kablamo.com.au
 
+
+https://javarevisited.blogspot.com/2022/03/how-to-prepare-for-system-design.html?fbclid=IwAR0nameVw0qg4N8MMbP52FcuoPS_svx2oBflNzAyw0e1_NYS1OXmU-D0xMA#axzz7czGZYZ1Z
+
+https://khalilstemmler.com/articles/software-design-architecture/full-stack-software-design/
+
+https://hackernoon.com/the-7-software-architecture-books-experienced-developers-need-to-read?source=rss
+
+https://www.youtube.com/watch?v=noUNH3jDLC0
 
