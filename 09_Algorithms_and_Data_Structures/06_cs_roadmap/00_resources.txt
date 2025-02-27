@@ -1,1 +1,25 @@
 https://roadmap.sh/computer-science
+
+########
+https://roadmap.sh/java
+https://roadmap.sh/spring-boot
+https://roadmap.sh/api-design
+https://roadmap.sh/backend
+------ pon -------
+
+https://roadmap.sh/sql
+https://roadmap.sh/postgresql-dba
+--- uto ---
+
+https://roadmap.sh/docker
+https://roadmap.sh/devops
+https://roadmap.sh/kubernetes
+
+https://roadmap.sh/redis
+
+https://roadmap.sh/software-architect
+https://roadmap.sh/software-design-architecture
+-- sri ---
+
+https://roadmap.sh/system-design
+https://roadmap.sh/design-system
