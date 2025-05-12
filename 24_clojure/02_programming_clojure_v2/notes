@@ -1,0 +1,28 @@
+Intro 
+
+Clojure program 
+- no variables
+- no mutable state 
+- no branches
+
+Clojure is a functional language but not a pure functional language
+
+Functions are first-class objects. That is, functions can be created at
+runtime, passed around, returned, and in general, used like any other
+datatype,
+	A higher-order function is a function that takes functions as arguments and/or returns functions as results
+
+Immutable data structures are inherently thread safe.
+
+Functions are pure; that is, they have no side effects.
+
+Clojure is a Lisp.
+
+Reliance on the JVM provides a standard library and a deploy-
+ment platform with great reach.
+
+Concurent programming
+When you need references to mutable data, Clojure protects them
+via software transactional memory (STM)
+
+Clojure gives you clean, simple, direct access to Java

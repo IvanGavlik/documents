@@ -4,3 +4,13 @@ https://www.codefiend.co.uk/mustapo-architecture-qualities-list/
 https://thepracticaldeveloper.com/practical-software-architecture/the-practical-architecture-process-overview/
 
 https://www.freecodecamp.org/news/design-patterns-for-distributed-systems/
+
+
+--------------
+
+I followed 2 resources for that. First one was System Design Interview book by Alex xu ( Hands down the best resource available ). The book is in 2 parts and will cover almost every topic out there.
+
+For practicing the LLD Questions and design patterns, I followed Shreyansh Jain playlist on YouTube ( He has some of the best content explained in a very very simple way with lots of examples )
+
+
+---------

@@ -1,0 +1,11 @@
+If you want to become good at system design, learn these concepts:
+1. API Gateway vs Load Balancer? https://buff.ly/3S2bjsr
+2. Reverse Proxy vs Forward Proxy? https://buff.ly/3PEGDME
+3. Horizontal scaling vs vertical scaling? https://buff.ly/49NvS26
+4. Microservices vs Monolithic architecture? https://buff.ly/4aC7mS4
+5. Caching Strategies - https://buff.ly/413WZD9
+6. What is Rate Limiter? How does it work? https://buff.ly/3Lq9jqd
+7. How does Single Sign On (SSO) works? https://buff.ly/3S61wBG
+8. How does Apache Kafka works? why it so fast? https://buff.ly/3LnlAf6
+9. Kafka, ActiveMQ, vs RabbitMQ? https://buff.ly/3LjYSo9
+10. JWT, OAuth, and SAML? https://buff.ly/3Lpzey4

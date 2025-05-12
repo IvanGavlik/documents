@@ -1,15 +1,3 @@
-# 29.09.2024.
-BUSS
-- anketa 
-- ui
-- opis proizvoda / bussins plan
-
-Milana
-- whatsap images 
-
-German 
-- continue learning & parcipating 
-
 Clojure 
 - dev to blog post (scjp book)
 - learning from book 
@@ -17,6 +5,8 @@ Clojure
 - meet up
 - trilo do someting 
 
+# overview
+https://pensamientos.hashnode.dev/a-beginners-journey-through-the-clojure-web-development-landscape
 
 
 # stao 18.08.2024
