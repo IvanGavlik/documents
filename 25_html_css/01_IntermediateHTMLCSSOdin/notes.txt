@@ -1,0 +1,5 @@
+HTML elements reference
+	https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements
+
+CSS
+	https://htmlcheatsheet.com/css/
