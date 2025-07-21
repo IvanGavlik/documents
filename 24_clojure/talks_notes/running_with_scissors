@@ -1,0 +1,63 @@
+"Running With Scissors: Live Coding With Data" by Stuart Halloway
+
+
+"Running With Scissors: Live Coding With Data" by Stuart Halloway
+- internal DSL take a code from min 07:03
+-> keywprd catergory
+- polymorphic processing
+
+- todo custom printing (min 08:00)
+- repl code is live program
+- repl no typing in it
+- you work in your tool
+- you send forms into repl
+- faster spaghetti
+- go with faster bricks
+
+- cut code and data
+- dont tun your entire program ?
+- task specific dev
+- example data -> general data
+- load what you need (not hole program)
+- example data
+- min 15:50
+- eevelop function
+- spec generate sample data ?
+- load what you need
+min 17:02
+start repl (no main)
+- exploring data
+- pretty print and print table
+- inspect it (clojure.inspector as ins) -> ins/inspect-table data
+- make spreadsheet (code minute 18:51)
+- make html
+- make picture  (specviz)
+- rich comment blocks
+- end of .clj file
+- sample data, sample invocations
+- examples in clojure core (set clji)
+- test
+- set of repl interactions add validations checks to those interactions
+- automate re runninf of repl -> transcriptor
+- real world data
+- as maps
+- 24:00
+- live program
+- query it: aprops, find-doc, doc, source. all-ns, ns-publics, imports
+- transform the program. in-ns, def, ns-unmap. ns-unalias, remoe-ns
+- codeveloping two libs 29:00
+- workflow reloading works on level up on project, namespaces
+- working on low level why this change cascades ? -> less coupled code
+debugers
+- not programmible
+Clojure spec
+- data is live in programm
+- with spec add specification for data when you want it you stil have genericn
+- basic predicates then move to testable types 35:00 then exercising data
+-> generative testing (generate data)
+from your program invite tools, tools do not call your programm use live data that you can explore extend
+
+clojuris clj-xchart
+- java lib in clojure why
+- all interactions into generic data 34:19
+

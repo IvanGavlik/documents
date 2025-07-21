@@ -1,0 +1,44 @@
+Ring, Jetty, Reitit, next jdbc, HoneySQL and Buddy are all you need to build basic rest service. 
+You can try one of Clojure datalog databases like Datomic, XTDB or Datalevin and Electric Clojure. 
+
+--
+
+Re-Frame for the front end, and pedestal for the back-end. 
+I would use the examples on https://github.com/metosin/reitit to get started and get a feel for the options
+Reitit is one of the most popular routing libraries
+
+---
+
+Luminous did a pretty good job of laying out a multitude of popular options on it's profiles page: https://luminusweb.com/docs/profiles.html. 
+
+ Its developers moved on to build https://kit-clj.github.io/, which is a bit more opinionated out of the box. 
+
+---
+
+been reitit huff and hmtx. Its components like, but all server side. 
+
+
+etaoin for webdriver e2e tests 
+
+hyperfiddle/rcf for inline unit tests
+
+
+---
+
+Reitit for routing
+Malli for validation
+Integrant for system components
+Aero for configs 
+
+---
+
+Check out biffweb (linked on the right as "Biff"). It has a sample app that is easy to understand (relatively) and, because it leverages htmx, you don't have to learn overly complicated frontend frameworks. 
+
+----
+
+If you decide to go with SSR, I highly recommend the biff framework, as it was built with solo developers in mind, and it has some nice documentation
+
+you have clojurescript and clojureDart that you can use instead. If you choose react (which is more popular) I highly recommend using reagent (which is a wrapper for react, written in clojurescript), shadow-cljs (which is probably the best clojurescript to javascript compiler), and then for the backend use ring and/or compojure 
+
+---
+

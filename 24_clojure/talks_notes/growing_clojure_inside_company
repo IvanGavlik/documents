@@ -1,0 +1,12 @@
+Growing Clojure inside the company
+
+paradigm shift
+- structural editing and REPL
+- immutability, declarative, HOF (no variables, no for loop)
+- dynamic 
+
+also
+- smaller user base
+- no beginner friendly code 
+- idioms are not widely understood
+

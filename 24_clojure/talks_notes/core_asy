@@ -1,0 +1,65 @@
+Core Asyn
+components or subsystems must stop communicating directly with one another. 
+usual solutiion: queues between the producers of data and the consumers/processors of that data.
+chanels are blocking
+
+you send and receive values throught channels 
+
+Create channel with the chan function
+* channel = thread-safe queue
+* return channel n writers and readers
+* unbuffered (can be set)
+
+Channels
+* queue like
+* multi writer multi reader
+* blocking on both sides reader and writer
+* unbuffered, fixed buffers // todo
+	* sliding buffer (drop current data - make space for the input)
+	* dropping buffer (drop new data - the input)
+		
+basic operations on chanel 
+* put ( >!) and take values ( <! )
+* they can be blocking 
+	ordinary threads and IOC 
+	 >!! (put blocking) and <!! (take blocking),
+
+go block 
+* macro
+* We put code inside a go block to run it asynchronously and to allow it to pause and resume using 		<! and >! — without blocking real threads.
+* go transforms your code into a state machine.
+	* Each <! or >! becomes a state transition.
+* created IOC threads
+* takes body and examines operations and turn its into a state machine
+* on blocking operation state machine parked and actual thread of control will be released
+
+Thread
+- real thread, real blocking
+- go IOC "thread" state-machine parking 
+
+
+alt 
+* wait for any one of channel operations to complete
+* chanel or 
+* returns when is ready to be complete 
+* only once happes 
+
+timeouts
+* channel that automatically close after a period of time
+
+
+Unbuffered channels
+- no internal storage 
+- value is transfered when sender and receiver are present
+
+put! take!
+
+on FE
+- take evenet -> create data from it -> put it in chanel 
+
+
+what is diff
+Parking: >!, <!
+Async: put!, take!
+
+update-client-final-cover

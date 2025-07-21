@@ -1,5 +1,10 @@
+https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-introduction
+
 HTML elements reference
 	https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements
 
 CSS
 	https://htmlcheatsheet.com/css/
+	
+Table 
+	https://css-tricks.com/complete-guide-table-element/#aa-important-style-rules-for-tables		

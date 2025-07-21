@@ -1,0 +1,12 @@
+REPL Driven Development, Clojure's Superpower
+
+- dont type into REPL
+
+- tools.deps.alpha-add-lib3 to add dependencis to running app
+	without restarting app
+
+- use Reveal to supplement REPl for data visualization 
+	-> other option Portal, REBL
+	
+(comment
+	,)

@@ -1,0 +1,15 @@
+A clojure carol
+
+1. Repl
+- REPL Driven Development, Clojure's Superpower: https://www.youtube.com/watch?v=gIoadGfm5T8
+
+2. Model
+- data oriented programming
+- programming clojure book https://pragprog.com/titles/shcloj3/programming-clojure-third-edition/
+- constructor functions (don't be strict) - just communicate intent
+	- example request map from ring 
+
+3. Shearing Layers
+- foote + yoder: Big ball of mud 
+	- factor of change (diffrent articats changes at diffrent speed group them like this)
+	- split logic by change freq

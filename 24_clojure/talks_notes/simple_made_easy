@@ -1,0 +1,235 @@
+https://www.infoq.com/presentations/Simple-Made-Easy/
+
+Simple Made Easy
+
+Simple system = good systems
+
+Simple 
+- one twist (no twist) Complex - together 
+
+- one goal one objectiv one concept 
+- have focus in area
+
+- there is no one of them - it could be more matter is that there is no interviling 
+- objective notion
+
+Easy
+- be near, it is close
+- close to understanding (what we know - familirar)
+
+- it is relative (I know something similar)
+
+
+Constructs and artefakts
+- we dont ship source code to user we ship app (run, adding features, performance, ability to change it -> artefakts atribute)
+- 07:00 - 13:00
+
+Limits
+- we can only consider a few thinks at a time
+- complexity (interviling) undermines understaning of systems
+
+
+Change in software
+- if you can not reason about the programm you can not make changes
+	- analysis 
+	- what will be impacate
+	- where 
+	
+Debugging
+- if you can not reason about the programm you can not make changes
+	- bug has passed type checke
+	- bug has passed the tests
+	
+Development Speed	
+- eases gives early speed (only founs on easy) 
+- complexity slow you down over the long
+
+---- note 
+focus on easy 
+-> make faster with directions 
+-> easy to write tests and coupled code 
+-> or do you have to stop and think ?
+----
+
+-> test are not anought 
+->  
+
+Easy but complex
+- clients dont care do you have good time they care what program does 
+- if works well did output of constructs hided complexity and make app easy/simple to use
+
+- make easy
+	- location
+	- make familiar
+	- mental capability  
+		-> comparet to complexity we create we are at same point when comes to 			understaing it 
+		-> what do you want as problem complexity what as incidental compleyity (tools)
+
+Benefits of simplicity
+- understanding, change, debuggin, flexibility to move things
+- does having tests and tests suits make changing faster easuer 
+
+---------
+
+ Parens are Hard - programmer expirience 
+ - not a hand
+ - not familiar
+ - simple ? 
+ - benefits do you forget about the cost
+ 	
+ Toolkit
+ Complexity 
+ - state , objest 
+ - methods
+ - vars
+ - syntax
+ - inherative loops -> what how ?
+ - actors -> what who ? 
+ - orm
+ - conditional
+ - incosisteny
+ 
+ Simplicity
+ - values
+ - functions namespaces
+ - manages refs
+ - polymorhpsim a la carte (Clojure protokols)
+ - data
+ - set function
+ - quees
+ - declarativa data manapulation
+ - rules
+ - consistenncy
+ 
+ 
+Complect 
+- dont do it 
+- strait 
+
+Compose 
+- to place together simple components
+- modular softver can have lot of interview 
+- simplicity does not apply partitiong and stratification min 35:00
+
+State is never simple
+- intertwine value and time 3
+- when debuggin you have to recreate the state
+
+Not all refs/vars are equal
+- all warn of state - help to reduce it -> is it about dereference
+- clojure and haskell refs compose value and time
+	- allow you to extract a simple value
+	- provide abstraction of time 
+
+
+---- note
+- clojure and haskell refs compose value and time
+	- allow you to extract a simple value
+	- provide abstraction of time 
+not sure what is he refering to min 39:00
+--- 
+
+Data vs systak 
+- syntak is inferior to data
+
+Simple vs Easy
+Simple tools -> focus on the system
+
+Clojure protokols / Haskel type classes
+- indepndently say I have data structures definition of functions conect them together (3 independent operations)
+
+
+--- notes 
+Clojure protokols / Haskel type classes
+- indepndently say I have data structures definition of functions conect them together (3 independent operations)
+-> example of
+
+Rules but not if else  
+- how to do it in Clojure 
+---
+
+Env complexity 
+- 
+
+Programing was not about typing it ia about thinking 
+
+
+Abstraction for simplicity
+- drawn away 
+	- look who what when where why and how
+	- help break thinks aparat and see what it is important
+- it is no hiding 
+- I dont know I dont want know aproach 
+
+--- notes 
+- I dont know I dont want know aproach  example ?
+---
+
+steps what
+- form abstractions by taking functions (set of functions)
+and give them names -> should be small
+- represent them with polymorphism constructs (specification not impl.) specify input output semantics (only values and abstractions)
+ 
+--- notes 
+- represent them with polymorphism constructs (specification not impl.) -> how to do it in clojure
+---- 
+
+- dont think about how
+
+steps who 
+- about data 
+- build compoment from other compomnets 
+	- direct inject style
+	- not hardwier 
+	- take them as arguments (more flexibility)
+- go for small interfaces and lot of subcomponents 
+
+steps how
+- impl. code 
+- conect via polymorphism constructs
+- abstractions that don't dictate how (you are reducing options for implementation)
+- dont conect with anything else it should be inald
+
+when where
+- do not connect 
+- if A call B -> solution queue 55:00 
+
+
+-- notes
+- if A call B -> go with a queue 55:00 
+--- 	
+
+step why 
+- the policy and rules of the app
+
+Information is simple
+- dont ruin it 
+- represent data as data
+
+Tangelement is complex 
+
+
+--- note
+tools that have complex output ? 
+- examples 
+---
+
+We should aim to make things simple—even if they’re not easy.
+
+
+
+--------------------------------- 
+
+
+“Simple Made Easy” when thinking about program/system design (architectural decisions) 
+Can you think of a specific instance where it helped you make a better trade-off?
+
+
+Clojure -> simplicity: immutability, emphasis on data, pure functions .
+ hidden costs, hidden complexity? 
+
+
+
+how do you approach system when you have by problem definition bussines deinition complex problem 
+	ow do you keep domain models simple in large-scale Clojure systems, especially when requirements evolve and logic becomes messy?
+example: task and users and premissions 

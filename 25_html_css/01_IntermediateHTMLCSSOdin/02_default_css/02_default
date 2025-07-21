@@ -1,0 +1,12 @@
+Browser default stylesheets
+
+Normalize
+Applying a normalize stylesheet means fixing the inconsistencies between browsers while still broadly retaining their default set of styles. 
+->  normalize.css
+
+Reset
+nuclear option: it removes margins, paddings, and text styles across the board. HTML elements completely lose their visual differentiation.  It turns the web into a blank canvas
+-> Reset CSS
+
+Hybrid
+-> modern-normalize

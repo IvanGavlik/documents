@@ -1,0 +1,86 @@
+Numeric value types
+- interger
+- number
+- dimension 
+- percentage
+
+Lengths
+- absolute 
+- relative 
+
+Absolute
+- alway the same
+- px
+
+Relative
+- can change based on context
+- em and rem for font size
+- prefer rem
+
+1em 
+- for font size of el. parent
+- Ex: el. font site 16px then 4em is 16 x 4
+
+1rem
+- font size of the root element (:root or html)
+- math same as em but no need to track parent element 
+- recomended
+
+Viewport unists
+1vh - equal to 1% of the viewport height
+1vw - equal to 1% of the viewport width
+
+
+Percentages
+- relative to some other value. For example, if you set an element's font-size as a percentage, 
+ it will be a percentage of the font-size of the element's parent.
+ If you use a percentage for a width value, it will be a percentage of the width of the parent.
+
+Color
+- keywords
+- hexadecimal 
+	#ffc0cb read grean blue PAR FORM rgb color
+- rbg()
+	rgb(2 121 139)
+	rgb(2 121 139 / .3)
+		- last param alpha 0 fully transparete 1 fully opaqe (values betwwen gives different levels of transparency)
+- hue
+	- value tell difference or similarity betwwen colors 
+	- can be specify as <angle> because it uses color wheel https://developer.mozilla.org/en-US/docs/Glossary/Color_wheel
+	- can be sprifcy using function hwb or hsl
+		- hwb base, whitnesses, blackneses, optional alptha transparency
+		- hsl base, sasturation, lightness, optional alptha transparency 
+			hsl(188 97% 28%)
+			hsl(188 97% 28% / .3
+			
+Image
+- image pointed by url function
+- image file
+- gradient			
+- example
+`	we are using an image and a gradient as values for the CSS background-image property
+	.gradient {
+		background-image: linear-gradient(
+			90deg,
+			rgb(119 0 255 / 39%),
+			rgb(0 212 255 / 25%)
+  );
+
+background-position: right 60px;
+	- horizontally then vertical value defailt center 
+
+Functions
+- calc(), which lets you do operations like addition, subtraction, multiplication, and division.
+- suport for math function to perform calculation
+- calc(), which lets you do operations like addition, subtraction, multiplication, and division.
+	-  width: calc(20% + 100px);
+- list https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Values_and_Units/CSS_Value_Functions 	
+
+stao: 
+
+assignment
+https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-css-units
+- zadnji task 
+	https://css-tricks.com/fun-viewport-units/
+
+https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Pseudo_classes_and_elements#generating_content_with_before_and_after

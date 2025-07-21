@@ -1,0 +1,85 @@
+Rich Hickey - Inside Transducer
+
+
+map and filter are functions that transform another function
+essence of map, filter 
+- functions that change some process -> process transformations
+
+Processes
+- succession steps where each steo ingest an input
+- Ex: building a collection
+
+transducer - lead across
+- lead input across a series of transformations
+
+Tansducers all sequence functions
+- map
+- filter
+- take
+- mapcat
+- partition-by
+
+Transducer funcion 
+- input 3-arity fn retunrs function 
+- arity-0 (optional) initial result like indententy (+ returns 0, * returns 1)
+- arity-1 used for completition (only if you have accumulated state, most of the time you dont have it ) 
+- arity-2 reducing step, takes results  
+
+
+
+Example impl of filter trasducer
+- process oriented taking about it 
+
+transducer
+- abstractions of reductions
+- as we do reduction we do manipulation on the input during the reduction
+- set of instructions
+	EX: (def process-bag
+		(comp
+			(mapcat unnundle-pallet)
+			(filter non-food?)
+			(map label-heavy)
+		)
+	     )
+	     retun transducer
+	     each transducer takes a process step (reducing function) and transforms
+	     it - changes it litle bit -> before you do t hat step do this 
+	      		
+transduce function
+- like reduce but takes transducer as argumet
+- args: transducer, operation, initial value, source
+
+
+TODO 
+have chain and collection do operation with transducers	     
+
+Transducible processes
+- accept transducers (into, sequences, transduce, chain)
+- two parts: functions that create transducer (like map) 
+	second part in context when then have sence you aceppt them
+	put them together as legos  
+	
+Idea: 
+Many list functions can be defined in termns of foldr/recursion (encapsulate the recursion)
+	-> map, filter 
+	-> esier to readon about and transform 	
+also Many list functions can be defined in termns of foldl/reduce (encapsulate the reduce)
+	-> map, filter, mapcat
+	-> retutning eager
+To turn inner function (map implemente dby foldr or foldl) we parametrize conj so now
+(def mapl [f coll]
+	(reduce 
+		(fn [r x] (conj r (f x)))
+		[]
+		coll))
+	
+(def map [f]
+	(fn [step]
+		(fn [r x] (step r (f x)))))
+	-> step is transducer	
+	-> conj is now an argument look mapl-v2
+
+(def mapl-v2 [f coll]
+	(reduce ((mapping f) conji)
+		[]
+		coll))	
