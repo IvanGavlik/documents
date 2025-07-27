@@ -1,0 +1,146 @@
+Clojure language Tutorial - for Beginners
+https://www.youtube.com/watch?v=zFPiPBIkAcQ
+
+# Clojure
+
+## Intro
+
+Created by Rich Hickey in 2007
+
+Dialect of Lisp.
+Macros code as input and code as output.
+
+Dynamically typed and functional programming language
+Function programming 
+* avoid mutable stage (any data than can change)
+* referantial transparent function - does not change state - pure function
+	* same input same output always
+* instead modify existing create new modified copies	
+ 	* persistent collections solves the problem of memory (new and olds el. are ahared in memory)
+
+Reference types
+* holds mutable state that is coordinate across threads without locks
+* sync threads without looks
+
+Compiles to Java bytecode, runs on the JVM and every clojure data type has correspoing Java class
+Removes inheritance and encapsulation but embraces polymorphism
+
+## Clojure Source Code
+
+text data/source code-> AST (Abstract syntax tree - an object representation of source code)
+Ex: function object contains prams objects statement objects and so on 
+
+Reader translates source code into reader data (AST)
+Evaluator translated reader data into a runnable program
+
+### How Reader read code
+"this is string"
+'H' Java Character
+53 Long (by default Clojure.BigInt)
+6.3 Double
+nil null
+foo symbol - identifier treated as value
+:foo keyword - constant value 
+(1 2 3) list 
+* ordered collection implemented as singly likedin list 
+* not good for random access
+[] vector
+* ordered collection 
+* elements stored as tree of nodes
+* better random access than list 
+{"foo" 3} map
+* unordered key value paris 
+* key number, string, keyword
+* value anything
+#{} set
+
+List, vector, map, set are presistent collections
+
+(defn hello-world []
+	(println "Hello, world"))
+symbols: defn, hello-world println	
+
+Vars and namespaces
+* var (varible) - holds a mutable reference to another object
+* namespace maps symbols to vars (key is symbol value is var)
+	* it is mutable it can change during the curse of the program
+	* each namespace is uniqe
+Example:
+namesace cat
+	have symbol mittens -> var (mapped to)
+
+Clojure core namespace contains nearly 500 functions
+
+### How evaluator works
+Symbols resolve into the values held in vars
+
+fully qualified symbol: namespace/name Example: animal/cat
+curent namespace symbol cat (does not contains name of namspace/)
+
+When intepreter starts clojure core is current namespace
+then it swiches 
+
+List is treated as function call 
+(foo 51 "hello" bar)
+* arguments are resolved before passin to function
+
+Macros
+when evalujators see macros it passes reader data itself and macros should return reder data is itself evaluated 
+(foo 51 "hello" bar)
+* if foo macro bar is not resolved but passes as param to function
+* macro can return macro it repeates until reader data is returned
+
+Evaluator works outside in
+(def james (+ 8 2))
+- starts evaluting def 
+- evaluates + and send result as param to def
+- ends evaluating def
+
+Special forms
+* def
+	* assigns a value to a var in the current namespace
+	* creates a car if doesn't already exist
+	* (def alice 3) -> alice is symbol 
+* fn 
+	* returns a new function object 
+	* when called fn returns the value of the last expression in its body
+	* [x y & z] - fn params takes two or more arguments 
+		* z is ordered collection
+		* [& a] - takes zero or more agruments
+* defn (def and fn combined)
+* if 
+	* (if condition ex-true ex-false)
+	* condition returns any value than false or nill ex-true is evaluated
+	* you can omit ex-false it evaluates nil
+* do 
+	* body of n expressions 
+	* returns value of last expression
+* let 
+	* (let [bindings] body)
+	* local values for body 
+	* returns value of last expression in body
+* recur 
+	* jumps executions back to last recursion point with new binding values
+	* fix for stack oveflow problem
+	* only in tail positions from perspective of compiler (all local variables in fn are not needed so memory can be set free)
+	* explicit tail recusrice call (because of the limitation of JVM)
+	* call fn in which is containder if you have two fn it calls the once in which it is 
+* loop 
+	* (loop [bindings] body)
+	* same as let but it gives recursion point for recur so last statemetn set up new values for bindings
+
+* quote
+	* (quote el)
+	* returns an element unevaluated
+	* some fn expext list as argumetns  
+	* mainly in macros used to return reader data 
+	* special syntax '
+* try and throw
+	* (try body catch-clauses)
+	* (catch class ex-binding body)
+	* (throw ex)
+	* an optional finnally 
+* var (stao) min 34:00 
+	https://www.youtube.com/watch?v=zFPiPBIkAcQ
+
+	
