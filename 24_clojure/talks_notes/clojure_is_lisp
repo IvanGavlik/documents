@@ -1,0 +1,26 @@
+Clojure for Java Programmers Part 1 - Rich Hickey
+from https://www.youtube.com/watch?v=P76Vbsk_3J0
+https://www.youtube.com/watch?v=hb3rurFxrZ8
+
+Clojure
+* dynamice
+* code as data 
+* reader 
+* small core
+* sequences
+* syntactic abstraction 
+
+Dynamic development
+* REPL (read eval print loop)
+* define and fix functions on the fly 
+* load and compile code at runtime
+* introspection
+* interactive env (look at namespaces)
+
+Data Structures
+* List singly linked grow at front
+* Vector indeced access grow at end
+* Maps
+* Sets
+* all nests
+

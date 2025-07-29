@@ -140,7 +140,76 @@ Special forms
 	* (catch class ex-binding body)
 	* (throw ex)
 	* an optional finnally 
-* var (stao) min 34:00 
-	https://www.youtube.com/watch?v=zFPiPBIkAcQ
+* var 
+	* symbol in namespace returns value hold in var 
+	* get var object itself (var foo/x)
+* new
+	* returns a new instance of a Java class
+	* (new class arg) (new java.io.FIle "myfile.dat"
+* . (dot)
+	* returns the value of Java filed or invokes a Java method
+	* (. class filed) or (. class method) or (. instance filed) Ex: (. java.lang.Math PI)
+* set!
+	* (set! dot.form expression)
+	* assigng value of expression to the filed or an instance or class specified by a dot form
+	* Ex: (set! (. foo bar) 3)
+
+Macro cond 
+* macro form of if-else 
+* first true its expresion is executed rest is ignored
+
+## Collection types
+
+Collection types are fully persistent
+
+### List collection type
+A persistent list is a chain of nodes:
+	head -> node -> node -> node -> nil
+random access not good
+replacing elements in list are not good
+we dont use them for storing data
+
+### Vector collection type
+A persistent vector is a trie of nodes
+Elements of the vector are stored in the leaf nodes
+vector object reference to the head
+random access is better 
+To create a new vector with a changes element we copy and modify the cahin of nodes that contains that element (Old vector exist untached)
+replacing and lookap are overhead operations but still good price to pay for having immutability 
+
+### Hashmap collection type
+* impl. similary as vector 
+* key values are stored in node
+
+### Core collection fn
+* count
+* list?
+* vector?
+* map?
+* contains?
+* conj - new coll with added el or key-value
+	- for vector at the end
+	- for list at the start
+* assoc - new coll with added/modified element for key of index
+* dissoc - new map with removed key
+* merge - combine two maps in one
+* get - returns value at index/key
+* pop - returns new coll without 
+	- for vector without last
+	- for list without first
+* peek - returns first 
+	 - for vector last
+	 - for list first
+	 
+### Seqeunce 
+Interface 
+Supports two operations
+* first - returns first el
+* rest - returns all elements except first
+* impl. the Java interace clojure.lang.Iseq
+* seq - returns a sequence 
+	- map and vector has to be convertes do seq ? 
+stao min 57:07
+https://www.youtube.com/watch?v=zFPiPBIkAcQ
 
 	
