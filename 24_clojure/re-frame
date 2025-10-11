@@ -1,0 +1,73 @@
+Intro 
+
+event dispatch
+- click on button, 
+
+event handler
+- declarative description 
+
+effect handling
+- declarative description are actiioned (data -> action)
+- change  in the app state
+
+query 
+- extract app state and format it
+
+ViewFunctions (reagent components)
+- obitan the state using subscribe
+- retun hiccup
+
+
+App state
+- app-db (all app state in one place)
+- (def app-db  (reagent/atom {}))    ;; a Reagent atom, containing a map
+	-  app-db (the ratom) and db which is the value
+	
+Code
+
+emit an event	
+- #(re-frame.core/dispatch [:delete-item item-id])	
+Every re-frame event is a vector and, in this case, the dispatched event has two elements: 
+	[:delete-item 2486] 
+first element is king of the event	
+
+Event handler 
+- (re-frame.core/reg-event-fx  :delete-item  my-fn)                         
+- my-fn 
+	takes two arguments
+		coeffects {:db a-value} -  a-value is the current application state held in app-db
+		event vector - [:delete-item 2486] in this case
+- returns a map of effects which describe the necessary changes.		
+- Example of my-fn
+	(defn my-fn [coeffects event]
+		(let [item-id  (second event)			;; extract id from event vector
+			db       (:db coeffects)		;; new app state
+			new-db   (dissoc-in db [:items item-id])]
+			{:db new-db}))
+			
+	 [{:keys [db]} [_ item-id]]    ;; destructuring: obtain db and item-id directly
+- returns a map {:db } each key is an effect 	 
+	
+
+
+Effec handling 
+- use reg-fx to register effect hadnler
+- they are mutative, they change the world
+
+Query fn 
+- query fn over app state is automatically caled 
+
+
+- we have to register reg-sub fn
+	(re-frame.core/reg-sub :query-items    query-fn) - so that we can use subscribe
+- our query fn 
+	(defn query-fn [db v]         ;; db is the current value in app-db, v the query vector
+  		(:items db)) 
+  		
+View  			
+- :query-items re-computed a new value any view that subscribes to it is called automatically 
+- view returns hiccup		  		      
+	(defn items-view []
+  		(let [items  (subscribe [:query-items])]  ;; source items from app state
+    		[:div (map item-render @items)]))
+    	- you can also pass args	
