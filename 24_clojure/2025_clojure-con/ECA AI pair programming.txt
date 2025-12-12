@@ -1,0 +1,36 @@
+ECA: AI pair programming in your editor - Dallo 
+
+open source project eca / Rationale
+
+have metrics
+
+why ai for development
+- LLMs test generator based on weight (there is no magic)
+- tool not a problem solver -> you should still need to think
+
+current state of ai for developmemnt
+- I dont want to be vibe coding 
+- tomorrow will probably change, will stay  user <-> LLM
+- loot of ai cli tools and new editors
+	- you can end up vendor locked 
+- local model are getting better - are they the future?
+- LLMs gets better, UX not really 
+
+ECA editor code assistant
+- stay in the emacs (plugin)
+- have protocol: Editors <-> LLMSs
+	- json
+	- clinet server
+- multi model with local LLMs support
+- written in clojure and compiled with GraalVM (sped)
+- open source
+- metrics 
+	AI quality control
+	improve tokens cost
+- features
+	- hooks: When ai runs (check sequirity, inject context)
+	- custom commands (format)
+	- custom behaviors (code reviwer)
+	- custom tools (web fetch tools (get url))
+
+editor - eca servet - llm

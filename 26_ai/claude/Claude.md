@@ -42,3 +42,5 @@ https://code.claude.com/docs/en/settings#available-settings
 
 
 stao https://code.claude.com/docs/en/sub-agents
+
+https://anthropic.skilljar.com/

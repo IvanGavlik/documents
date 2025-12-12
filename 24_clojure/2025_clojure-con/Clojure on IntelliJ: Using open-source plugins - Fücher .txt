@@ -1,0 +1,14 @@
+Clojure on IntelliJ: Using open-source plugins - Fücher 
+
+
+clojure-lsp
+cljfmt 
+clj-kondon
+clj-depend
+	- namespace constranits 
+custom linters
+common config
+
+
+clojure-repl
+

@@ -1,0 +1,53 @@
+A ClojureScript Survival Kit - Nolen
+
+ClojureScript
+diff host - not java but to javascript
+REPL integrations
+Google Clojure Compiler ad
+	- code optimizations (remove dead code)
+	
+Clojure rocks
+- significent slice is React
+
+CLJS-React 
+
+shadow-cljs
+
+where are the safe places
+css is good
+	- nested rules, firebox
+	- css grid, container, 
+cljs.core
+	- set
+	- data
+	- test
+google clojure library (GCL)
+	- not designed to replaced web apis
+	- data oriented way to set multiple styles
+	- posiition
+	- goog.data, DataTimeFormat
+	- LLMs know about it
+UI state
+	- we can not get rid of state 
+	- HTML -> HTML
+		HTMLX / Rails Turbo / Phonix Live View / Datastart
+		Morphdom, Idiomorph, Morphlex
+	- pure cljs solutions
+		- replicant
+		- shadow-grow
+Morphing Demo
+
+Escaping Framework Feudalism
+	- keep recreating the same components
+- we can create custom html
+
+WebComponents with ClojureScript
+- 
+
+
+Putting it all together
+- move all to the BE
+- fill page morph on the client
+- complex interactivitiy
+	- web components and direct dom manipulation
+- it has variety of tradeoffs

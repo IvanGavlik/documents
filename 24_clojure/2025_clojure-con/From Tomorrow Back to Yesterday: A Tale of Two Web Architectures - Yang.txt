@@ -1,0 +1,22 @@
+From Tomorrow Back to Yesterday: A Tale of Two Web Architectures - Yang
+
+
+Datastart
+- server sent events
+- html morph
+- data binding / signals
+
+One bilions Cells
+- andersmurphy
+- render entire frame
+- brotli compression
+
+Remote Desktop
+- it is very fast
+- browiser as stream 
+
+
+Open sse stream to browser
+server render loop generate full html
+	caoute actions with thier render context
+
