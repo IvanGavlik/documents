@@ -102,7 +102,6 @@ Network interface controllers or cards (NICs), bridges, and switches are the pri
 
 * Signal encoding: How bits become electrical/optical/radio signals (NRZ, Manchester
   encoding)
-* Bandwidth vs throughput: Understanding real-world limitations
 * Latency sources: Propagation delay, transmission delay, processing delay
 * Cable specifications: When to use shielded vs unshielded, distance limitations
 * Physical topologies: Star, mesh, bus implications for redundancy and failure modes
@@ -128,7 +127,183 @@ Network interface controllers or cards (NICs), bridges, and switches are the pri
   - Recognize symptoms of MAC table overflow attacks
   - Know when MTU mismatch causes "black hole" routes
   - Understand switch vs hub behavior in packet capture scenarios  
-  
+
+### Bandwidth vs Throughput vs Latency 
+
+Bandwidth 
+* data carrying capacity measured in bits per second bps, megabits per second Mbps or gigabits per second Gbps (it is not about speed)
+* determined by factors like cable type, Wifi standard, guaranteed by providers
+* maximum rate at which data can be transferred over a connection in a give time 
+*   Kilobits per second (Kbps): 1,000 bits per second
+    Megabits per second (Mbps): 1,000,000 bits per second
+    Gigabits per second (Gbps): 1,000,000,000 bits per second
+    Terabits per second (Tbps): 1,000,000,000,000 bits per second
+* types
+    symmetric: uploading and downloading are same
+    asymmetric downloading is higher
+* Popular testing options:
+    Speedtest.net
+    Fast.com
+    Google Speed Test
+* values needed 
+    steaming video 3 - 5 Mbps
+    music 500 Kbps
+    gaming 10 Mbps
+    conferences 3 Mbps 
+
+Throughput
+* data that is reaching a user (actual data transferred successfully)
+* reflect the real world performance of the network (it is realistic measurement)
+* can vary due to the network congestion, errors and other factors
+* influenced by latency 
+* measured bits transferred per second (work an any of the layers)
+* usually 60-95% bandwidth
+
+Latency
+* how late data is coming to the user (speed) 
+* measurement milliseconds (ms) microseconds (qs)
+* typical values 
+    * LAN: 0.5 - 2 ms 
+    * WAN 20 - 100 ms
+* affected by distance and processing
+* often is specified for critical apps
+* If your bandwidth is limited, latency may be increased. (TODO: investigate)
+* Latency does not impact bandwidth, but bandwidth does affect latency
+    * bandwidth width of the road
+* TODO stao https://www.zenarmor.com/docs/network-basics/what-is-network-latency    
+
+### Numbers in general TODO
+You should instantly know: TODO
+* 100 KB ≈ 0.1 MB
+* 1 MB ≈ 8 Mb
+* 10 Mbps ≈ 1.25 MB/s
+
+
+#### Numbers Bandwidth
+* 3G 1-5 Mbps
+* 4G 10-50 Mbps
+* 5G 50 - 300 Mbps
+* Wi-Fi 50 - 500 Mbps
+* LAN 1 Gbps
+* Data center 10 - 10 Gbps
+
+Typical payload size
+* HTML page 10-50 KB
+* REST JSON reponse 1-20 KB 
+* JWT token 0.5 - 2 KB
+* CSS 5 - 50 KB
+* JS bundle 50 - 500 KB 
+* image 50 - 300 KB
+* font file 30 - 100 KB
+
+Raise alarm if
+* API response > 100 KB
+* JWT > 2 KB
+* HTML > 100 KB
+* initial js bundle > 500 KN
+* page load > 2 MB
+* pre request headers > 5kb 
+
+If app needs more than 10 Mpsp per user something is wrong 
+* 10 Mbps = ~1.25 MB per second
+* Is my app sending or receiving more than ~1.25 MB every second, per active user, for more than a short burst?
+    * check if usage is bursty or continuous (Bursty = page load, export, improt) but if continuous then it is read flag
+* Take one typical user action and estimate:
+    (Total bytes sent + received) / Time window (seconds)
+* Example:
+  HTML: 30 KB
+  JS/CSS cached
+  API calls: 5 × 10 KB = 50 KB
+  Images: 100 KB
+  Total: 180 KB
+  So in 1 second: 180 KB ≈ 0.18 MB ≈ 1.4 Mbps
+
+* how to do this 
+    * Open DevTools -> Network 
+    * Reload page
+    * look at total transferred and finish time
+    * Mbps (Total MB x 8) / seconds
+    * Example 6MB tansfered 3 seconds (6 × 8) / 3 = 16 Mbps -> Why so much data 
+
+* how to check api response > 100 KB
+    * Open DevTools -> Network 
+    * make api request 
+    * Look at Size / Transferred (Units are usually KB/MB)
+    * Compare to 100 KB threshold
+
+* how to check api response > 100 KB on BE (server side logging)
+    * Log Content-Length header for every response:
+    * anything > 100 KB for a single API call is usually too big unless streaming a file.
+
+* JWT > 2 KB
+    * in browser DevTools → Network, look at request headers
+    * Inspect Authorization header
+    * Count bytes:
+        Each Base64 character = 1 byte
+        Example: 172-character token ≈ 172 bytes → fine
+* HTML > 100 KB
+    * Network tab → check index.html file → Size / Transferred
+    * curl -s https://example.com | wc -c
+* Initial JS bundle > 500 KB
+    * DevTools → Network → look for main .js bundle → Size / Transferred
+* Page load > 2 MB
+    * Total page weight = sum of HTML + JS + CSS + images + fonts.
+    * Network tab → look at “Transferred” at bottom → total bytes
+
+* server side calculation (use logs or metrics)
+    * avr response size x request per second per user
+    * Ex; avr response 200 KB req/seq 5 -> 200 KB × 5 = 1000 KB ≈ 1 MB/sec ≈ 8 Mbps (Close to the danger zone)
+    
+Microservices 
+* internal service calls 
+    * request size < 5KB
+    * response size < 20 KB
+    * calls per request < 10
+* Kafka / messaging
+    * event size < 1 KB (1-10 KB is stil normal)
+
+* If your app is: Not streaming Not transferring files Not doing real-time video
+Then: Your problem is data shape, not network capacity.
+
+### Numbers 
+You should instantly know: TODO
+* 100 KB ≈ 0.1 MB
+* 1 MB ≈ 8 Mb
+* 10 Mbps ≈ 1.25 MB/s
+
+Core formula (What Bandwidth Means in Time) TODO practice tasks
+
+time (seconds) = data size (bits) / bandwidth (bits per second)
+
+Everything else is unit conversion.
+* Bandwidth is measured in bits per second (bps)
+* Data size is usually measured in bytes (B)
+* 1 byte = 8 bits
+
+Data	Bytes	Bits
+10 KB	10,000 B	80,000 bits
+100 KB	100,000 B	800,000 bits
+1 MB	1,000,000 B	8,000,000 bits
+10 MB	10,000,000 B	80,000,000 bits
+
+Rule of thumb
+10 Mbps ≈ 1.25 MB per second because 10 Mb / 8 = 1.25 MB
+
+Key insight
+* Most API responses are: <100 KB
+* Transfer time: <100 ms
+* Latency: 50–300 ms
+
+Latency dominates, not bandwidth. That’s why:
+* Reducing payload size helps
+* But reducing round trips helps more
+
+#### Numbers Throughput
+
+#### Numbers Latency
+
+TODO have task for numbers
+
 ## Network / Internet Layer
 
 Routing packets across networks using IP addresses
@@ -377,3 +552,4 @@ layer separation
 
 https://www.quora.com/What-networking-knowledge-should-all-senior-developers-have
 https://dev.to/enter?state=new-user&bb=239387
+https://www.cloudflare.com/learning/
