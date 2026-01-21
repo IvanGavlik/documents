@@ -14,7 +14,7 @@ OSI MODEL       -> TCP/IP Model  -> what you work with
 3. Network      -> 2. Internet  -> IP, ICMP, routing
 
 2. Data Link    -> Network Access -> WIFI, cables
-1. Physical      
+1. Physical
 
 ## How data is transferred
 
@@ -32,16 +32,34 @@ If after we remove the L2 header we see that the IP is not ours( think of what a
 
 Physical transmission of bits: MAC addresses, switches
 
-Physical layer
-* converts binary signals into electric/radio and vice versa
+### Physical layer
+* converts binary signals (0s and 1s) into physical signals (electric/radio) and vice versa
+    * NRZ: direct voltage mapping high = 1 low = 0 (long sequences of same bit no transitions)
+    * NRZ-I (inverted) 
     * Manchester encoding (0 - high to low transition 1 - low to high transition)
-    * 4B/5B encoding
-    * 8B/10B encoding
+        * self-clocking
+        * 2x bandwidth (two transitions per bit)
+    * Differential Manchester
+    * 4B/5B 4 data bits to 5 bit patterns 
+        * first: 4 data bits -> 5 code bits (use lookup table) 
+        * second: 5 code bits into -> Physical signal (1 = transition, 0 = transition)
+        * cost mesium
+        * dominate 100Mbps networks in the 1990s - 2000s replaced by 8B/10 for speeds > 1Gbps
+    * 8B/10B 8 data bits to 10 code bits
+        * 12 contorol codes for protocol contorl 
+    * 64B/66B for speeds > 10Gbps
+    
 * moves signals between devices in the network
 * defines characteristics of the hardware (cabel types, connector types, transmission modes) Ex: Frequency, Maximumm length for 1Gbps transmission
 * clock synchronization: sender and receiver are operating at the same rate (preventing data loss or corruption)
-    * syn: sender and receiver share a common clock signal
-    * asy: start and stop bits 
+    * syn
+        * sender and receiver share a common clock signal (on the start it has clock sync)
+        * continous data stream at a constant rate (no idle periods
+        * efficent for bulk data transfer
+    * asy
+        * start and stop bits 
+        * legacy systems, simple embedded devices
+    * communication protocol dictates mode hardware has to have it implemented (sometime software configuration/drivers)
 
 Data carrying capacity in the physical layer
 * bandwidth - capacity of the line (bp/s - bits per second kb/s - kilobit per second mb/s megabit per second)
@@ -49,11 +67,13 @@ Data carrying capacity in the physical layer
 * goodput - actual useable data transferred over time
 
 Devices
-* hub transmit data one at time all devices on the network recieves it (performance issue)  one way communication
+* hub transmit data one at time all devices on the network receives it (performance issue)  one way communication
 * switch each port on the switch has its own collision domain support for bidirectional communication (this is at data-link layer) 
 
+Linux Network interface naming
+* 01-01-00-Network-interface-naming.md
 
-Data link layer 
+### Data link layer 
 * converts data packets into frames (In the header source and destination MAC address in the trailer CRC value) 
 * reads signals converts them into frames
     * character-oriented framing
@@ -62,7 +82,7 @@ Data link layer
 * frame
     * preamble (syn pattern) 7 bits
     * start frame delimiter (1 byte)
-    * destincation/source MAC (6 byte)
+    * destination/source MAC (6 byte)
     * ether type (2 bits)
     * payload (45-1500 byte)
     * CRC frame check sequence (4 bytes)
@@ -74,10 +94,20 @@ Data link layer
     * last 3 bytes network interface controller 
     * ARP map IP to MAC (Address Resolution Protocol) 
 * error detection (does not preform error correction) - uses CRC value to confirm that frame is good if not good it is deleted
-    * Cyclic Redundancy Check (CRC)
-        * math on the payload result added to frame reciver same 
-    * Parity checking
+    * Parity checking Add to the end 1 bit so the number of 1s is even (or odd)
+    * Two-dimensional parity 
+        * data in rows and colums 
+        * parity for each row and column
     * Checksum
+        * IP, TCPM UDO
+        * data into fixed size then words are added using 1's complement sum is checksum
+        * TODO complement arithmetic
+    * Cyclic Redundancy Check (CRC)
+        * Ethernet Wi-Fi
+        * data as binary polynomial TODO
+        * math on the payload result added to frame reciver same 
+    * what happens when we detect the error TODO ? 
+
 * flow control to prevent a fast sender from overwhelming a slow receiver
     * stop and wait 
     * sliding window
@@ -86,13 +116,15 @@ Data link layer
 * access control listen for carrier signal if channel is idle transmit if collision stop wait a random time and retry
 
 Address Resolution Protocol (ARP)
+* 01-01-01-Address-Resolution-Protocol.md
 
+Neighbor Discovery Protocol (TODO)
+* same as ARP but for IPv6
 
 TODO
 * Explain network latency 
 * Switches
 * Docker bridge networks
-* why localhost is faster then LAN
 * Docker container to container communication
 * packet loss, jitter
 
@@ -117,8 +149,6 @@ Network interface controllers or cards (NICs), bridges, and switches are the pri
 * Switching: MAC address tables, learning, flooding, aging
 * VLANs: 802.1Q tagging, trunk vs access ports, native VLAN
 * Spanning Tree Protocol (STP): Loop prevention, convergence time, RSTP improvements
-* ARP (Address Resolution Protocol): IP to MAC resolution, ARP cache, ARP poisoning
-  attacks
 * Practical Skills:
   - Debug broadcast storms and switching loops
   - Configure VLANs for network segmentation
@@ -310,6 +340,7 @@ Routing packets across networks using IP addresses
 
 TODO
 * Every device needs an IP
+* what is subnet
 * How packets find their destination
 * subnetting: grouping IPs into networks
 * NAT and why services can't see each other
