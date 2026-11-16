@@ -204,7 +204,7 @@ Exceptions are silently swallowed code after exception never runs. Why ?
 
 * so who's there to catch exception by default they are logged 
 
-* your code never sees it 
+* Byour code never sees it 
 
 The go block is disconnected from your calling code
 
